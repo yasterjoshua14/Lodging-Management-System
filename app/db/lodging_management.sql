@@ -96,3 +96,4 @@ INSERT INTO `bookings` (`id`, `room_id`, `tenant_id`, `check_in`, `check_out`, `
     (2, 2, 2, '2026-04-18', '2026-04-22', 11200.00, 'checked_in', 'Extended stay guest.', '2026-04-19 00:00:00', '2026-04-19 00:00:00');
 
 SET FOREIGN_KEY_CHECKS = 1;
+
