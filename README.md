@@ -24,7 +24,7 @@ A midterm-ready Lodging Management System built with CodeIgniter 4 using the MVC
 
 ## Setup
 
-1. Update these values in `.env`:
+1. Update these values in `.env` if not configure:
 
 ```ini
 CI_ENVIRONMENT = development
