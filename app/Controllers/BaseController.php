@@ -5,6 +5,7 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Session\Session;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -25,7 +26,12 @@ abstract class BaseController extends Controller
      * The creation of dynamic property is deprecated in PHP 8.2.
      */
 
-    // protected $session;
+    protected Session $session;
+
+    /**
+     * @var list<string>
+     */
+    protected $helpers = ['form', 'url', 'auth', 'lodging'];
 
     /**
      * @return void
@@ -40,6 +46,8 @@ abstract class BaseController extends Controller
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
-        // $this->session = service('session');
+        $this->session = service('session');
+
+        service('renderer')->setVar('currentUser', auth_user());
     }
 }

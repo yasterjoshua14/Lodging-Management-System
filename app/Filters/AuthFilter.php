@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Filters;
+
+use CodeIgniter\Filters\FilterInterface;
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
+
+class AuthFilter implements FilterInterface
+{
+    public function before(RequestInterface $request, $arguments = null)
+    {
+        helper('auth');
+
+        if (! session()->get('is_logged_in')) {
+            $expectedRole = $arguments[0] ?? null;
+
+            if ($expectedRole === null && $request->getUri()->getSegment(1) === 'admin') {
+                $expectedRole = 'admin';
+            }
+
+            return redirect()
+                ->to(login_path_for_role($expectedRole))
+                ->with('warning', 'Please sign in to continue.');
+        }
+    }
+
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
+    {
+    }
+}

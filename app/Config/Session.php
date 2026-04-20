@@ -125,4 +125,17 @@ class Session extends BaseConfig
      * seconds.
      */
     public int $lockMaxRetries = 300;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $defaultSavePath = WRITEPATH . 'session';
+
+        // OneDrive or restricted Windows workspaces can block writes to writable/session.
+        // Fall back to the system temp directory so session-backed auth can still start.
+        $this->savePath = is_dir($defaultSavePath) && is_writable($defaultSavePath)
+            ? $defaultSavePath
+            : sys_get_temp_dir();
+    }
 }
