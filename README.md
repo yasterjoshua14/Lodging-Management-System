@@ -24,34 +24,20 @@ A midterm-ready Lodging Management System built with CodeIgniter 4 using the MVC
 
 ## Setup
 
-1. Update these values in `.env` if not configure:
-
-```ini
-CI_ENVIRONMENT = development
-app.baseURL = 'http://localhost:8080/'
-
-database.default.hostname = localhost
-database.default.database = lodging_management
-database.default.username = root
-database.default.password =
-database.default.DBDriver = MySQLi
-database.default.port = 3306
-```
-
-3. Create the database in MySQL or MariaDB.
-4. Run the migrations:
+1. Create the database (lodging_management) in MySQL or MariaDB.
+2. Run the migrations:
 
 ```bash
 php spark migrate
 ```
 
-5. Optionally load demo data:
+3. Optionally load demo data:
 
 ```bash
 php spark db:seed LodgingSeeder
 ```
 
-6. Start the development server:
+4. Start the development server:
 
 ```bash
 php spark serve
@@ -59,14 +45,14 @@ php spark serve
 
 ## Customer Account
 
-To ran customer account go to http://localhost:8080, use the following account:
+To ran customer account go to http://localhost:8080, use the following Email and Password or create new account.
 
 - Email: `maria@example.com`
 - Password: `password123`
 
 ## Admin Account
 
-To ran admin account type http://localhost:8080/admin, use the following account or create your own account under log in page.
+To ran admin account type http://localhost:8080/admin, use the default admin Email and Password:
 
 - Email: `admin@lodging.test`
 - Password: `password123`
