@@ -1,6 +1,6 @@
 # Lodging Management System
 
-A midterm-ready Lodging Management System built with CodeIgniter 4 using the MVC pattern. The project includes authentication plus working CRUD modules for rooms, tenants, and bookings.
+Lodging Management System built with CodeIgniter 4 using the MVC pattern. The project includes authentication plus working CRUD modules for rooms, tenants, and bookings.
 
 ## Features
 
