@@ -18,6 +18,7 @@ class TenantModel extends Model
         'phone',
         'id_type',
         'id_number',
+        'id_document_path',
         'address',
         'emergency_contact_name',
         'emergency_contact_phone',

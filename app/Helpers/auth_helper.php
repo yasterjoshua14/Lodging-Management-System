@@ -9,11 +9,18 @@ if (! function_exists('auth_user')) {
             return null;
         }
 
+        $storedRole = $session->get('user_role');
+        $role       = $storedRole === 'admin' ? 'admin' : ($storedRole === null ? null : 'tenant');
+
+        if ($storedRole !== $role && $role !== null) {
+            $session->set('user_role', $role);
+        }
+
         return [
             'id'        => $session->get('user_id'),
             'name'      => $session->get('user_name'),
             'email'     => $session->get('user_email'),
-            'role'      => $session->get('user_role'),
+            'role'      => $role,
             'tenant_id' => $session->get('tenant_id'),
         ];
     }
@@ -58,10 +65,10 @@ if (! function_exists('is_admin')) {
     }
 }
 
-if (! function_exists('is_customer')) {
-    function is_customer(): bool
+if (! function_exists('is_tenant')) {
+    function is_tenant(): bool
     {
-        return has_role('customer');
+        return has_role('tenant');
     }
 }
 

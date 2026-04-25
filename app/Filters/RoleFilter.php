@@ -29,12 +29,12 @@ class RoleFilter implements FilterInterface
                 ->with('error', 'You do not have permission to access that area.');
         }
 
-        if ($currentRole === 'customer' && auth_tenant_id() === null) {
+        if ($currentRole === 'tenant' && auth_tenant_id() === null) {
             session()->destroy();
 
             return redirect()
                 ->to('/login')
-                ->with('error', 'Your customer account is missing a tenant profile link. Please contact support.');
+                ->with('error', 'Your tenant account is missing a tenant profile link. Please contact support.');
         }
     }
 

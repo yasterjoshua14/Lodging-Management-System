@@ -9,7 +9,7 @@ class AddRolesAndTenantLinksToUsersTable extends Migration
     public function up()
     {
         if (! $this->db->fieldExists('role', 'users')) {
-            $this->db->query("ALTER TABLE `users` ADD COLUMN `role` VARCHAR(20) NOT NULL DEFAULT 'customer' AFTER `email`");
+            $this->db->query("ALTER TABLE `users` ADD COLUMN `role` VARCHAR(20) NOT NULL DEFAULT 'tenant' AFTER `email`");
         }
 
         if (! $this->db->fieldExists('tenant_id', 'users')) {

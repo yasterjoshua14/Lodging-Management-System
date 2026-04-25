@@ -1,13 +1,13 @@
 <?php
 
 $currentUser  = $currentUser ?? null;
-$authSurface  = $authSurface ?? (service('uri')->getSegment(1) === 'admin' ? 'admin' : 'customer');
+$authSurface  = $authSurface ?? (service('uri')->getSegment(1) === 'admin' ? 'admin' : 'tenant');
 $activeRole   = $currentUser['role'] ?? $authSurface;
 $isAdminApp   = $activeRole === 'admin';
 $brandLabel   = $isAdminApp ? 'Admin Operations' : 'Tenant Portal';
 $brandCaption = $isAdminApp
     ? 'Protected management console for rooms, tenants, and bookings.'
-    : 'Customer app for stays, booking history, and account details.';
+    : 'Tenant portal for stays, booking history, and account details.';
 
 $palette = $isAdminApp
     ? [
@@ -63,7 +63,7 @@ $navItems = $isAdminApp
     : [
         ['label' => 'Dashboard', 'href' => '/dashboard', 'pattern' => 'dashboard'],
         ['label' => 'My Bookings', 'href' => '/my-bookings', 'pattern' => 'my-bookings'],
-        ['label' => 'Account', 'href' => '/account', 'pattern' => 'account'],
+        ['label' => 'Account', 'href' => '/myAccount', 'pattern' => 'myAccount'],
     ];
 
 $authCopy = $isAdminApp
@@ -76,9 +76,9 @@ $authCopy = $isAdminApp
     ]
     : [
         'items'    => [
-            ['title' => 'Personal booking history', 'copy' => 'Customers can review their own stays without touching admin modules.'],
-            ['title' => 'Tenant-linked identity', 'copy' => 'Every customer session resolves to a single tenant profile on the backend.'],
-            ['title' => 'Cleaner app boundaries', 'copy' => 'Admin management screens stay out of the customer-facing experience entirely.'],
+            ['title' => 'Personal booking history', 'copy' => 'Tenants can review their own stays without touching admin modules.'],
+            ['title' => 'Tenant-linked identity', 'copy' => 'Every tenant session resolves to a single tenant profile on the backend.'],
+            ['title' => 'Cleaner app boundaries', 'copy' => 'Admin management screens stay out of the tenant-facing experience entirely.'],
         ],
     ];
 ?>

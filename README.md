@@ -43,9 +43,9 @@ php spark db:seed LodgingSeeder
 php spark serve
 ```
 
-## Customer Account
+## Tenant Account
 
-To ran customer account go to http://localhost:8080, use the following Email and Password or create new account.
+To run the tenant portal go to http://localhost:8080, use the following email and password or create a new account.
 
 - Email: `maria@example.com`
 - Password: `password123`

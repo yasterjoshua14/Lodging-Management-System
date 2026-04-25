@@ -19,7 +19,7 @@ CREATE TABLE `users` (
     `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `full_name` VARCHAR(120) NOT NULL,
     `email` VARCHAR(120) NOT NULL,
-    `role` VARCHAR(20) NOT NULL DEFAULT 'customer',
+    `role` VARCHAR(20) NOT NULL DEFAULT 'tenant',
     `tenant_id` INT(11) UNSIGNED NULL DEFAULT NULL,
     `password_hash` TEXT NOT NULL,
     `created_at` DATETIME NULL DEFAULT NULL,
@@ -50,6 +50,7 @@ CREATE TABLE `tenants` (
     `phone` VARCHAR(30) NOT NULL,
     `id_type` VARCHAR(50) NULL DEFAULT NULL,
     `id_number` VARCHAR(50) NULL DEFAULT NULL,
+    `id_document_path` VARCHAR(255) NULL DEFAULT NULL,
     `address` VARCHAR(255) NULL DEFAULT NULL,
     `emergency_contact_name` VARCHAR(120) NULL DEFAULT NULL,
     `emergency_contact_phone` VARCHAR(30) NULL DEFAULT NULL,
@@ -89,7 +90,7 @@ INSERT INTO `tenants` (`id`, `full_name`, `email`, `phone`, `id_type`, `id_numbe
 
 INSERT INTO `users` (`id`, `full_name`, `email`, `role`, `tenant_id`, `password_hash`, `created_at`, `updated_at`) VALUES
     (1, 'Demo Manager', 'admin@lodging.test', 'admin', NULL, '$2y$10$DFPFFGmAi6jxCh5jY67k/enp1iLyVCx4cnvj6zxQ5fnD/8end9sLC', '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
-    (2, 'Maria Santos', 'maria@example.com', 'customer', 1, '$2y$10$DFPFFGmAi6jxCh5jY67k/enp1iLyVCx4cnvj6zxQ5fnD/8end9sLC', '2026-04-19 00:00:00', '2026-04-19 00:00:00');
+    (2, 'Maria Santos', 'maria@example.com', 'tenant', 1, '$2y$10$DFPFFGmAi6jxCh5jY67k/enp1iLyVCx4cnvj6zxQ5fnD/8end9sLC', '2026-04-19 00:00:00', '2026-04-19 00:00:00');
 
 INSERT INTO `bookings` (`id`, `room_id`, `tenant_id`, `check_in`, `check_out`, `total_amount`, `status`, `notes`, `created_at`, `updated_at`) VALUES
     (1, 1, 1, '2026-04-21', '2026-04-24', 5400.00, 'pending', 'Arrival expected in the afternoon.', '2026-04-19 00:00:00', '2026-04-19 00:00:00'),

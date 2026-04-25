@@ -76,7 +76,7 @@ class LodgingSeeder extends Seeder
         $this->db->table('users')->insert([
             'full_name'     => 'Maria Santos',
             'email'         => 'maria@example.com',
-            'role'          => 'customer',
+            'role'          => 'tenant',
             'tenant_id'     => $maria,
             'password_hash' => password_hash('password123', PASSWORD_DEFAULT),
             'created_at'    => $now,

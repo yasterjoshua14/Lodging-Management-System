@@ -8,25 +8,25 @@ use CodeIgniter\HTTP\RedirectResponse;
 
 class AuthController extends BaseController
 {
-    public function showCustomerLogin(): string
+    public function showTenantLogin(): string
     {
-        return view('auth/login', [
-            'title'       => 'Customer Login',
-            'authSurface' => 'customer',
+        return view('tenant/auth/login', [
+            'title'       => 'Tenant Login',
+            'authSurface' => 'tenant',
         ]);
     }
 
     public function showAdminLogin(): string
     {
-        return view('auth/admin_login', [
+        return view('admin/auth/login', [
             'title'       => 'Admin Login',
             'authSurface' => 'admin',
         ]);
     }
 
-    public function loginCustomer(): RedirectResponse
+    public function loginTenant(): RedirectResponse
     {
-        return $this->handleLogin('customer');
+        return $this->handleLogin('tenant');
     }
 
     public function loginAdmin(): RedirectResponse
@@ -34,11 +34,11 @@ class AuthController extends BaseController
         return $this->handleLogin('admin');
     }
 
-    public function showRegister(): string
+    public function showTenantRegister(): string
     {
-        return view('auth/register', [
-            'title'       => 'Create Customer Account',
-            'authSurface' => 'customer',
+        return view('tenant/auth/register', [
+            'title'       => 'Create Tenant Account',
+            'authSurface' => 'tenant',
         ]);
     }
 
@@ -90,14 +90,14 @@ class AuthController extends BaseController
         $userModel->insert([
             'full_name'     => $fullName,
             'email'         => $email,
-            'role'          => 'customer',
+            'role'          => 'tenant',
             'tenant_id'     => $tenantId,
             'password_hash' => password_hash((string) $this->request->getPost('password'), PASSWORD_DEFAULT),
         ]);
 
         $user = $userModel->find($userModel->getInsertID());
 
-        return $this->loginUserAndRedirect($user, 'Your customer account has been created successfully.');
+        return $this->loginUserAndRedirect($user, 'Your tenant account has been created successfully.');
     }
 
     public function logout(): RedirectResponse
@@ -130,12 +130,19 @@ class AuthController extends BaseController
             return redirect()->back()->withInput()->with('error', 'The email or password you entered is incorrect.');
         }
 
-        if (($user['role'] ?? null) !== $expectedRole) {
+        $userRole = $this->normalizeRole($user['role'] ?? null);
+
+        if ($userRole !== $expectedRole) {
             return redirect()->back()->withInput()->with('error', $this->getPortalMismatchMessage($expectedRole));
         }
 
-        if ($expectedRole === 'customer' && empty($user['tenant_id'])) {
-            return redirect()->back()->withInput()->with('error', 'Your customer account is not linked to a tenant profile yet.');
+        if ($expectedRole === 'tenant' && empty($user['tenant_id'])) {
+            return redirect()->back()->withInput()->with('error', 'Your tenant account is not linked to a tenant profile yet.');
+        }
+
+        if (($user['role'] ?? null) !== $userRole) {
+            $userModel->update($user['id'], ['role' => $userRole]);
+            $user['role'] = $userRole;
         }
 
         return $this->loginUserAndRedirect($user, 'Welcome back.');
@@ -144,26 +151,36 @@ class AuthController extends BaseController
     private function loginUserAndRedirect(array $user, string $message): RedirectResponse
     {
         helper('auth');
+        $normalizedRole = $this->normalizeRole($user['role'] ?? null);
 
         $this->session->regenerate(true);
         $this->session->set([
             'user_id'      => $user['id'],
             'user_name'    => $user['full_name'],
             'user_email'   => $user['email'],
-            'user_role'    => $user['role'],
+            'user_role'    => $normalizedRole,
             'tenant_id'    => $user['tenant_id'] ?? null,
             'is_logged_in' => true,
         ]);
 
-        return redirect()->to(dashboard_path_for_role($user['role'] ?? null))->with('success', $message);
+        return redirect()->to(dashboard_path_for_role($normalizedRole))->with('success', $message);
     }
 
     private function getPortalMismatchMessage(string $expectedRole): string
     {
         if ($expectedRole === 'admin') {
-            return 'This account does not have admin access. Please use the customer login page.';
+            return 'This account does not have admin access. Please use the tenant login page.';
         }
 
         return 'This account belongs to the admin app. Please use the admin login page.';
+    }
+
+    private function normalizeRole(?string $role): ?string
+    {
+        if ($role === null) {
+            return null;
+        }
+
+        return $role === 'admin' ? 'admin' : 'tenant';
     }
 }
