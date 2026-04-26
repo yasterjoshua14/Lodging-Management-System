@@ -57,7 +57,7 @@ class CreateBookingsTable extends Migration
         $this->forge->addKey('id', true);
         $this->forge->addKey(['room_id', 'tenant_id']);
         $this->forge->addForeignKey('room_id', 'rooms', 'id', 'RESTRICT', 'CASCADE');
-        $this->forge->addForeignKey('tenant_id', 'tenants', 'id', 'RESTRICT', 'CASCADE');
+        $this->forge->addForeignKey('tenant_id', 'tenants', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('bookings');
     }
 

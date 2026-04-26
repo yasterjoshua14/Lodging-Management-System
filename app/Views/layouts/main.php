@@ -63,23 +63,7 @@ $navItems = $isAdminApp
     : [
         ['label' => 'Dashboard', 'href' => '/dashboard', 'pattern' => 'dashboard'],
         ['label' => 'My Bookings', 'href' => '/my-bookings', 'pattern' => 'my-bookings'],
-        ['label' => 'Account', 'href' => '/myAccount', 'pattern' => 'myAccount'],
-    ];
-
-$authCopy = $isAdminApp
-    ? [
-        'items'    => [
-            ['title' => 'Role-verified access', 'copy' => 'Admin pages and mutation endpoints require an authenticated admin session.'],
-            ['title' => 'Operational control', 'copy' => 'Manage rooms, tenants, and booking records from a dedicated console.'],
-            ['title' => 'No UI-only trust', 'copy' => 'Even if someone guesses an admin URL, the backend still blocks non-admin users.'],
-        ],
-    ]
-    : [
-        'items'    => [
-            ['title' => 'Personal booking history', 'copy' => 'Tenants can review their own stays without touching admin modules.'],
-            ['title' => 'Tenant-linked identity', 'copy' => 'Every tenant session resolves to a single tenant profile on the backend.'],
-            ['title' => 'Cleaner app boundaries', 'copy' => 'Admin management screens stay out of the tenant-facing experience entirely.'],
-        ],
+        ['label' => 'My Account', 'href' => '/myAccount', 'pattern' => 'myAccount'],
     ];
 ?>
 <!DOCTYPE html>
@@ -269,6 +253,18 @@ $authCopy = $isAdminApp
             display: grid;
             grid-template-columns: 1.08fr 0.92fr;
             gap: 24px;
+
+            display: flex;
+            justify-content: center;   /* horizontal center */
+            align-items: center;       /* vertical center */
+            min-height: 100vh;
+            margin: 0;
+
+            width: 500px;       /* slightly wider looks more natural */
+            max-width: 90%;
+            padding: 30px;
+            border-radius: 16px;
+            
         }
 
         .auth-hero {
@@ -713,17 +709,6 @@ $authCopy = $isAdminApp
         <?php else: ?>
             <main class="auth-wrap">
                 <div class="auth-grid">
-                    <section class="auth-hero main-card">
-                        <div class="feature-list">
-                            <?php foreach ($authCopy['items'] as $item): ?>
-                                <div class="feature-item">
-                                    <strong><?= esc($item['title']) ?></strong>
-                                    <p><?= esc($item['copy']) ?></p>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </section>
-
                     <section class="auth-panel main-card">
                         <?= $this->include('partials/alerts') ?>
                         <?= $this->renderSection('content') ?>

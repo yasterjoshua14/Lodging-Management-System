@@ -45,20 +45,36 @@ class AuthController extends BaseController
     public function register(): RedirectResponse
     {
         $rules = [
-            'full_name'        => 'required|min_length[3]|max_length[120]',
+            'first_name'       => 'permit_empty|max_length[60]',
+            'last_name'        => 'permit_empty|max_length[60]',
+            'full_name'        => 'permit_empty|min_length[3]|max_length[120]',
             'email'            => 'required|valid_email|is_unique[users.email]',
-            'phone'            => 'required|max_length[30]',
+            'phone'            => 'permit_empty|max_length[30]',
             'password'         => 'required|min_length[8]',
-            'password_confirm' => 'required|matches[password]',
+            'password_confirm' => 'permit_empty|matches[password]',
         ];
 
+        $errors = [];
+
         if (! $this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+            $errors = $this->validator->getErrors();
+        }
+
+        $firstName      = trim((string) $this->request->getPost('first_name'));
+        $lastName       = trim((string) $this->request->getPost('last_name'));
+        $legacyFullName = trim((string) $this->request->getPost('full_name'));
+        $fullName       = trim($legacyFullName !== '' ? $legacyFullName : $firstName . ' ' . $lastName);
+
+        if ($fullName === '') {
+            $errors['full_name'] = 'Please enter your first and last name.';
+        }
+
+        if ($errors !== []) {
+            return redirect()->back()->withInput()->with('errors', $errors);
         }
 
         $userModel   = new UserModel();
         $tenantModel = new TenantModel();
-        $fullName    = trim((string) $this->request->getPost('full_name'));
         $email       = strtolower(trim((string) $this->request->getPost('email')));
         $phone       = trim((string) $this->request->getPost('phone'));
         $tenantId    = null;
@@ -70,18 +86,23 @@ class AuthController extends BaseController
                 return redirect()->back()->withInput()->with('error', 'A portal account already exists for that tenant email.');
             }
 
-            $tenantModel->update($tenant['id'], [
+            $tenantPayload = [
                 'full_name' => $fullName,
                 'email'     => $email,
-                'phone'     => $phone,
-            ]);
+            ];
+
+            if ($phone !== '') {
+                $tenantPayload['phone'] = $phone;
+            }
+
+            $tenantModel->update($tenant['id'], $tenantPayload);
 
             $tenantId = (int) $tenant['id'];
         } else {
             $tenantModel->insert([
                 'full_name' => $fullName,
                 'email'     => $email,
-                'phone'     => $phone,
+                'phone'     => $phone !== '' ? $phone : '',
             ]);
 
             $tenantId = (int) $tenantModel->getInsertID();

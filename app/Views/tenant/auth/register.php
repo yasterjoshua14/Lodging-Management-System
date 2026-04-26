@@ -4,7 +4,6 @@
     <div class="section-head">
         <div>
             <h2>Create tenant account</h2>
-            <p>Register a tenant portal account that links to your own tenant profile.</p>
         </div>
     </div>
 

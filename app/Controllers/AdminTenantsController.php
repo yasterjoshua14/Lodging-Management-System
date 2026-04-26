@@ -72,20 +72,25 @@ class AdminTenantsController extends BaseController
     public function delete(int $id): RedirectResponse
     {
         $tenant = $this->findTenantOrFail($id);
+        $database = \Config\Database::connect();
+        $database->transStart();
 
-        $bookingCount = (new BookingModel())->where('tenant_id', $tenant['id'])->countAllResults();
-        if ($bookingCount > 0) {
-            return redirect()->to('/admin/tenants')->with('error', 'Delete the tenant bookings first before removing this tenant record.');
-        }
-
-        $linkedUserCount = (new UserModel())->where('tenant_id', $tenant['id'])->countAllResults();
-        if ($linkedUserCount > 0) {
-            return redirect()->to('/admin/tenants')->with('error', 'Remove the linked tenant portal account before deleting this tenant record.');
-        }
-
+        (new BookingModel())->where('tenant_id', $tenant['id'])->delete();
+        (new UserModel())->where('tenant_id', $tenant['id'])->delete();
         (new TenantModel())->delete($id);
 
-        return redirect()->to('/admin/tenants')->with('success', 'Tenant deleted successfully.');
+        $database->transComplete();
+
+        if (! $database->transStatus()) {
+            return redirect()->to('/admin/tenants')->with('error', 'Unable to delete the tenant record right now.');
+        }
+
+        $idDocumentPath = trim((string) ($tenant['id_document_path'] ?? ''));
+        if ($idDocumentPath !== '') {
+            $this->deleteStoredIdDocument($idDocumentPath);
+        }
+
+        return redirect()->to('/admin/tenants')->with('success', 'Tenant and related records deleted successfully.');
     }
 
     private function getValidatedData()
@@ -126,5 +131,14 @@ class AdminTenantsController extends BaseController
         }
 
         return $tenant;
+    }
+
+    private function deleteStoredIdDocument(string $relativePath): void
+    {
+        $fullPath = WRITEPATH . ltrim($relativePath, '\\/');
+
+        if (is_file($fullPath)) {
+            unlink($fullPath);
+        }
     }
 }

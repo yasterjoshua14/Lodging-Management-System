@@ -29,7 +29,7 @@
 
             <div class="detail-item">
                 <label for="address">Address</label>
-                <input type="text" id="address" name="address" value="<?= esc(old('address', $tenant['address'] ?? '')) ?>" required>
+                <input type="text" id="address" name="address" value="<?= esc(old('address', $tenant['address'] ?? '')) ?>" placeholder="Street, city, state/province, postal code">
             </div>
 
             <div class="detail-item">

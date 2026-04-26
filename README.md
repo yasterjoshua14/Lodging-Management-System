@@ -25,6 +25,10 @@ Lodging Management System built with CodeIgniter 4 using the MVC pattern. The pr
 ## Setup
 
 1. Create the database (lodging_management) in MySQL or MariaDB.
+```bash
+php spark db:create lodging_management
+```
+
 2. Run the migrations:
 
 ```bash

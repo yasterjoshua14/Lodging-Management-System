@@ -4,7 +4,6 @@
     <div class="section-head">
         <div>
             <h2>Admin login</h2>
-            <p>Sign in to the management console for rooms, tenants, and bookings.</p>
         </div>
     </div>
 
@@ -12,13 +11,11 @@
         <?= csrf_field() ?>
 
         <div>
-            <label for="email">Admin Email</label>
-            <input type="email" id="email" name="email" value="<?= esc(old('email')) ?>" placeholder="Enter your email" required>
+            <input type="email" id="email" name="email" value="<?= esc(old('email')) ?>" placeholder="Email" required>
         </div>
 
         <div>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
         </div>
 
         <button type="submit" class="btn btn-primary">Enter Admin Console</button>
