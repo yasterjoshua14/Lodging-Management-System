@@ -6,6 +6,8 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+$routes->get('tenant', 'Home::index');
+$routes->get('tenant/', 'Home::index');
 $routes->get('admin', 'Home::admin');
 $routes->get('admin/', 'Home::admin');
 
@@ -16,22 +18,22 @@ $routes->group('', ['filter' => ['guest:tenant']], static function ($routes) {
     $routes->post('register', 'AuthController::register');
 });
 
-$routes->group('admin', ['filter' => ['guest:admin']], static function ($routes) {
-    $routes->get('login', 'AuthController::showAdminLogin');
-    $routes->post('login', 'AuthController::loginAdmin');
+$routes->group('', ['filter' => ['guest:admin']], static function ($routes) {
+    $routes->get('admin-login', 'AuthController::showAdminLogin');
+    $routes->post('admin-login', 'AuthController::loginAdmin');
 });
 
 $routes->post('logout', 'AuthController::logout', ['filter' => ['auth']]);
 
 $routes->group('', ['filter' => ['auth:tenant', 'role:tenant']], static function ($routes) {
     $routes->get('dashboard', 'TenantDashboardController::index');
-    $routes->get('my-bookings', 'TenantBookingsController::index');
-    $routes->get('myAccount', 'TenantAccountController::index');
-    $routes->post('myAccount', 'TenantAccountController::update');
+    $routes->get('MyBookings', 'TenantBookingsController::index');
+    $routes->get('MyAccount', 'TenantAccountController::index');
+    $routes->post('MyAccount', 'TenantAccountController::update');
 });
 
-$routes->group('admin', ['filter' => ['auth:admin', 'role:admin']], static function ($routes) {
-    $routes->get('dashboard', 'AdminDashboardController::index');
+$routes->group('', ['filter' => ['auth:admin', 'role:admin']], static function ($routes) {
+    $routes->get('admin-dashboard', 'AdminDashboardController::index');
 
     $routes->get('rooms', 'AdminRoomsController::index');
     $routes->get('rooms/create', 'AdminRoomsController::create');
@@ -54,3 +56,18 @@ $routes->group('admin', ['filter' => ['auth:admin', 'role:admin']], static funct
     $routes->post('bookings/(:num)', 'AdminBookingsController::update/$1');
     $routes->post('bookings/(:num)/delete', 'AdminBookingsController::delete/$1');
 });
+
+$routes->addRedirect('tenant/login', 'login');
+$routes->addRedirect('tenant/register', 'register');
+$routes->addRedirect('tenant/dashboard', 'dashboard');
+$routes->addRedirect('tenant/bookings', 'MyBookings');
+$routes->addRedirect('tenant/account', 'MyAccount');
+
+$routes->addRedirect('admin/login', 'admin-login');
+$routes->addRedirect('admin/dashboard', 'admin-dashboard');
+$routes->addRedirect('admin/rooms', 'rooms');
+$routes->addRedirect('admin/rooms/create', 'rooms/create');
+$routes->addRedirect('admin/tenants', 'tenants');
+$routes->addRedirect('admin/tenants/create', 'tenants/create');
+$routes->addRedirect('admin/bookings', 'bookings');
+$routes->addRedirect('admin/bookings/create', 'bookings/create');

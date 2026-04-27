@@ -7,7 +7,7 @@
             <p>Link a tenant to a room and define the stay schedule.</p>
         </div>
 
-        <a href="/admin/bookings" class="btn btn-ghost">Back to Bookings</a>
+        <a href="<?= esc(admin_path('bookings')) ?>" class="btn btn-ghost">Back to Bookings</a>
     </div>
 
     <form action="<?= esc($action) ?>" method="post">
@@ -72,7 +72,7 @@
 
         <div class="button-row">
             <button type="submit" class="btn btn-primary">Save Booking</button>
-            <a href="/admin/bookings" class="btn btn-secondary">Cancel</a>
+            <a href="<?= esc(admin_path('bookings')) ?>" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 <?= $this->endSection() ?>

@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <form action="/myAccount" method="post" enctype="multipart/form-data">
+    <form action="<?= esc(tenant_path('account')) ?>" method="post" enctype="multipart/form-data">
         <?= csrf_field() ?>
 
         <section class="detail-grid">

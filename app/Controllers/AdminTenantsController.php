@@ -25,7 +25,7 @@ class AdminTenantsController extends BaseController
         return view('admin/tenants/form', [
             'title'   => 'Add Tenant',
             'tenant'  => null,
-            'action'  => '/admin/tenants',
+            'action'  => admin_path('tenants'),
             'heading' => 'Add Tenant',
         ]);
     }
@@ -40,7 +40,7 @@ class AdminTenantsController extends BaseController
 
         (new TenantModel())->insert($data);
 
-        return redirect()->to('/admin/tenants')->with('success', 'Tenant created successfully.');
+        return redirect()->to(admin_path('tenants'))->with('success', 'Tenant created successfully.');
     }
 
     public function edit(int $id): string
@@ -50,7 +50,7 @@ class AdminTenantsController extends BaseController
         return view('admin/tenants/form', [
             'title'   => 'Edit Tenant',
             'tenant'  => $tenant,
-            'action'  => '/admin/tenants/' . $id,
+            'action'  => admin_path('tenants/' . $id),
             'heading' => 'Edit Tenant',
         ]);
     }
@@ -66,12 +66,12 @@ class AdminTenantsController extends BaseController
 
         (new TenantModel())->update($id, $data);
 
-        return redirect()->to('/admin/tenants')->with('success', 'Tenant updated successfully.');
+        return redirect()->to(admin_path('tenants'))->with('success', 'Tenant updated successfully.');
     }
 
     public function delete(int $id): RedirectResponse
     {
-        $tenant = $this->findTenantOrFail($id);
+        $tenant   = $this->findTenantOrFail($id);
         $database = \Config\Database::connect();
         $database->transStart();
 
@@ -82,7 +82,7 @@ class AdminTenantsController extends BaseController
         $database->transComplete();
 
         if (! $database->transStatus()) {
-            return redirect()->to('/admin/tenants')->with('error', 'Unable to delete the tenant record right now.');
+            return redirect()->to(admin_path('tenants'))->with('error', 'Unable to delete the tenant record right now.');
         }
 
         $idDocumentPath = trim((string) ($tenant['id_document_path'] ?? ''));
@@ -90,7 +90,7 @@ class AdminTenantsController extends BaseController
             $this->deleteStoredIdDocument($idDocumentPath);
         }
 
-        return redirect()->to('/admin/tenants')->with('success', 'Tenant and related records deleted successfully.');
+        return redirect()->to(admin_path('tenants'))->with('success', 'Tenant and related records deleted successfully.');
     }
 
     private function getValidatedData()

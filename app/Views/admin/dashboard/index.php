@@ -49,7 +49,7 @@
                     <h2>Recent Bookings</h2>
                     <p>Latest check-in schedules and stay statuses.</p>
                 </div>
-                <a href="/admin/bookings" class="link-inline">View all</a>
+                <a href="<?= esc(admin_path('bookings')) ?>" class="link-inline">View all</a>
             </div>
 
             <?php if ($recentBookings !== []): ?>

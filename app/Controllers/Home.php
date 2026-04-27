@@ -10,13 +10,13 @@ class Home extends BaseController
     {
         return is_authenticated()
             ? redirect()->to(auth_redirect_path())
-            : redirect()->to('/login');
+            : redirect()->to(tenant_path('login'));
     }
 
     public function admin(): RedirectResponse
     {
         if (! is_authenticated()) {
-            return redirect()->to('/admin/login');
+            return redirect()->to(admin_path('login'));
         }
 
         return redirect()->to(auth_redirect_path());

@@ -55,15 +55,15 @@ $palette = $isAdminApp
 
 $navItems = $isAdminApp
     ? [
-        ['label' => 'Dashboard', 'href' => '/admin/dashboard', 'pattern' => 'admin/dashboard'],
-        ['label' => 'Rooms', 'href' => '/admin/rooms', 'pattern' => 'admin/rooms*'],
-        ['label' => 'Tenants', 'href' => '/admin/tenants', 'pattern' => 'admin/tenants*'],
-        ['label' => 'Bookings', 'href' => '/admin/bookings', 'pattern' => 'admin/bookings*'],
+        ['label' => 'Dashboard', 'href' => admin_path('admin-dashboard'), 'pattern' => 'admin-dashboard'],
+        ['label' => 'Rooms', 'href' => admin_path('rooms'), 'pattern' => 'rooms*'],
+        ['label' => 'Tenants', 'href' => admin_path('tenants'), 'pattern' => 'tenants*'],
+        ['label' => 'Bookings', 'href' => admin_path('bookings'), 'pattern' => 'bookings*'],
     ]
     : [
-        ['label' => 'Dashboard', 'href' => '/dashboard', 'pattern' => 'dashboard'],
-        ['label' => 'My Bookings', 'href' => '/my-bookings', 'pattern' => 'my-bookings'],
-        ['label' => 'My Account', 'href' => '/myAccount', 'pattern' => 'myAccount'],
+        ['label' => 'Dashboard', 'href' => tenant_path('dashboard'), 'pattern' => 'dashboard'],
+        ['label' => 'My Bookings', 'href' => tenant_path('MyBookings'), 'pattern' => 'MyBookings'],
+        ['label' => 'My Account', 'href' => tenant_path('MyAccount'), 'pattern' => 'MyAccount'],
     ];
 ?>
 <!DOCTYPE html>
@@ -695,7 +695,7 @@ $navItems = $isAdminApp
                         </div>
                     </div>
 
-                    <form action="/logout" method="post" class="inline-form">
+                    <form action="<?= esc(site_url('logout')) ?>" method="post" class="inline-form">
                         <?= csrf_field() ?>
                         <button type="submit" class="btn btn-ghost">Logout</button>
                     </form>

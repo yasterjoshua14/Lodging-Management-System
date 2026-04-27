@@ -72,17 +72,59 @@ if (! function_exists('is_tenant')) {
     }
 }
 
+if (! function_exists('portal_path')) {
+    function portal_path(string $role, string $path = ''): string
+    {
+        $path = trim($path, '/');
+
+        if ($role === 'admin') {
+            $map = [
+                '' => 'admin',
+                'login' => 'admin-login',
+                'dashboard' => 'admin-dashboard',
+            ];
+
+            return site_url($map[$path] ?? $path);
+        }
+
+        $map = [
+            '' => '',
+            'login' => 'login',
+            'register' => 'register',
+            'dashboard' => 'dashboard',
+            'bookings' => 'my-bookings',
+            'account' => 'myAccount',
+        ];
+
+        return site_url($map[$path] ?? $path);
+    }
+}
+
+if (! function_exists('tenant_path')) {
+    function tenant_path(string $path = ''): string
+    {
+        return portal_path('tenant', $path);
+    }
+}
+
+if (! function_exists('admin_path')) {
+    function admin_path(string $path = ''): string
+    {
+        return portal_path('admin', $path);
+    }
+}
+
 if (! function_exists('dashboard_path_for_role')) {
     function dashboard_path_for_role(?string $role): string
     {
-        return $role === 'admin' ? '/admin/dashboard' : '/dashboard';
+        return $role === 'admin' ? admin_path('dashboard') : tenant_path('dashboard');
     }
 }
 
 if (! function_exists('login_path_for_role')) {
     function login_path_for_role(?string $role): string
     {
-        return $role === 'admin' ? '/admin/login' : '/login';
+        return $role === 'admin' ? admin_path('login') : tenant_path('login');
     }
 }
 

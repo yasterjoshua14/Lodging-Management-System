@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <form action="/admin/login" method="post" class="grid">
+    <form action="<?= esc(admin_path('login')) ?>" method="post" class="grid">
         <?= csrf_field() ?>
 
         <div>
@@ -21,5 +21,5 @@
         <button type="submit" class="btn btn-primary">Enter Admin Console</button>
     </form>
 
-    <p class="auth-switch">Need the tenant portal instead? <a class="link-inline" href="/login">Use the tenant login</a>.</p>
+    <p class="auth-switch"><a class="link-inline" href="<?= esc(tenant_path('login')) ?>">Use the tenant login</a>.</p>
 <?= $this->endSection() ?>

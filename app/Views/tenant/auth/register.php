@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <form action="/register" method="post" class="grid">
+    <form action="<?= esc(tenant_path('register')) ?>" method="post" class="grid">
         <?= csrf_field() ?>
 
         <div>
@@ -38,5 +38,5 @@
         <button type="submit" class="btn btn-primary">Create Tenant Account</button>
     </form>
 
-    <p class="auth-switch">Already registered? <a class="link-inline" href="/login">Back to tenant login</a>.</p>
+    <p class="auth-switch">Already registered? <a class="link-inline" href="<?= esc(tenant_path('login')) ?>">Back to tenant login</a>.</p>
 <?= $this->endSection() ?>

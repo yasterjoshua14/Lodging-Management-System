@@ -7,7 +7,7 @@
             <p>Track guest stays, date ranges, and booking status updates.</p>
         </div>
 
-        <a href="/admin/bookings/create" class="btn btn-primary">Add Booking</a>
+        <a href="<?= esc(admin_path('bookings/create')) ?>" class="btn btn-primary">Add Booking</a>
     </div>
 
     <?php if ($bookings !== []): ?>
@@ -38,8 +38,8 @@
                             <td><?= esc($booking['notes'] ?: 'No notes') ?></td>
                             <td>
                                 <div class="actions">
-                                    <a href="/admin/bookings/<?= esc((string) $booking['id']) ?>/edit" class="btn btn-secondary">Edit</a>
-                                    <form action="/admin/bookings/<?= esc((string) $booking['id']) ?>/delete" method="post" class="inline-form" onsubmit="return confirm('Delete this booking?');">
+                                    <a href="<?= esc(admin_path('bookings/' . $booking['id'] . '/edit')) ?>" class="btn btn-secondary">Edit</a>
+                                    <form action="<?= esc(admin_path('bookings/' . $booking['id'] . '/delete')) ?>" method="post" class="inline-form" onsubmit="return confirm('Delete this booking?');">
                                         <?= csrf_field() ?>
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
@@ -54,7 +54,7 @@
         <div class="empty-state">
             <h3>No bookings recorded yet</h3>
             <p class="text-muted">Create a booking after adding rooms and tenants.</p>
-            <a href="/admin/bookings/create" class="btn btn-primary">Create First Booking</a>
+            <a href="<?= esc(admin_path('bookings/create')) ?>" class="btn btn-primary">Create First Booking</a>
         </div>
     <?php endif; ?>
 <?= $this->endSection() ?>

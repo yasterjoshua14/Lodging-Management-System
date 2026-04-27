@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <form action="/login" method="post" class="grid">
+    <form action="<?= esc(tenant_path('login')) ?>" method="post" class="grid">
         <?= csrf_field() ?>
 
         <div>
@@ -21,7 +21,6 @@
         <button type="submit" class="btn btn-primary">Log In</button>
     </form>
 
-    <p href="/forgot-password" class="auth-switch"><a class="link-inline" href="/forgot-password">Forgot your password?</a></p>
-
-    <p class="auth-switch">Need an account? <a class="link-inline" href="/register">Create Account</a>.</p>
+    <p class="auth-switch"><a class="link-inline" href="">Forgot your password? </a></p>
+    <p class="auth-switch">Need an account? <a class="link-inline" href="<?= esc(tenant_path('register')) ?>">Create Account</a>.</p>
 <?= $this->endSection() ?>

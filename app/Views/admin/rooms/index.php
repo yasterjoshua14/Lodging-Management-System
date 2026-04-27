@@ -7,7 +7,7 @@
             <p>Manage room inventory, pricing, and current room status.</p>
         </div>
 
-        <a href="/admin/rooms/create" class="btn btn-primary">Add Room</a>
+        <a href="<?= esc(admin_path('rooms/create')) ?>" class="btn btn-primary">Add Room</a>
     </div>
 
     <?php if ($rooms !== []): ?>
@@ -35,8 +35,8 @@
                             <td><?= esc($room['description'] ?: 'No description') ?></td>
                             <td>
                                 <div class="actions">
-                                    <a href="/admin/rooms/<?= esc((string) $room['id']) ?>/edit" class="btn btn-secondary">Edit</a>
-                                    <form action="/admin/rooms/<?= esc((string) $room['id']) ?>/delete" method="post" class="inline-form" onsubmit="return confirm('Delete this room?');">
+                                    <a href="<?= esc(admin_path('rooms/' . $room['id'] . '/edit')) ?>" class="btn btn-secondary">Edit</a>
+                                    <form action="<?= esc(admin_path('rooms/' . $room['id'] . '/delete')) ?>" method="post" class="inline-form" onsubmit="return confirm('Delete this room?');">
                                         <?= csrf_field() ?>
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
@@ -51,7 +51,7 @@
         <div class="empty-state">
             <h3>No rooms available yet</h3>
             <p class="text-muted">Start by adding your first room to build the lodging inventory.</p>
-            <a href="/admin/rooms/create" class="btn btn-primary">Create First Room</a>
+            <a href="<?= esc(admin_path('rooms/create')) ?>" class="btn btn-primary">Create First Room</a>
         </div>
     <?php endif; ?>
 <?= $this->endSection() ?>

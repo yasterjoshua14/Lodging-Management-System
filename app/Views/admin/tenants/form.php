@@ -7,7 +7,7 @@
             <p>Record the main tenant details required for lodging operations.</p>
         </div>
 
-        <a href="/admin/tenants" class="btn btn-ghost">Back to Tenants</a>
+        <a href="<?= esc(admin_path('tenants')) ?>" class="btn btn-ghost">Back to Tenants</a>
     </div>
 
     <form action="<?= esc($action) ?>" method="post">
@@ -57,7 +57,7 @@
 
         <div class="button-row">
             <button type="submit" class="btn btn-primary">Save Tenant</button>
-            <a href="/admin/tenants" class="btn btn-secondary">Cancel</a>
+            <a href="<?= esc(admin_path('tenants')) ?>" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 <?= $this->endSection() ?>

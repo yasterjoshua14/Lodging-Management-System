@@ -24,7 +24,7 @@ class AdminRoomsController extends BaseController
         return view('admin/rooms/form', [
             'title'   => 'Add Room',
             'room'    => null,
-            'action'  => '/admin/rooms',
+            'action'  => admin_path('rooms'),
             'heading' => 'Add Room',
         ]);
     }
@@ -44,7 +44,7 @@ class AdminRoomsController extends BaseController
 
         $roomModel->insert($data);
 
-        return redirect()->to('/admin/rooms')->with('success', 'Room created successfully.');
+        return redirect()->to(admin_path('rooms'))->with('success', 'Room created successfully.');
     }
 
     public function edit(int $id): string
@@ -54,7 +54,7 @@ class AdminRoomsController extends BaseController
         return view('admin/rooms/form', [
             'title'   => 'Edit Room',
             'room'    => $room,
-            'action'  => '/admin/rooms/' . $id,
+            'action'  => admin_path('rooms/' . $id),
             'heading' => 'Edit Room',
         ]);
     }
@@ -74,7 +74,7 @@ class AdminRoomsController extends BaseController
 
         (new RoomModel())->update($id, $data);
 
-        return redirect()->to('/admin/rooms')->with('success', 'Room updated successfully.');
+        return redirect()->to(admin_path('rooms'))->with('success', 'Room updated successfully.');
     }
 
     public function delete(int $id): RedirectResponse
@@ -83,12 +83,12 @@ class AdminRoomsController extends BaseController
 
         $bookingCount = (new BookingModel())->where('room_id', $room['id'])->countAllResults();
         if ($bookingCount > 0) {
-            return redirect()->to('/admin/rooms')->with('error', 'Delete the room bookings first before removing this room.');
+            return redirect()->to(admin_path('rooms'))->with('error', 'Delete the room bookings first before removing this room.');
         }
 
         (new RoomModel())->delete($id);
 
-        return redirect()->to('/admin/rooms')->with('success', 'Room deleted successfully.');
+        return redirect()->to(admin_path('rooms'))->with('success', 'Room deleted successfully.');
     }
 
     private function getValidatedData()

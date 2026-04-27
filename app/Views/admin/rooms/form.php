@@ -7,7 +7,7 @@
             <p>Capture room category, pricing, and availability details.</p>
         </div>
 
-        <a href="/admin/rooms" class="btn btn-ghost">Back to Rooms</a>
+        <a href="<?= esc(admin_path('rooms')) ?>" class="btn btn-ghost">Back to Rooms</a>
     </div>
 
     <form action="<?= esc($action) ?>" method="post">
@@ -56,7 +56,7 @@
 
         <div class="button-row">
             <button type="submit" class="btn btn-primary">Save Room</button>
-            <a href="/admin/rooms" class="btn btn-secondary">Cancel</a>
+            <a href="<?= esc(admin_path('rooms')) ?>" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 <?= $this->endSection() ?>

@@ -114,7 +114,7 @@
                 <h2>Recent Activity</h2>
                 <p>Your latest booking records.</p>
             </div>
-            <a href="/my-bookings" class="link-inline">Open booking history</a>
+            <a href="<?= esc(tenant_path('bookings')) ?>" class="link-inline">Open booking history</a>
         </div>
 
         <?php if ($recentBookings !== []): ?>

@@ -33,7 +33,7 @@ class RoleFilter implements FilterInterface
             session()->destroy();
 
             return redirect()
-                ->to('/login')
+                ->to(tenant_path('login'))
                 ->with('error', 'Your tenant account is missing a tenant profile link. Please contact support.');
         }
     }

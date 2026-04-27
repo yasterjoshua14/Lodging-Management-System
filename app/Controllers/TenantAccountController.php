@@ -67,7 +67,7 @@ class TenantAccountController extends BaseController
             'user_email' => $tenantData['email'],
         ]);
 
-        return redirect()->to('/myAccount')->with('success', 'Your account details have been updated.');
+        return redirect()->to(tenant_path('account'))->with('success', 'Your account details have been updated.');
     }
 
     private function findTenantOrFail(): array

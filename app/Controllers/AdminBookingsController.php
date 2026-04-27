@@ -30,7 +30,7 @@ class AdminBookingsController extends BaseController
             'booking' => null,
             'rooms'   => $this->getRoomOptions(),
             'tenants' => $this->getTenantOptions(),
-            'action'  => '/admin/bookings',
+            'action'  => admin_path('bookings'),
             'heading' => 'Add Booking',
         ]);
     }
@@ -49,7 +49,7 @@ class AdminBookingsController extends BaseController
 
         (new BookingModel())->insert($data);
 
-        return redirect()->to('/admin/bookings')->with('success', 'Booking created successfully.');
+        return redirect()->to(admin_path('bookings'))->with('success', 'Booking created successfully.');
     }
 
     public function edit(int $id): string
@@ -61,7 +61,7 @@ class AdminBookingsController extends BaseController
             'booking' => $booking,
             'rooms'   => $this->getRoomOptions(),
             'tenants' => $this->getTenantOptions(),
-            'action'  => '/admin/bookings/' . $id,
+            'action'  => admin_path('bookings/' . $id),
             'heading' => 'Edit Booking',
         ]);
     }
@@ -81,7 +81,7 @@ class AdminBookingsController extends BaseController
 
         (new BookingModel())->update($id, $data);
 
-        return redirect()->to('/admin/bookings')->with('success', 'Booking updated successfully.');
+        return redirect()->to(admin_path('bookings'))->with('success', 'Booking updated successfully.');
     }
 
     public function delete(int $id): RedirectResponse
@@ -89,7 +89,7 @@ class AdminBookingsController extends BaseController
         $this->findBookingOrFail($id);
         (new BookingModel())->delete($id);
 
-        return redirect()->to('/admin/bookings')->with('success', 'Booking deleted successfully.');
+        return redirect()->to(admin_path('bookings'))->with('success', 'Booking deleted successfully.');
     }
 
     private function getValidatedData()
