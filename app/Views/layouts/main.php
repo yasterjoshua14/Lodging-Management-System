@@ -62,8 +62,8 @@ $navItems = $isAdminApp
     ]
     : [
         ['label' => 'Dashboard', 'href' => tenant_path('dashboard'), 'pattern' => 'dashboard'],
-        ['label' => 'My Bookings', 'href' => tenant_path('MyBookings'), 'pattern' => 'MyBookings'],
-        ['label' => 'My Account', 'href' => tenant_path('MyAccount'), 'pattern' => 'MyAccount'],
+        ['label' => 'My Bookings', 'href' => tenant_path('myBookings'), 'pattern' => 'myBookings'],
+        ['label' => 'My Account', 'href' => tenant_path('myAccount'), 'pattern' => 'myAccount'],
     ];
 ?>
 <!DOCTYPE html>
@@ -507,6 +507,27 @@ $navItems = $isAdminApp
             background: rgba(255, 255, 255, 0.56);
         }
 
+        .sort-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 18px;
+            padding: 16px 18px;
+            border-radius: 18px;
+            border: 1px solid rgba(200, 220, 227, 0.76);
+            background: rgba(255, 255, 255, 0.46);
+        }
+
+        .sort-bar strong,
+        .sort-bar p {
+            margin: 0;
+        }
+
+        .sort-bar p {
+            margin-top: 6px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -527,6 +548,32 @@ $navItems = $isAdminApp
             text-transform: uppercase;
             letter-spacing: 0.05em;
             background: rgba(255, 255, 255, 0.34);
+        }
+
+        .sort-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: inherit;
+            font-weight: 700;
+        }
+
+        .sort-link:hover,
+        .sort-link.active {
+            color: var(--accent-dark);
+        }
+
+        .sort-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent-dark);
+            font-size: 0.72rem;
+            line-height: 1;
         }
 
         tr:last-child td {
@@ -559,6 +606,81 @@ $navItems = $isAdminApp
         .badge-info {
             color: var(--accent-dark);
             background: var(--info-soft);
+        }
+
+        .document-cell {
+            display: grid;
+            gap: 10px;
+        }
+
+        .document-thumb {
+            display: block;
+            width: 92px;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.72);
+        }
+
+        .document-thumb img,
+        .document-preview-image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .document-preview {
+            grid-column: 1 / -1;
+            display: grid;
+            gap: 14px;
+        }
+
+        .document-preview-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .document-preview-head label,
+        .document-preview-head p {
+            margin: 0;
+        }
+
+        .document-preview-head p {
+            margin-top: 6px;
+        }
+
+        .document-preview-link {
+            display: block;
+            width: min(420px, 100%);
+            max-width: 100%;
+            overflow: hidden;
+            border-radius: 18px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.72);
+        }
+
+        .document-preview-image {
+            height: auto;
+            max-height: 320px;
+            object-fit: contain;
+            background: rgba(255, 255, 255, 0.72);
+        }
+
+        .document-file-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: var(--info-soft);
+            color: var(--accent-dark);
+            font-weight: 700;
+            width: fit-content;
+            max-width: 100%;
         }
 
         .empty-state {
@@ -657,6 +779,16 @@ $navItems = $isAdminApp
 
             .button-row,
             .actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .sort-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .document-preview-head {
                 flex-direction: column;
                 align-items: stretch;
             }

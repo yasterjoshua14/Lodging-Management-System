@@ -1,6 +1,23 @@
 <?= $this->extend('layouts/main') ?>
 
 <?= $this->section('content') ?>
+    <?php
+    $sortOptions      = $sortOptions ?? [];
+    $sortBy           = $sortBy ?? 'room_number';
+    $sortDirection    = $sortDirection ?? 'asc';
+    $currentSortLabel = $sortOptions[$sortBy] ?? 'Room No.';
+    $isDefaultSort    = $sortBy === 'room_number' && $sortDirection === 'asc';
+
+    $buildSortUrl = static function (string $column) use ($sortBy, $sortDirection): string {
+        $direction = $sortBy === $column && $sortDirection === 'asc' ? 'desc' : 'asc';
+
+        return admin_path('rooms') . '?' . http_build_query([
+            'sort'      => $column,
+            'direction' => $direction,
+        ]);
+    };
+    ?>
+
     <div class="section-head">
         <div>
             <h2>Rooms</h2>
@@ -15,11 +32,24 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Room No.</th>
-                        <th>Type</th>
-                        <th>Capacity</th>
-                        <th>Price / Night</th>
-                        <th>Status</th>
+                        <?php foreach ($sortOptions as $column => $label): ?>
+                            <?php
+                            $isActiveColumn = $sortBy === $column;
+                            $nextDirection  = $isActiveColumn && $sortDirection === 'asc' ? 'descending' : 'ascending';
+                            ?>
+                            <th>
+                                <a
+                                    href="<?= esc($buildSortUrl($column)) ?>"
+                                    class="sort-link <?= $isActiveColumn ? 'active' : '' ?>"
+                                    aria-label="<?= esc('Sort rooms by ' . $label . ' in ' . $nextDirection . ' order') ?>"
+                                >
+                                    <span><?= esc($label) ?></span>
+                                    <?php if ($isActiveColumn): ?>
+                                        <span class="sort-indicator"><?= esc(strtoupper($sortDirection)) ?></span>
+                                    <?php endif; ?>
+                                </a>
+                            </th>
+                        <?php endforeach; ?>
                         <th>Description</th>
                         <th>Actions</th>
                     </tr>

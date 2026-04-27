@@ -11,11 +11,30 @@ class AdminRoomsController extends BaseController
 {
     public function index(): string
     {
-        $roomModel = new RoomModel();
+        $roomModel   = new RoomModel();
+        $sortOptions = $this->roomSortOptions();
+        $requestedBy = strtolower(trim((string) $this->request->getGet('sort')));
+
+        if (! array_key_exists($requestedBy, $sortOptions)) {
+            $sortBy        = 'room_number';
+            $sortDirection = 'asc';
+        } else {
+            $sortBy        = $requestedBy;
+            $sortDirection = strtolower((string) $this->request->getGet('direction')) === 'desc' ? 'desc' : 'asc';
+        }
+
+        $roomsQuery = $roomModel->orderBy($sortBy, strtoupper($sortDirection));
+
+        if ($sortBy !== 'room_number') {
+            $roomsQuery->orderBy('room_number', 'ASC');
+        }
 
         return view('admin/rooms/index', [
-            'title' => 'Rooms',
-            'rooms' => $roomModel->orderBy('room_number', 'ASC')->findAll(),
+            'title'         => 'Rooms',
+            'rooms'         => $roomsQuery->findAll(),
+            'sortBy'        => $sortBy,
+            'sortDirection' => $sortDirection,
+            'sortOptions'   => $sortOptions,
         ]);
     }
 
@@ -136,5 +155,16 @@ class AdminRoomsController extends BaseController
         }
 
         return $room;
+    }
+
+    private function roomSortOptions(): array
+    {
+        return [
+            'room_number'     => 'Room No.',
+            'type'            => 'Type',
+            'capacity'        => 'Capacity',
+            'price_per_night' => 'Price / Night',
+            'status'          => 'Status',
+        ];
     }
 }

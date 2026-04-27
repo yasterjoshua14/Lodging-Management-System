@@ -1,6 +1,14 @@
 <?= $this->extend('layouts/main') ?>
 
 <?= $this->section('content') ?>
+    <?php
+    $idDocumentPath      = trim((string) ($tenant['id_document_path'] ?? ''));
+    $idDocumentUrl       = $idDocumentPath !== '' && isset($tenant['id']) ? admin_path('tenants/' . $tenant['id'] . '/id-document') : null;
+    $deleteDocumentUrl   = $idDocumentPath !== '' && isset($tenant['id']) ? admin_path('tenants/' . $tenant['id'] . '/id-document/delete') : null;
+    $idDocumentExtension = strtolower(pathinfo($idDocumentPath, PATHINFO_EXTENSION));
+    $hasImagePreview     = $idDocumentUrl !== null && in_array($idDocumentExtension, ['jpg', 'jpeg', 'png'], true);
+    ?>
+
     <div class="section-head">
         <div>
             <h2><?= esc($heading) ?></h2>
@@ -9,6 +17,12 @@
 
         <a href="<?= esc(admin_path('tenants')) ?>" class="btn btn-ghost">Back to Tenants</a>
     </div>
+
+    <?php if ($deleteDocumentUrl !== null): ?>
+        <form id="delete-id-document-form" action="<?= esc($deleteDocumentUrl) ?>" method="post" class="inline-form">
+            <?= csrf_field() ?>
+        </form>
+    <?php endif; ?>
 
     <form action="<?= esc($action) ?>" method="post">
         <?= csrf_field() ?>
@@ -53,6 +67,39 @@
                 <label for="emergency_contact_phone">Emergency Contact Phone</label>
                 <input type="text" id="emergency_contact_phone" name="emergency_contact_phone" value="<?= esc(old('emergency_contact_phone', $tenant['emergency_contact_phone'] ?? '')) ?>">
             </div>
+
+            <?php if ($idDocumentUrl !== null): ?>
+                <div class="document-preview full-span">
+                    <div class="document-preview-head">
+                        <div>
+                            <label>Uploaded ID Document</label>
+                        </div>
+
+                        <div class="actions">
+                            <a href="<?= esc($idDocumentUrl) ?>" target="_blank" rel="noopener" class="btn btn-secondary">Open Document</a>
+                            <button
+                                type="submit"
+                                form="delete-id-document-form"
+                                formnovalidate
+                                class="btn btn-danger"
+                                onclick="return confirm('Delete this uploaded ID document?');"
+                            >
+                                Delete Document
+                            </button>
+                        </div>
+                    </div>
+
+                    <?php if ($hasImagePreview): ?>
+                        <a href="<?= esc($idDocumentUrl) ?>" target="_blank" rel="noopener" class="document-preview-link">
+                            <img src="<?= esc($idDocumentUrl) ?>" alt="<?= esc('Uploaded ID for ' . ($tenant['full_name'] ?? 'tenant')) ?>" class="document-preview-image">
+                        </a>
+                    <?php else: ?>
+                        <div class="document-file-chip">
+                            <?= esc(strtoupper($idDocumentExtension ?: 'FILE')) ?> on record: <?= esc(basename($idDocumentPath)) ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
         </div>
 
         <div class="button-row">

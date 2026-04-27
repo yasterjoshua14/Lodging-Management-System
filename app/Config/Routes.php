@@ -27,9 +27,9 @@ $routes->post('logout', 'AuthController::logout', ['filter' => ['auth']]);
 
 $routes->group('', ['filter' => ['auth:tenant', 'role:tenant']], static function ($routes) {
     $routes->get('dashboard', 'TenantDashboardController::index');
-    $routes->get('MyBookings', 'TenantBookingsController::index');
-    $routes->get('MyAccount', 'TenantAccountController::index');
-    $routes->post('MyAccount', 'TenantAccountController::update');
+    $routes->get('myBookings', 'TenantBookingsController::index');
+    $routes->get('myAccount', 'TenantAccountController::index');
+    $routes->post('myAccount', 'TenantAccountController::update');
 });
 
 $routes->group('', ['filter' => ['auth:admin', 'role:admin']], static function ($routes) {
@@ -45,6 +45,8 @@ $routes->group('', ['filter' => ['auth:admin', 'role:admin']], static function (
     $routes->get('tenants', 'AdminTenantsController::index');
     $routes->get('tenants/create', 'AdminTenantsController::create');
     $routes->post('tenants', 'AdminTenantsController::store');
+    $routes->get('tenants/(:num)/id-document', 'AdminTenantsController::viewIdDocument/$1');
+    $routes->post('tenants/(:num)/id-document/delete', 'AdminTenantsController::deleteIdDocument/$1');
     $routes->get('tenants/(:num)/edit', 'AdminTenantsController::edit/$1');
     $routes->post('tenants/(:num)', 'AdminTenantsController::update/$1');
     $routes->post('tenants/(:num)/delete', 'AdminTenantsController::delete/$1');
@@ -60,8 +62,8 @@ $routes->group('', ['filter' => ['auth:admin', 'role:admin']], static function (
 $routes->addRedirect('tenant/login', 'login');
 $routes->addRedirect('tenant/register', 'register');
 $routes->addRedirect('tenant/dashboard', 'dashboard');
-$routes->addRedirect('tenant/bookings', 'MyBookings');
-$routes->addRedirect('tenant/account', 'MyAccount');
+$routes->addRedirect('tenant/bookings', 'myBookings');
+$routes->addRedirect('tenant/account', 'myAccount');
 
 $routes->addRedirect('admin/login', 'admin-login');
 $routes->addRedirect('admin/dashboard', 'admin-dashboard');

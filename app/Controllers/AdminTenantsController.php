@@ -7,6 +7,7 @@ use App\Models\TenantModel;
 use App\Models\UserModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class AdminTenantsController extends BaseController
 {
@@ -53,6 +54,52 @@ class AdminTenantsController extends BaseController
             'action'  => admin_path('tenants/' . $id),
             'heading' => 'Edit Tenant',
         ]);
+    }
+
+    public function viewIdDocument(int $id): ResponseInterface
+    {
+        $tenant          = $this->findTenantOrFail($id);
+        $idDocumentPath  = trim((string) ($tenant['id_document_path'] ?? ''));
+
+        if ($idDocumentPath === '') {
+            throw PageNotFoundException::forPageNotFound('Tenant ID document not found.');
+        }
+
+        $document = $this->resolveStoredIdDocument($idDocumentPath);
+        $contents = file_get_contents($document['full_path']);
+
+        if ($contents === false) {
+            throw PageNotFoundException::forPageNotFound('Tenant ID document could not be opened.');
+        }
+
+        return $this->response
+            ->setHeader('Content-Type', $document['mime_type'])
+            ->setHeader('Content-Disposition', 'inline; filename="' . basename($document['full_path']) . '"')
+            ->setHeader('Content-Length', (string) filesize($document['full_path']))
+            ->setHeader('X-Content-Type-Options', 'nosniff')
+            ->setBody($contents);
+    }
+
+    public function deleteIdDocument(int $id): RedirectResponse
+    {
+        $tenant         = $this->findTenantOrFail($id);
+        $idDocumentPath = trim((string) ($tenant['id_document_path'] ?? ''));
+
+        if ($idDocumentPath === '') {
+            return redirect()->to(admin_path('tenants/' . $id . '/edit'))->with('warning', 'There is no uploaded ID document to delete.');
+        }
+
+        $updated = (new TenantModel())->update($id, [
+            'id_document_path' => null,
+        ]);
+
+        if (! $updated) {
+            return redirect()->to(admin_path('tenants/' . $id . '/edit'))->with('error', 'Unable to delete the uploaded ID document right now.');
+        }
+
+        $this->deleteStoredIdDocument($idDocumentPath);
+
+        return redirect()->to(admin_path('tenants/' . $id . '/edit'))->with('success', 'Uploaded ID document deleted successfully.');
     }
 
     public function update(int $id): RedirectResponse
@@ -140,5 +187,39 @@ class AdminTenantsController extends BaseController
         if (is_file($fullPath)) {
             unlink($fullPath);
         }
+    }
+
+    private function resolveStoredIdDocument(string $relativePath): array
+    {
+        $storageRoot = realpath(WRITEPATH . 'uploads/id-documents');
+        $fullPath    = realpath(WRITEPATH . ltrim($relativePath, '\\/'));
+
+        if ($storageRoot === false || $fullPath === false || ! is_file($fullPath)) {
+            throw PageNotFoundException::forPageNotFound('Tenant ID document not found.');
+        }
+
+        $normalizedStorageRoot = rtrim(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $storageRoot), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $normalizedFullPath    = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $fullPath);
+
+        if (! str_starts_with($normalizedFullPath, $normalizedStorageRoot)) {
+            throw PageNotFoundException::forPageNotFound('Tenant ID document not found.');
+        }
+
+        $extension = strtolower(pathinfo($fullPath, PATHINFO_EXTENSION));
+        $mimeTypes = [
+            'jpg'  => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png'  => 'image/png',
+            'pdf'  => 'application/pdf',
+        ];
+
+        if (! isset($mimeTypes[$extension])) {
+            throw PageNotFoundException::forPageNotFound('Tenant ID document type is not supported.');
+        }
+
+        return [
+            'full_path' => $fullPath,
+            'mime_type' => $mimeTypes[$extension],
+        ];
     }
 }
