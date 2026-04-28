@@ -717,6 +717,14 @@ $navItems = $isAdminApp
             gap: 12px;
         }
 
+        .mini-item.compact {
+            align-items: flex-start;
+        }
+
+        .mini-item.compact span {
+            text-align: right;
+        }
+
         .detail-item h3 {
             margin-bottom: 8px;
             font-size: 0.92rem;
@@ -729,6 +737,60 @@ $navItems = $isAdminApp
             font-size: 1.05rem;
             font-weight: 700;
             color: var(--ink);
+        }
+
+        .bar-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .bar-item {
+            padding: 16px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.58);
+            border: 1px solid rgba(200, 220, 227, 0.76);
+        }
+
+        .bar-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+
+        .bar-head strong,
+        .bar-head p,
+        .bar-meta p {
+            margin: 0;
+        }
+
+        .bar-value {
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .bar-track {
+            width: 100%;
+            height: 12px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: var(--accent-soft);
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+        }
+
+        .bar-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 0.84rem;
         }
 
         .link-inline {

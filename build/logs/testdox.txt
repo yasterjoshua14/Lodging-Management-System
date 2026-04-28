@@ -1,11 +1,4 @@
-Example Database
- [ ] Model find all
- [ ] Soft delete leaves row
-
-Example Session
- [x] Session simple
-
-Health
- [x] Is defined app path
- [x] Base url has been set
+Admin Report Model
+ [ ] Dashboard report summarizes revenue and occupancy
+ [ ] Analytics ranks rooms and breaks down booking statuses
 
