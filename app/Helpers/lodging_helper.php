@@ -64,3 +64,25 @@ if (! function_exists('format_money')) {
         return 'PHP ' . number_format((float) $amount, 2);
     }
 }
+
+if (! function_exists('view_text')) {
+    function view_text(mixed $value, string $fallback = ''): string
+    {
+        if ($value === null || $value === '') {
+            return $fallback;
+        }
+
+        if (is_scalar($value) || $value instanceof Stringable) {
+            return (string) $value;
+        }
+
+        return $fallback;
+    }
+}
+
+if (! function_exists('view_esc')) {
+    function view_esc(mixed $value, string $context = 'html', ?string $encoding = null, string $fallback = ''): string
+    {
+        return esc(view_text($value, $fallback), $context, $encoding);
+    }
+}
