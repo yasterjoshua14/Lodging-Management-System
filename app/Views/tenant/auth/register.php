@@ -1,28 +1,33 @@
-<?= $this->extend('layouts/main') ?>
+<?php
+/**
+ * @var \CodeIgniter\View\View $this
+ */
+?>
+<?php $this->extend('layouts/main'); ?>
 
-<?= $this->section('content') ?>
+<?php $this->section('content'); ?>
     <div class="section-head">
         <div>
             <h2>Create tenant account</h2>
         </div>
     </div>
 
-    <form action="<?= esc(tenant_path('register')) ?>" method="post" class="grid">
+    <form action="<?= view_esc(tenant_path('register')) ?>" method="post" class="grid">
         <?= csrf_field() ?>
 
         <div>
             <label for="full_name">Full Name</label>
-            <input type="text" id="full_name" name="full_name" value="<?= esc(old('full_name')) ?>" placeholder="John Doe" required>
+            <input type="text" id="full_name" name="full_name" value="<?= view_esc(old('full_name')) ?>" placeholder="John Doe" required>
         </div>
 
         <div>
             <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" value="<?= esc(old('email')) ?>" placeholder="guest@example.com" required>
+            <input type="email" id="email" name="email" value="<?= view_esc(old('email')) ?>" placeholder="guest@example.com" required>
         </div>
 
         <div>
             <label for="phone">Phone Number</label>
-            <input type="text" id="phone" name="phone" value="<?= esc(old('phone')) ?>" placeholder="+63 917 123 4567" required>
+            <input type="text" id="phone" name="phone" value="<?= view_esc(old('phone')) ?>" placeholder="+63 917 123 4567" required>
         </div>
 
         <div>
@@ -38,5 +43,5 @@
         <button type="submit" class="btn btn-primary">Create Tenant Account</button>
     </form>
 
-    <p class="auth-switch">Already registered? <a class="link-inline" href="<?= esc(tenant_path('login')) ?>">Back to tenant login</a>.</p>
-<?= $this->endSection() ?>
+    <p class="auth-switch">Already registered? <a class="link-inline" href="<?= view_esc(tenant_path('login')) ?>">Back to tenant login</a>.</p>
+<?php $this->endSection(); ?>

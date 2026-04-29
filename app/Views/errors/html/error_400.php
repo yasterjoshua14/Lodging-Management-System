@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var string $message
+ */
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,7 +79,7 @@
 
     <p>
         <?php if (ENVIRONMENT !== 'production') : ?>
-            <?= nl2br(esc($message)) ?>
+            <?= nl2br(view_esc($message)) ?>
         <?php else : ?>
             <?= lang('Errors.sorryBadRequest') ?>
         <?php endif; ?>

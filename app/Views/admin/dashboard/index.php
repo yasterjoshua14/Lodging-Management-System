@@ -1,4 +1,18 @@
 <?php
+/**
+ * @var \CodeIgniter\View\View $this
+ * @var list<array<string, mixed>> $bookingStatusBreakdown
+ * @var list<array<string, mixed>> $monthlyEarnings
+ * @var list<array<string, mixed>> $recentBookings
+ * @var list<array<string, mixed>> $revenueBreakdown
+ * @var list<array<string, mixed>> $roomsByStatus
+ */
+
+$bookingStatusBreakdown ??= [];
+$monthlyEarnings        ??= [];
+$recentBookings         ??= [];
+$revenueBreakdown       ??= [];
+$roomsByStatus          ??= [];
 
 $dashboardGraphPayload = [
     'monthlyEarnings' => array_map(static fn (array $month): array => [
@@ -33,9 +47,9 @@ $dashboardGraphJson = json_encode(
 
 $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJson;
 ?>
-<?= $this->extend('layouts/main') ?>
+<?php $this->extend('layouts/main'); ?>
 
-<?= $this->section('content') ?>
+<?php $this->section('content'); ?>
     <style>
         .interactive-card {
             overflow: hidden;
@@ -441,7 +455,7 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                 <h2>Recent Bookings</h2>
                 <p>Most recent booking activity captured by the system.</p>
             </div>
-            <a href="<?= esc(admin_path('bookings')) ?>" class="link-inline">Manage bookings</a>
+            <a href="<?= view_esc(admin_path('bookings')) ?>" class="link-inline">Manage bookings</a>
         </div>
 
         <?php if ($recentBookings !== []): ?>
@@ -459,14 +473,14 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                     <tbody>
                         <?php foreach ($recentBookings as $booking): ?>
                             <tr>
-                                <td><?= esc($booking['tenant_name']) ?></td>
+                                <td><?= view_esc($booking['tenant_name']) ?></td>
                                 <td>
-                                    <strong><?= esc($booking['room_number']) ?></strong><br>
-                                    <span class="text-muted"><?= esc(humanize_key($booking['room_type'])) ?></span>
+                                    <strong><?= view_esc($booking['room_number']) ?></strong><br>
+                                    <span class="text-muted"><?= view_esc(humanize_key($booking['room_type'])) ?></span>
                                 </td>
-                                <td><?= esc($booking['check_in']) ?> to <?= esc($booking['check_out']) ?></td>
-                                <td><span class="<?= esc(status_badge_class($booking['status'])) ?>"><?= esc(booking_status_options()[$booking['status']] ?? humanize_key($booking['status'])) ?></span></td>
-                                <td><?= esc(format_money($booking['total_amount'])) ?></td>
+                                <td><?= view_esc($booking['check_in']) ?> to <?= view_esc($booking['check_out']) ?></td>
+                                <td><span class="<?= view_esc(status_badge_class($booking['status'])) ?>"><?= view_esc(booking_status_options()[$booking['status']] ?? humanize_key($booking['status'])) ?></span></td>
+                                <td><?= view_esc(format_money($booking['total_amount'])) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -800,4 +814,4 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
             renderStatusExplorer();
         })();
     </script>
-<?= $this->endSection() ?>
+<?php $this->endSection(); ?>

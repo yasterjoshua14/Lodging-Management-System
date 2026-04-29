@@ -1,12 +1,21 @@
-<?= $this->extend('layouts/main') ?>
+<?php
+/**
+ * @var \CodeIgniter\View\View $this
+ * @var list<array<string, mixed>> $rooms
+ * @var array<string, string> $sortOptions
+ * @var string $sortBy
+ * @var string $sortDirection
+ */
 
-<?= $this->section('content') ?>
+$rooms ??= [];
+?>
+<?php $this->extend('layouts/main'); ?>
+
+<?php $this->section('content'); ?>
     <?php
     $sortOptions      = $sortOptions ?? [];
     $sortBy           = $sortBy ?? 'room_number';
     $sortDirection    = $sortDirection ?? 'asc';
-    $currentSortLabel = $sortOptions[$sortBy] ?? 'Room No.';
-    $isDefaultSort    = $sortBy === 'room_number' && $sortDirection === 'asc';
 
     $buildSortUrl = static function (string $column) use ($sortBy, $sortDirection): string {
         $direction = $sortBy === $column && $sortDirection === 'asc' ? 'desc' : 'asc';
@@ -24,7 +33,7 @@
             <p>Manage room inventory, pricing, and current room status.</p>
         </div>
 
-        <a href="<?= esc(admin_path('rooms/create')) ?>" class="btn btn-primary">Add Room</a>
+        <a href="<?= view_esc(admin_path('rooms/create')) ?>" class="btn btn-primary">Add Room</a>
     </div>
 
     <?php if ($rooms !== []): ?>
@@ -39,13 +48,13 @@
                             ?>
                             <th>
                                 <a
-                                    href="<?= esc($buildSortUrl($column)) ?>"
+                                    href="<?= view_esc($buildSortUrl($column)) ?>"
                                     class="sort-link <?= $isActiveColumn ? 'active' : '' ?>"
-                                    aria-label="<?= esc('Sort rooms by ' . $label . ' in ' . $nextDirection . ' order') ?>"
+                                    aria-label="<?= view_esc('Sort rooms by ' . $label . ' in ' . $nextDirection . ' order') ?>"
                                 >
-                                    <span><?= esc($label) ?></span>
+                                    <span><?= view_esc($label) ?></span>
                                     <?php if ($isActiveColumn): ?>
-                                        <span class="sort-indicator"><?= esc(strtoupper($sortDirection)) ?></span>
+                                        <span class="sort-indicator"><?= view_esc(strtoupper($sortDirection)) ?></span>
                                     <?php endif; ?>
                                 </a>
                             </th>
@@ -57,16 +66,16 @@
                 <tbody>
                     <?php foreach ($rooms as $room): ?>
                         <tr>
-                            <td><strong><?= esc($room['room_number']) ?></strong></td>
-                            <td><?= esc(room_type_options()[$room['type']] ?? humanize_key($room['type'])) ?></td>
-                            <td><?= esc((string) $room['capacity']) ?> guests</td>
-                            <td><?= esc(format_money($room['price_per_night'])) ?></td>
-                            <td><span class="<?= esc(status_badge_class($room['status'])) ?>"><?= esc(room_status_options()[$room['status']] ?? humanize_key($room['status'])) ?></span></td>
-                            <td><?= esc($room['description'] ?: 'No description') ?></td>
+                            <td><strong><?= view_esc($room['room_number']) ?></strong></td>
+                            <td><?= view_esc(room_type_options()[$room['type']] ?? humanize_key($room['type'])) ?></td>
+                            <td><?= view_esc((string) $room['capacity']) ?> guests</td>
+                            <td><?= view_esc(format_money($room['price_per_night'])) ?></td>
+                            <td><span class="<?= view_esc(status_badge_class($room['status'])) ?>"><?= view_esc(room_status_options()[$room['status']] ?? humanize_key($room['status'])) ?></span></td>
+                            <td><?= view_esc($room['description'] ?: 'No description') ?></td>
                             <td>
                                 <div class="actions">
-                                    <a href="<?= esc(admin_path('rooms/' . $room['id'] . '/edit')) ?>" class="btn btn-secondary">Edit</a>
-                                    <form action="<?= esc(admin_path('rooms/' . $room['id'] . '/delete')) ?>" method="post" class="inline-form" onsubmit="return confirm('Delete this room?');">
+                                    <a href="<?= view_esc(admin_path('rooms/' . $room['id'] . '/edit')) ?>" class="btn btn-secondary">Edit</a>
+                                    <form action="<?= view_esc(admin_path('rooms/' . $room['id'] . '/delete')) ?>" method="post" class="inline-form" onsubmit="return confirm('Delete this room?');">
                                         <?= csrf_field() ?>
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
@@ -81,7 +90,7 @@
         <div class="empty-state">
             <h3>No rooms available yet</h3>
             <p class="text-muted">Start by adding your first room to build the lodging inventory.</p>
-            <a href="<?= esc(admin_path('rooms/create')) ?>" class="btn btn-primary">Create First Room</a>
+            <a href="<?= view_esc(admin_path('rooms/create')) ?>" class="btn btn-primary">Create First Room</a>
         </div>
     <?php endif; ?>
-<?= $this->endSection() ?>
+<?php $this->endSection(); ?>

@@ -1,9 +1,18 @@
 <?php
+/**
+ * @var \CodeIgniter\View\View $this
+ * @var array<string, mixed>|null $currentUser
+ * @var string|null $authSurface
+ * @var string|null $title
+ */
 
 $currentUser  = $currentUser ?? null;
 $authSurface  = $authSurface ?? (service('uri')->getSegment(1) === 'admin' ? 'admin' : 'tenant');
 $activeRole   = $currentUser['role'] ?? $authSurface;
 $isAdminApp   = $activeRole === 'admin';
+$currentUserName  = (string) ($currentUser['name'] ?? 'User');
+$currentUserEmail = (string) ($currentUser['email'] ?? '');
+$currentUserRole  = (string) ($currentUser['role'] ?? 'user');
 $brandLabel   = $isAdminApp ? 'Admin Operations' : 'Tenant Portal';
 $brandCaption = $isAdminApp
     ? 'Protected management console for rooms, tenants, and bookings.'
@@ -71,25 +80,25 @@ $navItems = $isAdminApp
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($title ?? 'Lodging Management System') ?></title>
+    <title><?= view_esc($title ?? 'Lodging Management System') ?></title>
     <style>
         :root {
-            --bg: <?= esc($palette['bg']) ?>;
-            --panel: <?= esc($palette['panel']) ?>;
-            --panel-strong: <?= esc($palette['panelStrong']) ?>;
-            --ink: <?= esc($palette['ink']) ?>;
-            --muted: <?= esc($palette['muted']) ?>;
-            --line: <?= esc($palette['line']) ?>;
-            --accent: <?= esc($palette['accent']) ?>;
-            --accent-dark: <?= esc($palette['accentDark']) ?>;
-            --accent-soft: <?= esc($palette['accentSoft']) ?>;
-            --warning: <?= esc($palette['warning']) ?>;
-            --warning-soft: <?= esc($palette['warningSoft']) ?>;
-            --danger: <?= esc($palette['danger']) ?>;
-            --danger-soft: <?= esc($palette['dangerSoft']) ?>;
-            --success: <?= esc($palette['success']) ?>;
-            --success-soft: <?= esc($palette['successSoft']) ?>;
-            --info-soft: <?= esc($palette['infoSoft']) ?>;
+            --bg: <?= view_esc($palette['bg']) ?>;
+            --panel: <?= view_esc($palette['panel']) ?>;
+            --panel-strong: <?= view_esc($palette['panelStrong']) ?>;
+            --ink: <?= view_esc($palette['ink']) ?>;
+            --muted: <?= view_esc($palette['muted']) ?>;
+            --line: <?= view_esc($palette['line']) ?>;
+            --accent: <?= view_esc($palette['accent']) ?>;
+            --accent-dark: <?= view_esc($palette['accentDark']) ?>;
+            --accent-soft: <?= view_esc($palette['accentSoft']) ?>;
+            --warning: <?= view_esc($palette['warning']) ?>;
+            --warning-soft: <?= view_esc($palette['warningSoft']) ?>;
+            --danger: <?= view_esc($palette['danger']) ?>;
+            --danger-soft: <?= view_esc($palette['dangerSoft']) ?>;
+            --success: <?= view_esc($palette['success']) ?>;
+            --success-soft: <?= view_esc($palette['successSoft']) ?>;
+            --info-soft: <?= view_esc($palette['infoSoft']) ?>;
             --shadow: 0 20px 50px rgba(35, 45, 52, 0.12);
             --radius: 24px;
             --background-wash: <?= $palette['background'] ?>;
@@ -868,28 +877,28 @@ $navItems = $isAdminApp
                 <div class="brand">
                     <div class="brand-mark"><?= $isAdminApp ? 'AD' : 'TP' ?></div>
                     <div>
-                        <h1><?= esc($brandLabel) ?></h1>
-                        <p><?= esc($brandCaption) ?></p>
+                        <h1><?= view_esc($brandLabel) ?></h1>
+                        <p><?= view_esc($brandCaption) ?></p>
                     </div>
                 </div>
 
                 <nav class="nav">
                     <?php foreach ($navItems as $item): ?>
-                        <a class="nav-link <?= url_is($item['pattern']) ? 'active' : '' ?>" href="<?= esc($item['href']) ?>"><?= esc($item['label']) ?></a>
+                        <a class="nav-link <?= url_is($item['pattern']) ? 'active' : '' ?>" href="<?= view_esc($item['href']) ?>"><?= view_esc($item['label']) ?></a>
                     <?php endforeach; ?>
                 </nav>
 
                 <div class="actions">
                     <div class="user-chip">
-                        <div class="avatar"><?= esc(strtoupper(substr($currentUser['name'], 0, 1))) ?></div>
+                        <div class="avatar"><?= view_esc(strtoupper(substr($currentUserName, 0, 1))) ?></div>
                         <div>
-                            <strong><?= esc($currentUser['name']) ?></strong><br>
-                            <span><?= esc($currentUser['email']) ?></span><br>
-                            <span class="role-tag"><?= esc(($currentUser['role'] ?? 'user')) ?></span>
+                            <strong><?= view_esc($currentUserName) ?></strong><br>
+                            <span><?= view_esc($currentUserEmail) ?></span><br>
+                            <span class="role-tag"><?= view_esc($currentUserRole) ?></span>
                         </div>
                     </div>
 
-                    <form action="<?= esc(site_url('logout')) ?>" method="post" class="inline-form">
+                    <form action="<?= view_esc(site_url('logout')) ?>" method="post" class="inline-form">
                         <?= csrf_field() ?>
                         <button type="submit" class="btn btn-ghost">Logout</button>
                     </form>
