@@ -816,6 +816,55 @@ $navItems = $isAdminApp
             display: inline;
         }
 
+        .choice-field {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            padding: 0;
+            border: 0;
+            margin: 0;
+        }
+
+        .choice-field legend {
+            grid-column: 1 / -1;
+            font-size: 0.92rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .choice-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 48px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            background: var(--panel-strong);
+            cursor: pointer;
+        }
+
+        .choice-option input {
+            width: auto;
+        }
+
+        .otp-input {
+            text-align: center;
+            font-size: 1.6rem;
+            letter-spacing: 0.18em;
+            font-weight: 700;
+        }
+
+        .recovery-actions {
+            justify-content: space-between;
+        }
+
+        .btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.62;
+            transform: none;
+        }
+
         @media (max-width: 920px) {
             .auth-grid,
             .split-grid,

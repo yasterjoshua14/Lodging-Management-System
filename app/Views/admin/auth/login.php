@@ -23,8 +23,9 @@
             <input type="password" id="password" name="password" placeholder="Password" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Enter Admin Console</button>
+    <button type="submit" class="btn btn-primary">Enter Admin Console</button>
     </form>
 
+    <p class="auth-switch"><a class="link-inline" href="<?= view_esc(admin_path('forgot-password')) ?>">Forgot your password?</a></p>
     <p class="auth-switch"><a class="link-inline" href="<?= view_esc(tenant_path('login')) ?>">Use the tenant login</a>.</p>
 <?php $this->endSection(); ?>

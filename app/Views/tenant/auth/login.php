@@ -26,6 +26,6 @@
         <button type="submit" class="btn btn-primary">Log In</button>
     </form>
 
-    <p class="auth-switch"><a class="link-inline" href="">Forgot your password? </a></p>
+    <p class="auth-switch"><a class="link-inline" href="<?= view_esc(tenant_path('forgot-password')) ?>">Forgot your password?</a></p>
     <p class="auth-switch">Need an account? <a class="link-inline" href="<?= view_esc(tenant_path('register')) ?>">Create Account</a>.</p>
 <?php $this->endSection(); ?>
