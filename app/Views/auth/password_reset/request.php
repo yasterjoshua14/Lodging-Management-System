@@ -7,6 +7,8 @@
  * @var string $requestCopy
  * @var bool $allowSms
  */
+$oldIdentifier = old('identifier');
+$hasIdentifier = trim((string) $oldIdentifier) !== '';
 ?>
 <?php $this->extend('layouts/main'); ?>
 
@@ -27,14 +29,14 @@
                 type="text"
                 id="identifier"
                 name="identifier"
-                value="<?= view_esc(old('identifier')) ?>"
+                value="<?= view_esc($oldIdentifier) ?>"
                 placeholder="Email address or phone number"
                 autocomplete="username"
                 required
             >
         </div>
 
-        <fieldset class="choice-field">
+        <fieldset class="choice-field" id="otp-channel-field" <?= $hasIdentifier ? '' : 'hidden' ?>>
             <legend>Send OTP by</legend>
             <label class="choice-option">
                 <input type="radio" name="channel" value="email" <?= old('channel', 'email') === 'email' ? 'checked' : '' ?>>
@@ -48,8 +50,30 @@
             <?php endif; ?>
         </fieldset>
 
-        <button type="submit" class="btn btn-primary">Send OTP</button>
+        <button type="submit" class="btn btn-primary" id="otp-submit-button" <?= $hasIdentifier ? '' : 'hidden' ?>>Send OTP</button>
     </form>
 
     <p class="auth-switch"><a class="link-inline" href="<?= view_esc($loginUrl) ?>">Back to login</a>.</p>
+
+    <script>
+        (function () {
+            const identifierInput = document.getElementById('identifier');
+            const channelField = document.getElementById('otp-channel-field');
+            const submitButton = document.getElementById('otp-submit-button');
+
+            if (!identifierInput || !channelField || !submitButton) {
+                return;
+            }
+
+            const toggleChannelField = function () {
+                const shouldHideRecoveryOptions = identifierInput.value.trim() === '';
+
+                channelField.hidden = shouldHideRecoveryOptions;
+                submitButton.hidden = shouldHideRecoveryOptions;
+            };
+
+            identifierInput.addEventListener('input', toggleChannelField);
+            toggleChannelField();
+        })();
+    </script>
 <?php $this->endSection(); ?>
