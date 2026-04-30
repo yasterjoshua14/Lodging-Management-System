@@ -81,6 +81,10 @@ if (! function_exists('portal_path')) {
             $map = [
                 '' => 'admin',
                 'login' => 'admin-login',
+                'forgot-password' => 'admin-forgot-password',
+                'forgot-password/verify' => 'admin-forgot-password/verify',
+                'forgot-password/resend' => 'admin-forgot-password/resend',
+                'forgot-password/reset' => 'admin-forgot-password/reset',
                 'dashboard' => 'admin-dashboard',
             ];
 
@@ -91,6 +95,10 @@ if (! function_exists('portal_path')) {
             '' => '',
             'login' => 'login',
             'register' => 'register',
+            'forgot-password' => 'forgot-password',
+            'forgot-password/verify' => 'forgot-password/verify',
+            'forgot-password/resend' => 'forgot-password/resend',
+            'forgot-password/reset' => 'forgot-password/reset',
             'dashboard' => 'dashboard',
             'bookings' => 'my-bookings',
             'account' => 'myAccount',
