@@ -16,11 +16,25 @@ $routes->group('', ['filter' => ['guest:tenant']], static function ($routes) {
     $routes->post('login', 'AuthController::loginTenant');
     $routes->get('register', 'AuthController::showTenantRegister');
     $routes->post('register', 'AuthController::register');
+    $routes->get('forgot-password', 'PasswordResetController::showTenantRequest');
+    $routes->post('forgot-password', 'PasswordResetController::requestTenant');
+    $routes->get('forgot-password/verify', 'PasswordResetController::showTenantVerify');
+    $routes->post('forgot-password/verify', 'PasswordResetController::verifyTenant');
+    $routes->post('forgot-password/resend', 'PasswordResetController::resendTenant');
+    $routes->get('forgot-password/reset', 'PasswordResetController::showTenantReset');
+    $routes->post('forgot-password/reset', 'PasswordResetController::resetTenant');
 });
 
 $routes->group('', ['filter' => ['guest:admin']], static function ($routes) {
     $routes->get('admin-login', 'AuthController::showAdminLogin');
     $routes->post('admin-login', 'AuthController::loginAdmin');
+    $routes->get('admin-forgot-password', 'PasswordResetController::showAdminRequest');
+    $routes->post('admin-forgot-password', 'PasswordResetController::requestAdmin');
+    $routes->get('admin-forgot-password/verify', 'PasswordResetController::showAdminVerify');
+    $routes->post('admin-forgot-password/verify', 'PasswordResetController::verifyAdmin');
+    $routes->post('admin-forgot-password/resend', 'PasswordResetController::resendAdmin');
+    $routes->get('admin-forgot-password/reset', 'PasswordResetController::showAdminReset');
+    $routes->post('admin-forgot-password/reset', 'PasswordResetController::resetAdmin');
 });
 
 $routes->post('logout', 'AuthController::logout', ['filter' => ['auth']]);
@@ -61,11 +75,13 @@ $routes->group('', ['filter' => ['auth:admin', 'role:admin']], static function (
 
 $routes->addRedirect('tenant/login', 'login');
 $routes->addRedirect('tenant/register', 'register');
+$routes->addRedirect('tenant/forgot-password', 'forgot-password');
 $routes->addRedirect('tenant/dashboard', 'dashboard');
 $routes->addRedirect('tenant/bookings', 'myBookings');
 $routes->addRedirect('tenant/account', 'myAccount');
 
 $routes->addRedirect('admin/login', 'admin-login');
+$routes->addRedirect('admin/forgot-password', 'admin-forgot-password');
 $routes->addRedirect('admin/dashboard', 'admin-dashboard');
 $routes->addRedirect('admin/rooms', 'rooms');
 $routes->addRedirect('admin/rooms/create', 'rooms/create');
