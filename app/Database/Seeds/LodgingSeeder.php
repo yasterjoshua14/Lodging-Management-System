@@ -13,6 +13,7 @@ class LodgingSeeder extends Seeder
         $this->db->table('users')->insert([
             'full_name'     => 'Demo Manager',
             'email'         => 'admin@lodging.test',
+            'recovery_phone' => '09170000000',
             'role'          => 'admin',
             'tenant_id'     => null,
             'password_hash' => password_hash('password123', PASSWORD_DEFAULT),
