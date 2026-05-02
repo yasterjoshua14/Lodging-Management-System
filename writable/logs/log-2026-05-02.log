@@ -1,0 +1,593 @@
+DEBUG - 2026-05-02 13:32:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:32:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:32:24 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:32:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:32:39 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:32:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:32:40 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:32:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:32:41 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:32:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:32:42 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:32:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:32:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:32:44 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:32:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:32:53 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:32:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:32:54 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:32:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:32:55 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:32:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:32:56 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:32:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:32:57 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:33:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:33:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:33:10 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:33:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:33:11 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:33:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:33:12 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:33:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:33:13 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:33:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 13:33:16 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "partials/alerts.php"
+[Method: GET, Route: login]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(226): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('partials/alerts.php')
+ 2 SYSTEMPATH\View\View.php(487): CodeIgniter\View\View->render('partials/alerts', null, true)
+ 3 APPPATH\Views\layouts\main.php(965): CodeIgniter\View\View->include('partials/alerts')
+ 4 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 5 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 7 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 8 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 13:34:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 13:41:42 --> CSRF token verified.
+DEBUG - 2026-05-02 13:41:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:41:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:42:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:42:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:43:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:43:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:50:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:51:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:51:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 13:54:00 --> CSRF token verified.
+DEBUG - 2026-05-02 13:54:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:54:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:54:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:54:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 13:54:22 --> CSRF token verified.
+DEBUG - 2026-05-02 13:54:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:54:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:55:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:55:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:55:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:55:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:58:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:58:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:59:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:59:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 13:59:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:00:00 --> CSRF token verified.
+DEBUG - 2026-05-02 14:00:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:00:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:00:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:00:09 --> CSRF token verified.
+DEBUG - 2026-05-02 14:00:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:00:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:01:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:01:42 --> CSRF token verified.
+DEBUG - 2026-05-02 14:01:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:01:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:02:24 --> CSRF token verified.
+DEBUG - 2026-05-02 14:02:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:02:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:02:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:02:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:03:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:05:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:05:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:05:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:07:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:08:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:09:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:09:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 14:09:23 --> ErrorException: Undefined variable $isAdminApp
+[Method: GET, Route: login]
+in APPPATH\Views\layouts\main.php on line 22.
+ 1 APPPATH\Views\layouts\main.php(22): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $isAdminApp', 'C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php', 22)
+ 2 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 3 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 5 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 6 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 7 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+ 8 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+ 9 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 14:09:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:09:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 14:09:45 --> ParseError: syntax error, unexpected variable "$palette"
+[Method: GET, Route: login]
+in APPPATH\Views\layouts\main.php on line 22.
+ 1 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 3 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 4 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+ 6 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+ 7 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 14:10:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:10:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 14:10:26 --> ErrorException: Undefined variable $isAdminApp
+[Method: GET, Route: login]
+in APPPATH\Views\layouts\main.php on line 10.
+ 1 APPPATH\Views\layouts\main.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $isAdminApp', 'C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php', 10)
+ 2 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 3 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 5 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 6 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 7 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+ 8 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+ 9 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 14:10:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 14:10:40 --> ParseError: syntax error, unexpected variable "$navItems"
+[Method: GET, Route: login]
+in APPPATH\Views\layouts\main.php on line 38.
+ 1 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 3 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 4 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+ 6 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+ 7 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 14:10:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:13:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 14:13:01 --> ParseError: syntax error, unexpected variable "$navItems"
+[Method: GET, Route: login]
+in APPPATH\Views\layouts\main.php on line 20.
+ 1 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 3 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 4 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+ 6 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+ 7 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 14:13:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:13:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:15:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:16:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 14:16:26 --> ErrorException: Undefined variable $brandLabel
+[Method: GET, Route: login]
+in APPPATH\Views\layouts\main.php on line 164.
+ 1 APPPATH\Views\layouts\main.php(164): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $brandLabel', 'C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php', 164)
+ 2 SYSTEMPATH\View\View.php(238): include('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\app\\Views\\layouts\\main.php')
+ 3 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layouts/main', [], true)
+ 5 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('tenant/auth/login', [], true)
+ 6 APPPATH\Controllers\AuthController.php(13): view('tenant/auth/login', [...])
+ 7 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AuthController->showTenantLogin()
+ 8 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AuthController))
+ 9 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 14:16:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:19:06 --> CSRF token verified.
+DEBUG - 2026-05-02 14:19:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:19:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:20:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:20:06 --> CSRF token verified.
+DEBUG - 2026-05-02 14:20:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:20:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:20:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:20:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:20:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:21:04 --> CSRF token verified.
+DEBUG - 2026-05-02 14:21:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:21:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:21:43 --> CSRF token verified.
+DEBUG - 2026-05-02 14:21:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:21:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:21:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:22:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:22:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:22:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:22:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:22:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:22:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:22:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:22:58 --> CSRF token verified.
+DEBUG - 2026-05-02 14:22:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:22:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:28:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:28:04 --> CSRF token verified.
+DEBUG - 2026-05-02 14:28:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:28:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:28:11 --> CSRF token verified.
+DEBUG - 2026-05-02 14:28:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:28:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:28:18 --> CSRF token verified.
+DEBUG - 2026-05-02 14:28:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:28:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:28:47 --> CSRF token verified.
+DEBUG - 2026-05-02 14:28:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:28:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:28:55 --> CSRF token verified.
+DEBUG - 2026-05-02 14:28:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:28:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:29:07 --> CSRF token verified.
+DEBUG - 2026-05-02 14:29:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:29:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:29:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:51:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-05-02 14:55:06 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: logout]
+in SYSTEMPATH\Security\Security.php on line 263.
+ 1 SYSTEMPATH\Security\Security.php(263): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(221): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(465): CodeIgniter\Filters\Filters->run('logout', 'before')
+ 6 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Admin\\Desktop\\Lodging-Management-System\\public\\index.php')
+DEBUG - 2026-05-02 14:55:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:55:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:55:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:55:32 --> CSRF token verified.
+DEBUG - 2026-05-02 14:55:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:55:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 14:55:40 --> CSRF token verified.
+DEBUG - 2026-05-02 14:55:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 14:55:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:02:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:02:01 --> CSRF token verified.
+DEBUG - 2026-05-02 15:02:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:02:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:02:08 --> CSRF token verified.
+DEBUG - 2026-05-02 15:02:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:02:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:05:21 --> CSRF token verified.
+DEBUG - 2026-05-02 15:05:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:05:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:05:34 --> CSRF token verified.
+DEBUG - 2026-05-02 15:05:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:05:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:07:43 --> CSRF token verified.
+DEBUG - 2026-05-02 15:07:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:07:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:07:49 --> CSRF token verified.
+DEBUG - 2026-05-02 15:07:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:07:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:07:59 --> CSRF token verified.
+DEBUG - 2026-05-02 15:07:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:08:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:08:14 --> CSRF token verified.
+DEBUG - 2026-05-02 15:08:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:08:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:08:18 --> CSRF token verified.
+DEBUG - 2026-05-02 15:08:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:08:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:08:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:09:01 --> CSRF token verified.
+DEBUG - 2026-05-02 15:09:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:09:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:09:06 --> CSRF token verified.
+DEBUG - 2026-05-02 15:09:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:09:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:10:46 --> CSRF token verified.
+DEBUG - 2026-05-02 15:10:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:10:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:10:54 --> CSRF token verified.
+DEBUG - 2026-05-02 15:10:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:10:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:11:16 --> CSRF token verified.
+DEBUG - 2026-05-02 15:11:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:11:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:11:26 --> CSRF token verified.
+DEBUG - 2026-05-02 15:11:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:11:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:11:38 --> CSRF token verified.
+DEBUG - 2026-05-02 15:11:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:11:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:11:44 --> CSRF token verified.
+DEBUG - 2026-05-02 15:11:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:11:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:13:46 --> CSRF token verified.
+DEBUG - 2026-05-02 15:13:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:13:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:13:59 --> CSRF token verified.
+DEBUG - 2026-05-02 15:13:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:14:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-02 15:14:06 --> CSRF token verified.
+DEBUG - 2026-05-02 15:14:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-02 15:14:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
