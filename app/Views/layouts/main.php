@@ -66,6 +66,9 @@ $footerSummary = $isAdminApp
 
 $themeCss = '';
 $themeCssPath = APPPATH . 'Views/theme/style.css';
+$alertsScript = '';
+$alertsScriptPath = APPPATH . 'Views/partials/alerts.js';
+$usePopupAlerts = $currentUser !== null;
 
 if (is_file($themeCssPath)) {
     $loadedThemeCss = file_get_contents($themeCssPath);
@@ -75,7 +78,15 @@ if (is_file($themeCssPath)) {
     }
 }
 
-$alertsMarkup  = view('partials/alerts');
+if (is_file($alertsScriptPath)) {
+    $loadedAlertsScript = file_get_contents($alertsScriptPath);
+
+    if (is_string($loadedAlertsScript)) {
+        $alertsScript = $loadedAlertsScript;
+    }
+}
+
+$alertsMarkup  = view('partials/alerts', ['usePopupAlerts' => $usePopupAlerts]);
 $contentMarkup = $this->renderSection('content');
 ?>
 <!DOCTYPE html>
@@ -164,5 +175,8 @@ $contentMarkup = $this->renderSection('content');
             </main>
         <?php endif; ?>
     </div>
+    <?php if ($usePopupAlerts && $alertsScript !== ''): ?>
+        <script><?= $alertsScript ?></script>
+    <?php endif; ?>
 </body>
 </html>
