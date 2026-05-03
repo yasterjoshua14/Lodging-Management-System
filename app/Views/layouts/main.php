@@ -13,10 +13,9 @@ $isAdminApp   = $activeRole === 'admin';
 $currentUserName  = (string) ($currentUser['name'] ?? 'User');
 $currentUserEmail = (string) ($currentUser['email'] ?? '');
 $currentUserRole  = (string) ($currentUser['role'] ?? $authSurface);
-$brandLabel   = $isAdminApp ? 'Admin Operations' : 'Tenant Portal';
-$brandCaption = $isAdminApp
-    ? 'Protected management workspace for rooms, tenants, and bookings.'
-    : 'Tenant workspace for reservations, account details, and stay history.';
+$brandLabel   = $isAdminApp;
+$brandCaption = $isAdminApp ? 'Protected management workspace for rooms, tenants, and bookings.'
+                            : 'Tenant workspace for reservations, account details, and stay history.';
 $brandMark = $isAdminApp ? 'AD' : 'TP';
 
 $palette = $isAdminApp
