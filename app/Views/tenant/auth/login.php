@@ -7,9 +7,7 @@
 
 <?php $this->section('content'); ?>
     <div class="section-head">
-        <div>
-            <h2>Tenant login</h2>
-        </div>
+        <h2>Tenant login</h2>
     </div>
 
     <form action="<?= view_esc(tenant_path('login')) ?>" method="post" class="grid">
