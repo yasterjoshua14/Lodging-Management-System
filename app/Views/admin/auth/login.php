@@ -7,9 +7,7 @@
 
 <?php $this->section('content'); ?>
     <div class="section-head">
-        <div>
             <h2>Admin login</h2>
-        </div>
     </div>
 
     <form action="<?= view_esc(admin_path('login')) ?>" method="post" class="grid">
