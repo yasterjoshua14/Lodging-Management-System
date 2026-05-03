@@ -11,15 +11,6 @@
 ?>
 <aside class="shell-panel sidebar-panel">
     <div class="sidebar-panel__body">
-        <div class="sidebar-card">
-            <div class="sidebar-card__mark"><?= view_esc($brandMark) ?></div>
-
-            <div>
-                <strong><?= view_esc($brandLabel) ?></strong>
-                <p><?= view_esc($brandCaption) ?></p>
-            </div>
-        </div>
-
         <nav class="sidebar-nav" aria-label="Primary">
             <?php foreach ($navItems as $item): ?>
                 <?php $isActive = url_is($item['pattern']); ?>
@@ -29,10 +20,5 @@
                 </a>
             <?php endforeach; ?>
         </nav>
-
-        <div class="sidebar-foot">
-            <p><?= view_esc(ucfirst($currentUserRole)) ?> access</p>
-            <strong><?= view_esc($currentUserEmail !== '' ? $currentUserEmail : $currentUserName) ?></strong>
-        </div>
     </div>
 </aside>
