@@ -86,6 +86,7 @@ if (! function_exists('portal_path')) {
                 'forgot-password/resend' => 'admin-forgot-password/resend',
                 'forgot-password/reset' => 'admin-forgot-password/reset',
                 'dashboard' => 'admin-dashboard',
+                'search' => 'admin-search',
             ];
 
             return site_url($map[$path] ?? $path);
@@ -100,6 +101,7 @@ if (! function_exists('portal_path')) {
             'forgot-password/resend' => 'forgot-password/resend',
             'forgot-password/reset' => 'forgot-password/reset',
             'dashboard' => 'dashboard',
+            'search' => 'search',
             'bookings' => 'my-bookings',
             'account' => 'myAccount',
         ];
