@@ -1,12 +1,11 @@
 <?php
 /**
- * @var string $brandLabel
  * @var string $footerSummary
  */
 ?>
 <footer class="shell-panel footer-panel">
     <div class="footer-panel__body">
-        <p><?= view_esc($footerSummary) ?></p>
-        <strong><?= view_esc($brandLabel) ?> • <?= date('Y') ?></strong>
+        <strong>Copyright &copy; 2026 <a href="">YJD Solutions</a> All rights reserved. </strong>
+        <p><b>Version</b> CI4.v1</p>
     </div>
 </footer>

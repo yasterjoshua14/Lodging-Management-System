@@ -5,7 +5,7 @@
  */
 ?>
 <main class="shell-panel content-panel">
-    <div class="content-panel__body">
+    <div class="content">
         <?= $alertsMarkup ?>
         <div class="content-stream"><?= $contentMarkup ?></div>
     </div>

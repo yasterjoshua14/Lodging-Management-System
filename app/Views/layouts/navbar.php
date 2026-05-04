@@ -1,13 +1,19 @@
 <?php
 /**
  * @var string $brandCaption
- * @var string $brandLabel
+ * @var string $brandName
  * @var string $brandMark
  * @var string $contentTitle
  * @var string $currentUserEmail
  * @var string $currentUserName
  * @var string $currentUserRole
  */
+
+$searchAction = portal_path($currentUserRole, 'search');
+$searchQuery  = trim((string) service('request')->getGet('q'));
+$searchPlaceholder = $currentUserRole === 'admin'
+    ? 'Search rooms, bookings, tenants...'
+    : 'Search bookings, dates, account...';
 ?>
 <header class="shell-panel header-panel">
     <div class="header-panel__body">
@@ -15,11 +21,23 @@
             <div class="brand-mark"><?= view_esc($brandMark) ?></div>
 
             <div class="brand-copy">
-                <span class="eyebrow"><?= view_esc($brandLabel) ?></span>
-                <h1><?= view_esc($contentTitle) ?></h1>
+                <h1><?= view_esc($brandName) ?></h1>
                 <p><?= view_esc($brandCaption) ?></p>
             </div>
         </div>
+
+        <form action="<?= view_esc($searchAction) ?>" method="get" class="navbar-search" role="search">
+            <label class="sr-only" for="navbar-search">Search the portal</label>
+            <input
+                type="search"
+                id="navbar-search"
+                name="q"
+                class="navbar-search__input"
+                value="<?= view_esc($searchQuery) ?>"
+                placeholder="<?= view_esc($searchPlaceholder) ?>"
+            >
+            <button type="submit" class="btn btn-secondary navbar-search__button">Search</button>
+        </form>
 
         <div class="header-actions">
             <div class="user-chip">
