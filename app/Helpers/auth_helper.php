@@ -80,12 +80,12 @@ if (! function_exists('portal_path')) {
         if ($role === 'admin') {
             $map = [
                 '' => 'admin',
-                'login' => 'admin-login',
+                'login' => 'admin',
                 'forgot-password' => 'admin-forgot-password',
                 'forgot-password/verify' => 'admin-forgot-password/verify',
                 'forgot-password/resend' => 'admin-forgot-password/resend',
                 'forgot-password/reset' => 'admin-forgot-password/reset',
-                'dashboard' => 'admin-dashboard',
+                'dashboard' => 'dashboard',
                 'search' => 'admin-search',
             ];
 

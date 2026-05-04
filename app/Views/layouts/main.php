@@ -20,7 +20,7 @@ $brandMark = $isAdminApp ? 'logo' : 'logo';
 
 $navItems = $isAdminApp
     ? [
-        ['label' => 'Dashboard', 'href' => admin_path('admin-dashboard'), 'pattern' => 'admin-dashboard'],
+        ['label' => 'Dashboard', 'href' => admin_path('dashboard'), 'pattern' => 'dashboard'],
         ['label' => 'Rooms', 'href' => admin_path('rooms'), 'pattern' => 'rooms*'],
         ['label' => 'Tenants', 'href' => admin_path('tenants'), 'pattern' => 'tenants*'],
         ['label' => 'Bookings', 'href' => admin_path('bookings'), 'pattern' => 'bookings*'],

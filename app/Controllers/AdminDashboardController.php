@@ -19,4 +19,20 @@ class AdminDashboardController extends BaseController
             'bookingStatusBreakdown' => $report['bookingStatusBreakdown'],
         ]);
     }
+
+    public function lndex(): string
+    {
+        $controller = auth_role() === 'admin'
+            ? new AdminDashboardController()
+            : new TenantDashboardController();
+
+        $controller->initController($this->request, $this->response, service('logger'));
+
+        return $controller->index();
+    }
+
+    public function legacyAdminRedirect()
+    {
+        return redirect()->to(admin_path('dashboard'));
+    }
 }

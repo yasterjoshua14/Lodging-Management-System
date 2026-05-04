@@ -27,7 +27,7 @@ $routes->group('', ['filter' => ['guest:tenant']], static function ($routes) {
 });
 
 $routes->group('', ['filter' => ['guest:admin']], static function ($routes) {
-    $routes->get('admin-login', 'AuthController::showAdminLogin');
+    $routes->post('admin', 'AuthController::loginAdmin');
     $routes->post('admin-login', 'AuthController::loginAdmin');
     $routes->get('admin-forgot-password', 'PasswordResetController::showAdminRequest');
     $routes->post('admin-forgot-password', 'PasswordResetController::requestAdmin');
@@ -39,9 +39,9 @@ $routes->group('', ['filter' => ['guest:admin']], static function ($routes) {
 });
 
 $routes->post('logout', 'AuthController::logout', ['filter' => ['auth']]);
+$routes->get('dashboard', 'AdminDashboardController::index', ['filter' => ['auth', 'role:admin,tenant']]);
 
 $routes->group('', ['filter' => ['auth:tenant', 'role:tenant']], static function ($routes) {
-    $routes->get('dashboard', 'TenantDashboardController::index');
     $routes->get('search', 'SearchController::tenant');
     $routes->get('myBookings', 'TenantBookingsController::index');
     $routes->get('myAccount', 'TenantAccountController::index');
@@ -49,7 +49,8 @@ $routes->group('', ['filter' => ['auth:tenant', 'role:tenant']], static function
 });
 
 $routes->group('', ['filter' => ['auth:admin', 'role:admin']], static function ($routes) {
-    $routes->get('admin-dashboard', 'AdminDashboardController::index');
+    $routes->get('admin-dashboard', 'DashboardController::legacyAdminRedirect');
+    $routes->get('admin/dashboard', 'DashboardController::legacyAdminRedirect');
     $routes->get('admin-search', 'SearchController::admin');
 
     $routes->get('rooms', 'AdminRoomsController::index');
@@ -84,9 +85,9 @@ $routes->addRedirect('tenant/search', 'search');
 $routes->addRedirect('tenant/bookings', 'myBookings');
 $routes->addRedirect('tenant/account', 'myAccount');
 
-$routes->addRedirect('admin/login', 'admin-login');
+$routes->addRedirect('admin-login', 'admin');
+$routes->addRedirect('admin/login', 'admin');
 $routes->addRedirect('admin/forgot-password', 'admin-forgot-password');
-$routes->addRedirect('admin/dashboard', 'admin-dashboard');
 $routes->addRedirect('admin/search', 'admin-search');
 $routes->addRedirect('admin/rooms', 'rooms');
 $routes->addRedirect('admin/rooms/create', 'rooms/create');
