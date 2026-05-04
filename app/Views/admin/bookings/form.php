@@ -58,12 +58,12 @@ $heading  ??= 'Booking';
 
             <div>
                 <label for="check_in">Check-in Date</label>
-                <input type="date" id="check_in" name="check_in" value="<?= view_esc(old('check_in', $booking['check_in'] ?? '')) ?>" required>
+                <input type="date" id="check_in" name="check_in" value="<?= view_esc(old('check_in', $booking['check_in'] ?? '')) ?>" >
             </div>
 
             <div>
                 <label for="check_out">Check-out Date</label>
-                <input type="date" id="check_out" name="check_out" value="<?= view_esc(old('check_out', $booking['check_out'] ?? '')) ?>" required>
+                <input type="date" id="check_out" name="check_out" value="<?= view_esc(old('check_out', $booking['check_out'] ?? '')) ?>" >
             </div>
 
             <div>
@@ -82,7 +82,7 @@ $heading  ??= 'Booking';
 
             <div class="full-span">
                 <label for="notes">Notes</label>
-                <textarea id="notes" name="notes" placeholder="Optional booking remarks"><?= view_esc(old('notes', $booking['notes'] ?? '')) ?></textarea>
+                <textarea id="notes" name="notes" placeholder="(Optional) booking remarks"><?= view_esc(old('notes', $booking['notes'] ?? '')) ?></textarea>
             </div>
         </div>
 
