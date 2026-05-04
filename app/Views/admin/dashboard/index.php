@@ -50,329 +50,6 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
 <?php $this->extend('layouts/main'); ?>
 
 <?php $this->section('content'); ?>
-    <style>
-        .interactive-card {
-            overflow: hidden;
-        }
-
-        .interactive-head {
-            align-items: flex-start;
-        }
-
-        .toggle-group {
-            display: inline-flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            padding: 6px;
-            border-radius: 999px;
-            border: 1px solid var(--line);
-            background: rgba(255, 255, 255, 0.55);
-        }
-
-        .graph-toggle {
-            border: 0;
-            padding: 10px 14px;
-            border-radius: 999px;
-            background: transparent;
-            color: var(--muted);
-            font: inherit;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s ease;
-        }
-
-        .graph-toggle:hover,
-        .graph-toggle:focus-visible,
-        .column-bar:focus-visible,
-        .legend-item:focus-visible {
-            color: var(--accent-dark);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(139, 94, 52, 0.22);
-        }
-
-        .graph-toggle.is-active {
-            color: var(--accent-dark);
-            background: linear-gradient(135deg, var(--accent-soft), rgba(255, 255, 255, 0.95));
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.76);
-        }
-
-        .chart-summary {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 18px;
-            padding: 18px;
-            border-radius: 20px;
-            border: 1px solid rgba(221, 203, 185, 0.84);
-            background: rgba(255, 255, 255, 0.46);
-        }
-
-        .chart-summary p,
-        .summary-pill p {
-            margin: 6px 0 0;
-        }
-
-        .chart-kicker {
-            display: block;
-            color: var(--muted);
-            font-size: 0.76rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        .chart-focus {
-            display: block;
-            margin: 6px 0 0;
-            font-size: clamp(1.4rem, 3vw, 2rem);
-            line-height: 1.08;
-        }
-
-        .summary-pill {
-            min-width: 190px;
-            padding: 14px 16px;
-            border-radius: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.88);
-            background: rgba(255, 255, 255, 0.82);
-        }
-
-        .summary-pill strong {
-            display: block;
-            margin-top: 6px;
-            font-size: 1.05rem;
-        }
-
-        .chart-scroll {
-            overflow-x: auto;
-            padding-bottom: 4px;
-        }
-
-        .column-chart {
-            min-width: 470px;
-            min-height: 316px;
-            display: grid;
-            grid-template-columns: repeat(6, minmax(64px, 1fr));
-            gap: 14px;
-            align-items: end;
-        }
-
-        .column-bar {
-            border: 0;
-            padding: 0;
-            background: transparent;
-            color: inherit;
-            text-align: left;
-            cursor: pointer;
-            display: grid;
-            gap: 10px;
-            transition: opacity 0.2s ease;
-        }
-
-        .column-bar.is-dim {
-            opacity: 0.7;
-        }
-
-        .column-bar-top {
-            min-height: 2.3em;
-            display: block;
-            color: var(--accent-dark);
-            font-size: 0.82rem;
-            font-weight: 700;
-        }
-
-        .column-bar-tower {
-            min-height: 220px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-        }
-
-        .column-bar-rod {
-            width: min(56px, 100%);
-            height: var(--bar-height);
-            min-height: 12px;
-            border-radius: 18px 18px 10px 10px;
-            background: linear-gradient(180deg, #c89b70 0%, var(--accent) 55%, var(--accent-dark) 100%);
-            box-shadow: 0 16px 24px rgba(94, 59, 29, 0.16);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
-        }
-
-        .column-bar.is-active .column-bar-rod,
-        .column-bar:hover .column-bar-rod,
-        .column-bar:focus-visible .column-bar-rod {
-            transform: translateY(-4px);
-            box-shadow: 0 22px 30px rgba(94, 59, 29, 0.22);
-        }
-
-        .column-bar-label {
-            display: block;
-            font-size: 0.84rem;
-            font-weight: 700;
-        }
-
-        .column-bar-note {
-            display: block;
-            color: var(--muted);
-            font-size: 0.78rem;
-        }
-
-        .status-layout {
-            display: grid;
-            grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.1fr);
-            gap: 22px;
-            align-items: center;
-        }
-
-        .status-ring-panel {
-            display: grid;
-            place-items: center;
-        }
-
-        .status-ring-shell {
-            position: relative;
-            width: min(250px, 100%);
-            aspect-ratio: 1;
-        }
-
-        .status-ring {
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            background: conic-gradient(var(--accent-soft) 0 100%);
-            transition: transform 0.35s ease, filter 0.25s ease;
-        }
-
-        .status-ring::after {
-            content: '';
-            position: absolute;
-            inset: 23%;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.96);
-            box-shadow: inset 0 0 0 1px rgba(221, 203, 185, 0.72);
-        }
-
-        .status-ring-core {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-            display: grid;
-            place-content: center;
-            text-align: center;
-            padding: 26%;
-        }
-
-        .status-ring-core p {
-            margin: 6px 0 0;
-        }
-
-        .status-legend {
-            display: grid;
-            gap: 12px;
-        }
-
-        .legend-item {
-            border: 1px solid rgba(221, 203, 185, 0.82);
-            padding: 14px 16px;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.46);
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            align-items: center;
-            gap: 12px;
-            text-align: left;
-            cursor: pointer;
-            transition: 0.2s ease;
-        }
-
-        .legend-item.is-active {
-            transform: translateY(-1px);
-            border-color: rgba(94, 59, 29, 0.28);
-            background: rgba(255, 255, 255, 0.82);
-        }
-
-        .legend-swatch {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--swatch);
-            box-shadow: 0 0 0 5px var(--swatch-soft);
-        }
-
-        .legend-copy {
-            display: grid;
-            gap: 4px;
-        }
-
-        .legend-copy strong,
-        .legend-copy span,
-        .legend-value {
-            margin: 0;
-        }
-
-        .legend-copy span {
-            color: var(--muted);
-            font-size: 0.84rem;
-        }
-
-        .legend-value {
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .graph-empty {
-            padding: 32px 18px;
-            border: 1px dashed var(--line);
-            border-radius: 20px;
-            text-align: center;
-            color: var(--muted);
-            background: rgba(255, 255, 255, 0.36);
-        }
-
-        @media (max-width: 920px) {
-            .status-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .chart-summary {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .summary-pill {
-                min-width: 0;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .interactive-head {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .toggle-group {
-                width: 100%;
-            }
-
-            .graph-toggle {
-                flex: 1 1 auto;
-                text-align: center;
-            }
-
-            .column-chart {
-                min-width: 420px;
-            }
-
-            .legend-item {
-                grid-template-columns: auto 1fr;
-            }
-
-            .legend-value {
-                grid-column: 2;
-            }
-        }
-    </style>
-
     <div class="section-head">
         <div>
             <h2>Operations Dashboard</h2>
@@ -387,7 +64,7 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                     <h2>Revenue Trend Explorer</h2>
                     <p>Switch between booked revenue and booking volume for each month.</p>
                 </div>
-                <div class="toggle-group" aria-label="Revenue trend metric">
+                <div class="toggle-group1" aria-label="Revenue trend metric">
                     <button type="button" class="graph-toggle is-active" data-trend-metric="amount" aria-pressed="true">Revenue</button>
                     <button type="button" class="graph-toggle" data-trend-metric="bookings" aria-pressed="false">Bookings</button>
                 </div>
@@ -421,7 +98,7 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                     <h2>Status Explorer</h2>
                     <p>Compare revenue pipeline, booking stages, and room inventory from one graph.</p>
                 </div>
-                <div class="toggle-group" aria-label="Status explorer mode">
+                <div class="toggle-group2" aria-label="Status explorer mode">
                     <button type="button" class="graph-toggle is-active" data-status-mode="revenue" aria-pressed="true">Revenue</button>
                     <button type="button" class="graph-toggle" data-status-mode="bookings" aria-pressed="false">Bookings</button>
                     <button type="button" class="graph-toggle" data-status-mode="rooms" aria-pressed="false">Rooms</button>
@@ -449,7 +126,7 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
         </article>
     </section>
 
-    <section class="card" style="margin-top: 22px;">
+    <section class="card card--stacked">
         <div class="list-head">
             <div>
                 <h2>Recent Bookings</h2>
@@ -593,7 +270,7 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                 },
                 rooms: {
                     items: analytics.roomsByStatus,
-                    totalLabel: 'Room inventory',
+                    totalLabel: 'Total Room',
                     value: (item) => Number(item.count || 0),
                     valueText: (item) => `${Number(item.count || 0).toLocaleString()} rooms`,
                     totalText: (total) => `${Number(total).toLocaleString()} rooms`,
@@ -618,6 +295,12 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
 
             function getStatusColor(status) {
                 return statusColors[status] ?? { solid: '#8b5e34', soft: '#efdfcd' };
+            }
+
+            function getStatusClassName(status) {
+                const normalized = typeof status === 'string' ? status.toLowerCase() : 'default';
+
+                return normalized.replace(/[^a-z0-9_-]+/g, '-');
             }
 
             function hexToRgba(hex, alpha) {
@@ -688,13 +371,15 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
 
                 trendChart.innerHTML = items.map((item, index) => {
                     const value = config.value(item);
-                    const height = peakValue > 0 ? Math.max((value / peakValue) * 100, 8) : 8;
+                    const height = peakValue > 0
+                        ? Math.min(100, Math.max(Math.round((value / peakValue) * 100), 8))
+                        : 8;
 
                     return `
                         <button type="button" class="column-bar ${index === state.trendActive ? 'is-active' : 'is-dim'}" data-trend-index="${index}">
                             <span class="column-bar-top">${config.topValue(item)}</span>
                             <span class="column-bar-tower">
-                                <span class="column-bar-rod" style="--bar-height: ${height.toFixed(1)}%;"></span>
+                                <span class="column-bar-rod bar-height-${height}"></span>
                             </span>
                             <span class="column-bar-label">${item.label}</span>
                             <span class="column-bar-note">${config.note(item)}</span>
@@ -770,7 +455,7 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
 
                 statusLegend.innerHTML = segments.map((segment, index) => `
                     <button type="button" class="legend-item ${index === state.statusActive ? 'is-active' : ''}" data-status-index="${index}">
-                        <span class="legend-swatch" style="--swatch: ${segment.colors.solid}; --swatch-soft: ${segment.colors.soft};"></span>
+                        <span class="legend-swatch legend-swatch--${getStatusClassName(segment.status)}"></span>
                         <span class="legend-copy">
                             <strong>${segment.label}</strong>
                             <span>${config.secondary(segment, total)}</span>
