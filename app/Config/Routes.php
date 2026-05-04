@@ -10,6 +10,7 @@ $routes->get('tenant', 'Home::index');
 $routes->get('tenant/', 'Home::index');
 $routes->get('admin', 'Home::admin');
 $routes->get('admin/', 'Home::admin');
+$routes->get('assets/theme.css', 'AssetController::themeCss');
 
 $routes->group('', ['filter' => ['guest:tenant']], static function ($routes) {
     $routes->get('login', 'AuthController::showTenantLogin');
@@ -41,6 +42,7 @@ $routes->post('logout', 'AuthController::logout', ['filter' => ['auth']]);
 
 $routes->group('', ['filter' => ['auth:tenant', 'role:tenant']], static function ($routes) {
     $routes->get('dashboard', 'TenantDashboardController::index');
+    $routes->get('search', 'SearchController::tenant');
     $routes->get('myBookings', 'TenantBookingsController::index');
     $routes->get('myAccount', 'TenantAccountController::index');
     $routes->post('myAccount', 'TenantAccountController::update');
@@ -48,6 +50,7 @@ $routes->group('', ['filter' => ['auth:tenant', 'role:tenant']], static function
 
 $routes->group('', ['filter' => ['auth:admin', 'role:admin']], static function ($routes) {
     $routes->get('admin-dashboard', 'AdminDashboardController::index');
+    $routes->get('admin-search', 'SearchController::admin');
 
     $routes->get('rooms', 'AdminRoomsController::index');
     $routes->get('rooms/create', 'AdminRoomsController::create');
@@ -77,12 +80,14 @@ $routes->addRedirect('tenant/login', 'login');
 $routes->addRedirect('tenant/register', 'register');
 $routes->addRedirect('tenant/forgot-password', 'forgot-password');
 $routes->addRedirect('tenant/dashboard', 'dashboard');
+$routes->addRedirect('tenant/search', 'search');
 $routes->addRedirect('tenant/bookings', 'myBookings');
 $routes->addRedirect('tenant/account', 'myAccount');
 
 $routes->addRedirect('admin/login', 'admin-login');
 $routes->addRedirect('admin/forgot-password', 'admin-forgot-password');
 $routes->addRedirect('admin/dashboard', 'admin-dashboard');
+$routes->addRedirect('admin/search', 'admin-search');
 $routes->addRedirect('admin/rooms', 'rooms');
 $routes->addRedirect('admin/rooms/create', 'rooms/create');
 $routes->addRedirect('admin/tenants', 'tenants');
