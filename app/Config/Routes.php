@@ -39,7 +39,7 @@ $routes->group('', ['filter' => ['guest:admin']], static function ($routes) {
 });
 
 $routes->post('logout', 'AuthController::logout', ['filter' => ['auth']]);
-$routes->get('dashboard', 'AdminDashboardController::index', ['filter' => ['auth', 'role:admin,tenant']]);
+$routes->get('dashboard', 'AdminDashboardController::lndex', ['filter' => ['auth', 'role:admin,tenant']]);
 
 $routes->group('', ['filter' => ['auth:tenant', 'role:tenant']], static function ($routes) {
     $routes->get('search', 'SearchController::tenant');
