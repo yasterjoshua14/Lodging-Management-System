@@ -49,8 +49,6 @@ $routes->group('', ['filter' => ['auth:tenant', 'role:tenant']], static function
 });
 
 $routes->group('', ['filter' => ['auth:admin', 'role:admin']], static function ($routes) {
-    $routes->get('admin-dashboard', 'DashboardController::legacyAdminRedirect');
-    $routes->get('admin/dashboard', 'DashboardController::legacyAdminRedirect');
     $routes->get('admin-search', 'SearchController::admin');
 
     $routes->get('rooms', 'AdminRoomsController::index');
