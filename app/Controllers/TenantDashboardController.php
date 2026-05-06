@@ -35,6 +35,7 @@ class TenantDashboardController extends BaseController
             ->withRelations()
             ->where('bookings.tenant_id', $tenantId)
             ->where('bookings.check_out >=', $today)
+            ->where('bookings.status !=', 'cancelled')
             ->orderBy('bookings.check_in', 'ASC')
             ->first();
 

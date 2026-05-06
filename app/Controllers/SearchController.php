@@ -52,7 +52,7 @@ class SearchController extends BaseController
         $sections = [
             $this->buildSection(
                 'Quick Links',
-                'Jump to your dashboard, bookings, and account pages.',
+                'Jump to your dashboard, rooms, bookings, and account pages.',
                 $this->filterQuickLinks($this->tenantQuickLinks(), $query),
                 'No portal pages matched that search.'
             ),
@@ -72,7 +72,7 @@ class SearchController extends BaseController
 
         return view('search/index', $this->buildViewData(
             'Portal Search',
-            'Search your bookings, account details, and portal pages from one place.',
+            'Search your booking history, account details, and portal pages from one place.',
             $query,
             $sections
         ));
@@ -143,7 +143,8 @@ class SearchController extends BaseController
     {
         return [
             $this->makeItem('Dashboard', 'Review your upcoming stays and recent account activity.', tenant_path('dashboard'), 'Portal page'),
-            $this->makeItem('My Bookings', 'Open your booking history and stay schedule.', tenant_path('myBookings'), 'Portal page'),
+            $this->makeItem('Rooms', 'Search room availability and start a new booking.', tenant_path('myRooms'), 'Portal page'),
+            $this->makeItem('My Bookings', 'Open your booking history, payments, and stay schedule.', tenant_path('myBookings'), 'Portal page'),
             $this->makeItem('My Account', 'Update your contact details, ID information, and profile.', tenant_path('account'), 'Portal page'),
         ];
     }
