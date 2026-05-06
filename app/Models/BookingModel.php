@@ -20,6 +20,10 @@ class BookingModel extends Model
         'total_amount',
         'status',
         'notes',
+        'checkout_session_id',
+        'checkout_url',
+        'payment_reference',
+        'payment_paid_at',
     ];
 
     protected bool $allowEmptyInserts = false;

@@ -28,6 +28,7 @@ class AdminReportModel extends Model
      * @var array<string, string>
      */
     private const BOOKING_STATUS_LABELS = [
+        'awaiting_payment' => 'Awaiting Payment',
         'pending'     => 'Pending',
         'checked_in'  => 'Checked In',
         'checked_out' => 'Checked Out',
@@ -38,6 +39,7 @@ class AdminReportModel extends Model
      * @var array<string, string>
      */
     private const REVENUE_LABELS = [
+        'awaiting_payment' => 'Awaiting Payment',
         'pending'     => 'Pending Revenue',
         'checked_in'  => 'In-House Revenue',
         'checked_out' => 'Realized Earnings',
@@ -264,7 +266,7 @@ class AdminReportModel extends Model
         $totalStays  = 0;
 
         foreach ($bookings as $booking) {
-            if (($booking['status'] ?? '') === 'cancelled') {
+            if (in_array($booking['status'] ?? '', ['awaiting_payment', 'cancelled'], true)) {
                 continue;
             }
 
@@ -332,7 +334,7 @@ class AdminReportModel extends Model
         }
 
         foreach ($bookings as $booking) {
-            if (($booking['status'] ?? '') === 'cancelled') {
+            if (in_array($booking['status'] ?? '', ['awaiting_payment', 'cancelled'], true)) {
                 continue;
             }
 
@@ -386,7 +388,7 @@ class AdminReportModel extends Model
         }
 
         foreach ($bookings as $booking) {
-            if (($booking['status'] ?? '') === 'cancelled') {
+            if (in_array($booking['status'] ?? '', ['awaiting_payment', 'cancelled'], true)) {
                 continue;
             }
 
