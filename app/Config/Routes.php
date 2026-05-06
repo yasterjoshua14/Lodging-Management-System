@@ -6,11 +6,8 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
-$routes->get('tenant', 'Home::index');
-$routes->get('tenant/', 'Home::index');
 $routes->get('admin', 'Home::admin');
-$routes->get('admin/', 'Home::admin');
-$routes->get('assets/theme.css', 'AssetController::themeCss');
+$routes->get('assets/theme', 'AssetController::themeCss');
 
 $routes->group('', ['filter' => ['guest:tenant']], static function ($routes) {
     $routes->get('login', 'AuthController::showTenantLogin');
@@ -44,6 +41,10 @@ $routes->get('dashboard', 'AdminDashboardController::lndex', ['filter' => ['auth
 $routes->group('', ['filter' => ['auth:tenant', 'role:tenant']], static function ($routes) {
     $routes->get('search', 'SearchController::tenant');
     $routes->get('myBookings', 'TenantBookingsController::index');
+    $routes->post('myBookings/book', 'TenantBookingsController::book');
+    $routes->get('myBookings/payment/success', 'TenantBookingsController::paymentSuccess');
+    $routes->get('myBookings/payment/cancel', 'TenantBookingsController::paymentCancel');
+    $routes->post('myBookings/(:num)/cancel', 'TenantBookingsController::cancel/$1');
     $routes->get('myAccount', 'TenantAccountController::index');
     $routes->post('myAccount', 'TenantAccountController::update');
 });
