@@ -717,6 +717,20 @@ label {
     font-weight: 700;
 }
 
+.form-error,
+.form-hint {
+    margin: 8px 0 0;
+    font-size: 0.84rem;
+}
+
+.form-error {
+    color: #f29a9a;
+}
+
+.form-hint {
+    color: gray;
+}
+
 input,
 select,
 textarea {
@@ -1725,6 +1739,11 @@ tr:last-child td {
         .legend-swatch--pending {
             background: #8b5e34;
             box-shadow: 0 0 0 5px #efdfcd;
+        }
+
+        .legend-swatch--awaiting_payment {
+            background: #5d80c5;
+            box-shadow: 0 0 0 5px #dbe6ff;
         }
 
         .legend-swatch--checked_in,
