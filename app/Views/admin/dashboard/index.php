@@ -194,6 +194,7 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
             });
 
             const statusColors = {
+                awaiting_payment: { solid: '#5d80c5', soft: '#dbe6ff' },
                 pending: { solid: '#8b5e34', soft: '#efdfcd' },
                 checked_in: { solid: '#ae7320', soft: '#faebd4' },
                 checked_out: { solid: '#2d7a5c', soft: '#d7eee4' },

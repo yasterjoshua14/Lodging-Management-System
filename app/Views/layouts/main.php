@@ -27,6 +27,7 @@ $navItems = $isAdminApp
     ]
     : [
         ['label' => 'Dashboard', 'href' => tenant_path('dashboard'), 'pattern' => 'dashboard'],
+        ['label' => 'Rooms', 'href' => tenant_path('myRooms'), 'pattern' => 'myRooms*'],
         ['label' => 'My Bookings', 'href' => tenant_path('myBookings'), 'pattern' => 'myBookings'],
         ['label' => 'My Account', 'href' => tenant_path('myAccount'), 'pattern' => 'myAccount'],
     ];
@@ -44,7 +45,7 @@ $contentTitle = trim((string) ($title ?? ''));
 $contentTitle = $contentTitle !== '' ? $contentTitle : ($activeNavItem['label'] ?? 'Content');
 
 $themeCssPath = APPPATH . 'Views/theme/style.css';
-$themeStylesheetUrl = site_url('assets/theme.css');
+$themeStylesheetUrl = site_url('assets/theme');
 $alertsScript = '';
 $alertsScriptPath = APPPATH . 'Views/partials/alerts.js';
 $usePopupAlerts = $currentUser !== null;
@@ -82,7 +83,8 @@ $bodyClasses = implode(' ', [
         <?php if ($currentUser !== null): ?>
             <?= view('layouts/navbar', [
                 'brandCaption'     => $brandCaption,
-                'brandMark'        => $brandMark,                    'brandName'       => $brandName,
+                'brandMark'        => $brandMark,
+                'brandName'       => $brandName,
                 'contentTitle'     => $contentTitle,
                 'currentUserEmail' => $currentUserEmail,
                 'currentUserName'  => $currentUserName,
