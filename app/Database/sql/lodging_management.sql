@@ -94,6 +94,10 @@ CREATE TABLE `bookings` (
     `total_amount` DECIMAL(10,2) NOT NULL,
     `status` VARCHAR(20) NOT NULL DEFAULT 'pending',
     `notes` TEXT NULL DEFAULT NULL,
+    `checkout_session_id` VARCHAR(100) NULL DEFAULT NULL,
+    `checkout_url` TEXT NULL DEFAULT NULL,
+    `payment_reference` VARCHAR(120) NULL DEFAULT NULL,
+    `payment_paid_at` DATETIME NULL DEFAULT NULL,
     `created_at` DATETIME NULL DEFAULT NULL,
     `updated_at` DATETIME NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
@@ -118,8 +122,8 @@ INSERT INTO `users` (`id`, `full_name`, `email`, `recovery_phone`, `role`, `tena
     (1, 'Demo Manager', 'admin@lodging.test', '09170000000', 'admin', NULL, '$2y$10$DFPFFGmAi6jxCh5jY67k/enp1iLyVCx4cnvj6zxQ5fnD/8end9sLC', '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
     (2, 'Maria Santos', 'maria@example.com', NULL, 'tenant', 1, '$2y$10$DFPFFGmAi6jxCh5jY67k/enp1iLyVCx4cnvj6zxQ5fnD/8end9sLC', '2026-04-19 00:00:00', '2026-04-19 00:00:00');
 
-INSERT INTO `bookings` (`id`, `room_id`, `tenant_id`, `check_in`, `check_out`, `total_amount`, `status`, `notes`, `created_at`, `updated_at`) VALUES
-    (1, 1, 1, '2026-04-21', '2026-04-24', 5400.00, 'pending', 'Arrival expected in the afternoon.', '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
-    (2, 2, 2, '2026-04-18', '2026-04-22', 11200.00, 'checked_in', 'Extended stay guest.', '2026-04-19 00:00:00', '2026-04-19 00:00:00');
+INSERT INTO `bookings` (`id`, `room_id`, `tenant_id`, `check_in`, `check_out`, `total_amount`, `status`, `notes`, `checkout_session_id`, `checkout_url`, `payment_reference`, `payment_paid_at`, `created_at`, `updated_at`) VALUES
+    (1, 1, 1, '2026-04-21', '2026-04-24', 5400.00, 'pending', 'Arrival expected in the afternoon.', NULL, NULL, NULL, NULL, '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
+    (2, 2, 2, '2026-04-18', '2026-04-22', 11200.00, 'checked_in', 'Extended stay guest.', NULL, NULL, NULL, NULL, '2026-04-19 00:00:00', '2026-04-19 00:00:00');
 
 SET FOREIGN_KEY_CHECKS = 1;
