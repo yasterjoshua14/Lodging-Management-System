@@ -27,6 +27,7 @@ if (! function_exists('booking_status_options')) {
     function booking_status_options(): array
     {
         return [
+            'awaiting_payment' => 'Awaiting Payment',
             'pending'     => 'Pending',
             'checked_in'  => 'Checked In',
             'checked_out' => 'Checked Out',
@@ -53,6 +54,7 @@ if (! function_exists('status_badge_class')) {
             'available', 'checked_out' => 'badge badge-success',
             'occupied', 'checked_in'   => 'badge badge-warning',
             'maintenance', 'cancelled' => 'badge badge-muted',
+            'awaiting_payment', 'pending' => 'badge badge-info',
             default                    => 'badge badge-info',
         };
     }
