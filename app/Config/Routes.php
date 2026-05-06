@@ -40,6 +40,8 @@ $routes->get('dashboard', 'AdminDashboardController::lndex', ['filter' => ['auth
 
 $routes->group('', ['filter' => ['auth:tenant', 'role:tenant']], static function ($routes) {
     $routes->get('search', 'SearchController::tenant');
+    $routes->get('myRooms', 'TenantBookingsController::rooms');
+    $routes->post('myRooms/book', 'TenantBookingsController::book');
     $routes->get('myBookings', 'TenantBookingsController::index');
     $routes->post('myBookings/book', 'TenantBookingsController::book');
     $routes->get('myBookings/payment/success', 'TenantBookingsController::paymentSuccess');
@@ -81,6 +83,7 @@ $routes->addRedirect('tenant/register', 'register');
 $routes->addRedirect('tenant/forgot-password', 'forgot-password');
 $routes->addRedirect('tenant/dashboard', 'dashboard');
 $routes->addRedirect('tenant/search', 'search');
+$routes->addRedirect('tenant/rooms', 'myRooms');
 $routes->addRedirect('tenant/bookings', 'myBookings');
 $routes->addRedirect('tenant/account', 'myAccount');
 
