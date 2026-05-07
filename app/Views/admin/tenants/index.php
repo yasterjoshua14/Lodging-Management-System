@@ -14,7 +14,6 @@ $tenants ??= [];
     <div class="section-head">
         <div>
             <h2>Tenants</h2>
-            <p>Maintain guest identity, contact, and emergency information.</p>
         </div>
 
         <a href="<?= view_esc(admin_path('tenants/create')) ?>" class="btn btn-primary">Add Tenant</a>

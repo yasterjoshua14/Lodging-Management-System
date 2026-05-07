@@ -30,7 +30,6 @@ $rooms ??= [];
     <div class="section-head">
         <div>
             <h2>Rooms</h2>
-            <p>Manage room inventory, pricing, and current room status.</p>
         </div>
 
         <a href="<?= view_esc(admin_path('rooms/create')) ?>" class="btn btn-primary">Add Room</a>

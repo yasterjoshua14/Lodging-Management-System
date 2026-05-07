@@ -12,7 +12,6 @@ $bookings ??= [];
     <div class="section-head">
         <div>
             <h2>Bookings</h2>
-            <p>Track guest stays, date ranges, and booking status updates.</p>
         </div>
 
         <a href="<?= view_esc(admin_path('bookings/create')) ?>" class="btn btn-primary">Add Booking</a>

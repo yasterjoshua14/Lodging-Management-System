@@ -53,7 +53,6 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
     <div class="section-head">
         <div>
             <h2>Operations Dashboard</h2>
-            <p>Focus on monthly revenue movement, status distribution, and booking activity.</p>
         </div>
     </div>
 
@@ -62,7 +61,6 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
             <div class="list-head interactive-head">
                 <div>
                     <h2>Revenue Trend Explorer</h2>
-                    <p>Switch between booked revenue and booking volume for each month.</p>
                 </div>
                 <div class="toggle-group1" aria-label="Revenue trend metric">
                     <button type="button" class="graph-toggle is-active" data-trend-metric="amount" aria-pressed="true">Revenue</button>
@@ -96,7 +94,6 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
             <div class="list-head interactive-head">
                 <div>
                     <h2>Status Explorer</h2>
-                    <p>Compare revenue pipeline, booking stages, and room inventory from one graph.</p>
                 </div>
                 <div class="toggle-group2" aria-label="Status explorer mode">
                     <button type="button" class="graph-toggle is-active" data-status-mode="revenue" aria-pressed="true">Revenue</button>
@@ -130,7 +127,6 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
         <div class="list-head">
             <div>
                 <h2>Recent Bookings</h2>
-                <p>Most recent booking activity captured by the system.</p>
             </div>
             <a href="<?= view_esc(admin_path('bookings')) ?>" class="link-inline">Manage bookings</a>
         </div>
