@@ -28,7 +28,6 @@ $tenantPhone       = (string) (($tenant['phone'] ?? '') ?: 'No phone number on f
     <div class="section-head">
         <div>
             <h2>My Dashboard</h2>
-            <p>Track your stays, upcoming reservations, and account-linked lodging activity.</p>
         </div>
     </div>
 
@@ -36,25 +35,21 @@ $tenantPhone       = (string) (($tenant['phone'] ?? '') ?: 'No phone number on f
         <article class="card">
             <div class="stat-label">Total Bookings</div>
             <p class="stat-value"><?= view_esc((string) $stats['totalBookings']) ?></p>
-            <div class="stat-note">All reservations linked to your tenant account</div>
         </article>
 
         <article class="card">
             <div class="stat-label">Upcoming Stays</div>
             <p class="stat-value"><?= view_esc((string) $stats['upcomingBookings']) ?></p>
-            <div class="stat-note">Reservations with a future check-in date</div>
         </article>
 
         <article class="card">
             <div class="stat-label">Active Stays</div>
             <p class="stat-value"><?= view_esc((string) $stats['activeStays']) ?></p>
-            <div class="stat-note">Bookings currently in progress</div>
         </article>
 
         <article class="card">
             <div class="stat-label">Completed Stays</div>
             <p class="stat-value"><?= view_esc((string) $stats['completedStays']) ?></p>
-            <div class="stat-note">Past stays already checked out</div>
         </article>
     </section>
 
@@ -63,7 +58,6 @@ $tenantPhone       = (string) (($tenant['phone'] ?? '') ?: 'No phone number on f
             <div class="list-head">
                 <div>
                     <h2>Next Booking</h2>
-                    <p>Your nearest current or upcoming reservation.</p>
                 </div>
             </div>
 
@@ -103,7 +97,6 @@ $tenantPhone       = (string) (($tenant['phone'] ?? '') ?: 'No phone number on f
             <div class="list-head">
                 <div>
                     <h2>Profile Snapshot</h2>
-                    <p>The tenant record attached to this tenant portal login.</p>
                 </div>
             </div>
 
@@ -136,7 +129,6 @@ $tenantPhone       = (string) (($tenant['phone'] ?? '') ?: 'No phone number on f
         <div class="list-head">
             <div>
                 <h2>Recent Activity</h2>
-                <p>Your latest booking records.</p>
             </div>
             <a href="<?= view_esc(tenant_path('myBookings')) ?>" class="link-inline">Open booking history</a>
         </div>

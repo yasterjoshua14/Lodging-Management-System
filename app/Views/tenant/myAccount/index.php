@@ -17,7 +17,6 @@ $tenantId          = (string) ($tenant['id'] ?? '');
     <div class="section-head">
         <div>
             <h2>My Account</h2>
-            <p>Update the personal details linked to your tenant profile and tenant portal login.</p>
         </div>
     </div>
 
@@ -43,6 +42,7 @@ $tenantId          = (string) ($tenant['id'] ?? '');
             <div class="detail-item">
                 <label for="address">Address</label>
                 <input type="text" id="address" name="address" value="<?= view_esc(old('address', $tenant['address'] ?? '')) ?>" placeholder="Street, city, state/province, postal code">
+                <p>(Optional) Your current address for communication purposes.</p>
             </div>
 
             <div class="detail-item">
@@ -81,7 +81,6 @@ $tenantId          = (string) ($tenant['id'] ?? '');
             <article class="detail-item">
                 <h3>Tenant ID</h3>
                 <div class="detail-value">#<?= view_esc($tenantId) ?></div>
-                <p>Your tenant ID cannot be change.</p>
             </article>
         </section>
 

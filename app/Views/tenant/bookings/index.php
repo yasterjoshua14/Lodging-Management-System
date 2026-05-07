@@ -12,7 +12,6 @@ $bookings ??= [];
     <div class="section-head">
         <div>
             <h2>My Bookings</h2>
-            <p>Review your booking history, continue unpaid checkouts, or cancel unpaid room holds from one place.</p>
         </div>
 
         <a href="<?= view_esc(tenant_path('myRooms')) ?>" class="btn btn-primary">Browse Rooms</a>
@@ -22,7 +21,6 @@ $bookings ??= [];
         <div class="list-head">
             <div>
                 <h2>Booking History</h2>
-                <p>Track your secured stays and any unpaid room holds waiting for checkout completion.</p>
             </div>
         </div>
 

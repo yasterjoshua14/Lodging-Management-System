@@ -30,7 +30,6 @@ $normalizedSearchNotes = str_replace(["\r", "\n"], ' ', $search['notes']);
     <div class="section-head">
         <div>
             <h2>Rooms</h2>
-            <p>Browse available rooms from the admin-managed inventory, then complete payment through PayMongo to secure your stay.</p>
         </div>
     </div>
 
@@ -50,7 +49,6 @@ $normalizedSearchNotes = str_replace(["\r", "\n"], ' ', $search['notes']);
             <div class="section-head">
                 <div>
                     <h2>Available Rooms</h2>
-                    <p>Browse room number, type, capacity, rate, and live availability for the current stay dates.</p>
                 </div>
 
                 <?php if ($selectedRoom !== null): ?>
