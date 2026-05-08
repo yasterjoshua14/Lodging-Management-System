@@ -53,7 +53,8 @@ if (! function_exists('status_badge_class')) {
         return match ($value) {
             'available', 'checked_out' => 'badge badge-success',
             'occupied', 'checked_in'   => 'badge badge-warning',
-            'maintenance', 'cancelled' => 'badge badge-muted',
+            'maintenance'              => 'badge badge-neutral',
+            'cancelled'                => 'badge badge-muted',
             'awaiting_payment', 'pending' => 'badge badge-info',
             default                    => 'badge badge-info',
         };
