@@ -137,7 +137,6 @@ $normalizedSearchNotes = str_replace(["\r", "\n"], ' ', $search['notes']);
                 <div class="detail-item">
                     <h3>Guests</h3>
                     <div class="detail-value"><?= view_esc((string) $selectedRoom['capacity']) ?> guests</div>
-                    <p>Capacity from admin room inventory</p>
                 </div>
 
                 <div class="detail-item">
