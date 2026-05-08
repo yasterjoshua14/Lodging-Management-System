@@ -46,6 +46,7 @@ $contentTitle = $contentTitle !== '' ? $contentTitle : ($activeNavItem['label'] 
 
 $themeCssPath = APPPATH . 'Views/theme/style.css';
 $themeStylesheetUrl = site_url('assets/theme');
+$themeStorageKey = 'lms-theme';
 $alertsScript = '';
 $alertsScriptPath = APPPATH . 'Views/partials/alerts.js';
 $usePopupAlerts = $currentUser !== null;
@@ -76,6 +77,25 @@ $bodyClasses = implode(' ', [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= view_esc($title ?? 'Lodging Management System') ?></title>
+    <script>
+        (() => {
+            const storageKey = <?= json_encode($themeStorageKey) ?>;
+            const root = document.documentElement;
+
+            try {
+                const savedTheme = window.localStorage.getItem(storageKey);
+
+                if (savedTheme === 'light' || savedTheme === 'dark') {
+                    root.dataset.theme = savedTheme;
+                    return;
+                }
+            } catch (error) {
+                // Keep the default theme when storage is unavailable.
+            }
+
+            root.dataset.theme = 'dark';
+        })();
+    </script>
     <link rel="stylesheet" href="<?= view_esc($themeStylesheetUrl, 'attr') ?>">
 </head>
 <body class="<?= view_esc($bodyClasses, 'attr') ?>">
@@ -122,6 +142,48 @@ $bodyClasses = implode(' ', [
             </main>
         <?php endif; ?>
     </div>
+    <script>
+        (() => {
+            const storageKey = <?= json_encode($themeStorageKey) ?>;
+            const root = document.documentElement;
+            const themeToggle = document.querySelector('[data-theme-toggle]');
+
+            const getTheme = () => root.dataset.theme === 'light' ? 'light' : 'dark';
+
+            const applyTheme = (theme) => {
+                const isDarkMode = theme === 'dark';
+                const nextThemeLabel = isDarkMode ? 'Switch to light mode' : 'Switch to dark mode';
+
+                root.dataset.theme = theme;
+
+                if (!themeToggle) {
+                    return;
+                }
+
+                themeToggle.setAttribute('aria-pressed', isDarkMode ? 'true' : 'false');
+                themeToggle.setAttribute('aria-label', nextThemeLabel);
+                themeToggle.setAttribute('title', nextThemeLabel);
+            };
+
+            applyTheme(getTheme());
+
+            if (!themeToggle) {
+                return;
+            }
+
+            themeToggle.addEventListener('click', () => {
+                const nextTheme = getTheme() === 'dark' ? 'light' : 'dark';
+
+                applyTheme(nextTheme);
+
+                try {
+                    window.localStorage.setItem(storageKey, nextTheme);
+                } catch (error) {
+                    // Ignore storage failures after the UI updates.
+                }
+            });
+        })();
+    </script>
     <?php if ($usePopupAlerts && $alertsScript !== ''): ?>
         <script><?= $alertsScript ?></script>
     <?php endif; ?>
