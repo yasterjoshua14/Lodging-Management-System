@@ -399,10 +399,13 @@ textarea {
 }
 
 .navbar-search__button {
-    flex-shrink: 0;
-    white-space: nowrap;
-    min-width: 74px;
+    padding: 5px 15px 5px 11px;
+    border-color: rgba(100, 100, 100, 0.12);
+    min-width: 0;
+    flex: 1 1 auto;
     border-radius: 16px;
+    background: rgba(255, 255, 255, 0.02);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .theme-toggle.btn {
@@ -980,13 +983,9 @@ textarea {
 }
 
 .btn-secondary {
-    padding: 5px 11px 5px 11px;
-    border-color: rgba(100, 100, 100, 0.12);
-    min-width: 0;
-    flex: 1 1 auto;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.02);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  background: transparent;
+  color: white;
+  border: 1px solid #444;
 }
 
 .btn-danger {
