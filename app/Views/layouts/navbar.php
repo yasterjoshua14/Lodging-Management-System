@@ -36,7 +36,7 @@ $searchPlaceholder = $currentUserRole === 'admin'
                 value="<?= view_esc($searchQuery) ?>"
                 placeholder="<?= view_esc($searchPlaceholder) ?>"
             >
-            <button type="submit" class="btn btn-secondary navbar-search__button">Search</button>
+            <button type="submit" class="navbar-search__button">Search</button>
         </form>
 
         <div class="header-actions">
