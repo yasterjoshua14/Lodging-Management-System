@@ -147,6 +147,8 @@ $bodyClasses = implode(' ', [
             const storageKey = <?= json_encode($themeStorageKey) ?>;
             const root = document.documentElement;
             const themeToggle = document.querySelector('[data-theme-toggle]');
+            const sidebarToggle = document.querySelector('[data-sidebar-toggle]');
+            const pageBody = document.body;
 
             const getTheme = () => root.dataset.theme === 'light' ? 'light' : 'dark';
 
@@ -165,23 +167,39 @@ $bodyClasses = implode(' ', [
                 themeToggle.setAttribute('title', nextThemeLabel);
             };
 
-            applyTheme(getTheme());
+            const setSidebarState = (isCollapsed) => {
+                pageBody.classList.toggle('sidebar-collapsed', isCollapsed);
 
-            if (!themeToggle) {
-                return;
+                if (!sidebarToggle) {
+                    return;
+                }
+
+                sidebarToggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+            };
+
+            applyTheme(getTheme());
+            setSidebarState(false);
+
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    const nextTheme = getTheme() === 'dark' ? 'light' : 'dark';
+
+                    applyTheme(nextTheme);
+
+                    try {
+                        window.localStorage.setItem(storageKey, nextTheme);
+                    } catch (error) {
+                        // Ignore storage failures after the UI updates.
+                    }
+                });
             }
 
-            themeToggle.addEventListener('click', () => {
-                const nextTheme = getTheme() === 'dark' ? 'light' : 'dark';
-
-                applyTheme(nextTheme);
-
-                try {
-                    window.localStorage.setItem(storageKey, nextTheme);
-                } catch (error) {
-                    // Ignore storage failures after the UI updates.
-                }
-            });
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', () => {
+                    const isCollapsed = pageBody.classList.toggle('sidebar-collapsed');
+                    sidebarToggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+                });
+            }
         })();
     </script>
     <?php if ($usePopupAlerts && $alertsScript !== ''): ?>
