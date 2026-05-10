@@ -213,6 +213,45 @@ textarea {
     overflow: hidden;
 }
 
+body.sidebar-collapsed .dashboard-grid {
+    grid-template-columns: 72px minmax(0, 1fr);
+}
+
+body.sidebar-collapsed .sidebar-panel {
+    min-width: 0;
+    width: 72px;
+}
+
+body.sidebar-collapsed .sidebar-panel__body {
+    padding: 14px 6px;
+}
+
+body.sidebar-collapsed .sidebar-nav {
+    gap: 6px;
+}
+
+body.sidebar-collapsed .sidebar-link {
+    justify-content: center;
+    padding: 12px 6px;
+}
+
+body.sidebar-collapsed .sidebar-link__label {
+    display: none;
+}
+
+body.sidebar-collapsed .sidebar-link::before {
+    content: attr(data-label-short);
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: inherit;
+    font-weight: 700;
+}
+
 .dashboard-grid > *,
 .split-grid > *,
 .content-panel,
@@ -379,6 +418,33 @@ textarea {
 .header-actions {
     justify-content: flex-end;
     justify-self: end;
+}
+
+.sidebar-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    margin-right: 8px;
+    border-radius: 14px;
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.03);
+    color: inherit;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar-toggle:hover,
+.sidebar-toggle:focus-visible {
+    border-color: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.sidebar-toggle__icon {
+
+    margin: 0%;
+    font-size: 1.25rem;
+    line-height: 1;
 }
 
 .navbar-search {
