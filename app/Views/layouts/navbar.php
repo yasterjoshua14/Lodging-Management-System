@@ -3,6 +3,7 @@
  * @var string $brandCaption
  * @var string $brandName
  * @var string $brandMark
+ * @var string|null $brandLogoUrl
  * @var string $contentTitle
  * @var string $currentUserEmail
  * @var string $currentUserName
@@ -18,7 +19,13 @@ $searchPlaceholder = $currentUserRole === 'admin'
 <header class="shell-panel header-panel">
     <div class="header-panel__body">
         <div class="brand-block">
-            <div class="brand-mark"><?= view_esc($brandMark) ?></div>
+            <div class="brand-mark <?= $brandLogoUrl !== null ? 'brand-mark--logo' : '' ?>">
+                <?php if ($brandLogoUrl !== null): ?>
+                    <img src="<?= view_esc($brandLogoUrl, 'attr') ?>" alt="<?= view_esc($brandName . ' logo', 'attr') ?>">
+                <?php else: ?>
+                    <?= view_esc($brandMark) ?>
+                <?php endif; ?>
+            </div>
 
             <div class="brand-copy">
                 <h1><?= view_esc($brandName) ?></h1>

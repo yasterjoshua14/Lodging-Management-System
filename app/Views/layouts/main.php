@@ -13,10 +13,10 @@ $isAdminApp   = $activeRole === 'admin';
 $currentUserName  = (string) ($currentUser['name'] ?? 'User');
 $currentUserEmail = (string) ($currentUser['email'] ?? '');
 $currentUserRole  = (string) ($currentUser['role'] ?? $authSurface);
-$brandName   = $isAdminApp ? 'Brand Name' : 'Brand Name';
+$brandName   = 'businessName';
 $brandCaption = $isAdminApp ? 'Protected management workspace for rooms, tenants, and bookings.'
                             : 'Tenant workspace for reservations, account details, and stay history.';
-$brandMark = $isAdminApp ? 'logo' : 'logo';
+$brandMark = 'LMS';
 
 $navItems = $isAdminApp
     ? [
@@ -46,6 +46,8 @@ $contentTitle = $contentTitle !== '' ? $contentTitle : ($activeNavItem['label'] 
 
 $themeCssPath = APPPATH . 'Views/theme/style.css';
 $themeStylesheetUrl = site_url('assets/theme');
+$brandLogoPath = APPPATH . 'Views/theme/img/image1logo.png';
+$brandLogoUrl = null;
 $themeStorageKey = 'lms-theme';
 $alertsScript = '';
 $alertsScriptPath = APPPATH . 'Views/partials/alerts.js';
@@ -53,6 +55,10 @@ $usePopupAlerts = $currentUser !== null;
 
 if (is_file($themeCssPath)) {
     $themeStylesheetUrl .= '?v=' . rawurlencode((string) filemtime($themeCssPath));
+}
+
+if (is_file($brandLogoPath)) {
+    $brandLogoUrl = site_url('assets/theme/img/image1logo.png') . '?v=' . rawurlencode((string) filemtime($brandLogoPath));
 }
 
 if (is_file($alertsScriptPath)) {
@@ -104,6 +110,7 @@ $bodyClasses = implode(' ', [
             <?= view('layouts/navbar', [
                 'brandCaption'     => $brandCaption,
                 'brandMark'        => $brandMark,
+                'brandLogoUrl'     => $brandLogoUrl,
                 'brandName'       => $brandName,
                 'contentTitle'     => $contentTitle,
                 'currentUserEmail' => $currentUserEmail,
@@ -135,6 +142,21 @@ $bodyClasses = implode(' ', [
             <main class="auth-wrap">
                 <section class="shell-panel auth-panel">
                     <div class="auth-panel__body">
+                        <div class="auth-brand">
+                            <div class="brand-mark <?= $brandLogoUrl !== null ? 'brand-mark--logo' : '' ?>">
+                                <?php if ($brandLogoUrl !== null): ?>
+                                    <img src="<?= view_esc($brandLogoUrl, 'attr') ?>" alt="<?= view_esc($brandName . ' logo', 'attr') ?>">
+                                <?php else: ?>
+                                    <?= view_esc($brandMark) ?>
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="brand-copy">
+                                <h1><?= view_esc($brandName) ?></h1>
+                                <p><?= view_esc($brandCaption) ?></p>
+                            </div>
+                        </div>
+
                         <?= $alertsMarkup ?>
                         <?= $contentMarkup ?>
                     </div>
