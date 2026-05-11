@@ -25,4 +25,35 @@ class AssetController extends BaseController
             ->setContentType('text/css')
             ->setBody($css);
     }
+
+    public function themeImage(string $filename)
+    {
+        $filename = basename($filename);
+        $path     = APPPATH . 'Views/theme/img/' . $filename;
+
+        if (! is_file($path)) {
+            throw PageNotFoundException::forPageNotFound('Theme image not found.');
+        }
+
+        $image = file_get_contents($path);
+
+        if (! is_string($image)) {
+            throw PageNotFoundException::forPageNotFound('Theme image could not be loaded.');
+        }
+
+        $extension = strtolower((string) pathinfo($path, PATHINFO_EXTENSION));
+        $contentType = match ($extension) {
+            'png' => 'image/png',
+            'jpg', 'jpeg' => 'image/jpeg',
+            'gif' => 'image/gif',
+            'webp' => 'image/webp',
+            'svg' => 'image/svg+xml',
+            default => 'application/octet-stream',
+        };
+
+        return $this->response
+            ->setHeader('Cache-Control', 'public, max-age=300')
+            ->setContentType($contentType)
+            ->setBody($image);
+    }
 }
