@@ -8,6 +8,7 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->get('admin', 'Home::admin');
 $routes->get('assets/theme', 'AssetController::themeCss');
+$routes->get('assets/theme/img/(:segment)', 'AssetController::themeImage/$1');
 
 $routes->group('', ['filter' => ['guest:tenant']], static function ($routes) {
     $routes->get('login', 'AuthController::showTenantLogin');
