@@ -1066,7 +1066,7 @@ textarea {
 }
 
 .btn-secondary {
-  background: transparent;
+  background: rgb(100, 73, 73);
   color: white;
   border: 1px solid #444;
 }
@@ -1716,7 +1716,7 @@ tr:last-child td {
         }
 
             .toggle-group2 {
-            margin: 0px 0px 100px 22px;
+            margin: 0px 0px 100px 150px;
             width: 100%;
             display: inline-flex;
             flex-wrap: wrap;
@@ -1729,7 +1729,7 @@ tr:last-child td {
 
         .graph-toggle {
             border: 0;
-            padding: 10px 14px;
+            padding: 10px 10px;
             border-radius: 999px;
             background: transparent;
             color: rgb(59, 48, 48);
