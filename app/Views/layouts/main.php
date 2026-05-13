@@ -13,7 +13,7 @@ $isAdminApp   = $activeRole === 'admin';
 $currentUserName  = (string) ($currentUser['name'] ?? 'User');
 $currentUserEmail = (string) ($currentUser['email'] ?? '');
 $currentUserRole  = (string) ($currentUser['role'] ?? $authSurface);
-$brandName   = 'businessName';
+$brandName   = 'Hapit Anay Restobar and Lodge';
 $brandCaption = $isAdminApp ? 'Protected management workspace for rooms, tenants, and bookings.'
                             : 'Tenant workspace for reservations, account details, and stay history.';
 $brandMark = 'LMS';
@@ -46,7 +46,7 @@ $contentTitle = $contentTitle !== '' ? $contentTitle : ($activeNavItem['label'] 
 
 $themeCssPath = APPPATH . 'Views/theme/style.css';
 $themeStylesheetUrl = site_url('assets/theme');
-$brandLogoPath = APPPATH . 'Views/theme/img/image1logo.png';
+$brandLogoPath = APPPATH . 'Views\theme\img\image.png';
 $brandLogoUrl = null;
 $themeStorageKey = 'lms-theme';
 $alertsScript = '';
@@ -58,7 +58,7 @@ if (is_file($themeCssPath)) {
 }
 
 if (is_file($brandLogoPath)) {
-    $brandLogoUrl = site_url('assets/theme/img/image1logo.png') . '?v=' . rawurlencode((string) filemtime($brandLogoPath));
+    $brandLogoUrl = site_url('assets/theme/img/image.png') . '?v=' . rawurlencode((string) filemtime($brandLogoPath));
 }
 
 if (is_file($alertsScriptPath)) {
