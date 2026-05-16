@@ -36,7 +36,11 @@ $heading  ??= 'Booking';
                     <option value="">Select room</option>
                     <?php foreach ($rooms as $room): ?>
                         <?php $roomId = (string) $room['id']; ?>
-                        <option value="<?= view_esc($roomId) ?>" <?= old('room_id', isset($booking['room_id']) ? (string) $booking['room_id'] : '') === $roomId ? 'selected' : '' ?>>
+                        <option
+                            value="<?= view_esc($roomId) ?>"
+                            data-price="<?= view_esc(number_format((float) ($room['price_per_hour'] ?? $room['price_per_night'] ?? 0), 2, '.', ''), 'attr') ?>"
+                            <?= old('room_id', isset($booking['room_id']) ? (string) $booking['room_id'] : '') === $roomId ? 'selected' : '' ?>
+                        >
                             <?= view_esc($room['room_number']) ?> - <?= view_esc(room_type_options()[$room['type']] ?? humanize_key($room['type'])) ?> (<?= view_esc(room_status_options()[$room['status']] ?? humanize_key($room['status'])) ?>)
                         </option>
                     <?php endforeach; ?>
@@ -91,4 +95,56 @@ $heading  ??= 'Booking';
             <a href="<?= view_esc(admin_path('bookings')) ?>" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
+
+    <script>
+        (() => {
+            const roomField = document.getElementById('room_id');
+            const totalAmountField = document.getElementById('total_amount');
+
+            if (!roomField || !totalAmountField) {
+                return;
+            }
+
+            let lastLinkedAmount = '';
+
+            const normalizeAmount = (value) => {
+                const numericValue = Number.parseFloat(value);
+
+                return Number.isFinite(numericValue) ? numericValue.toFixed(2) : '';
+            };
+
+            const getSelectedRoomAmount = () => {
+                const selectedOption = roomField.options[roomField.selectedIndex];
+
+                if (!selectedOption || selectedOption.value === '') {
+                    return '0.00';
+                }
+
+                return normalizeAmount(selectedOption.dataset.price || '0');
+            };
+
+            const canReplaceAmount = () => {
+                const currentAmount = normalizeAmount(totalAmountField.value);
+
+                return currentAmount === '' || currentAmount === '0.00' || currentAmount === lastLinkedAmount;
+            };
+
+            const syncTotalAmount = (force = false) => {
+                const nextAmount = getSelectedRoomAmount();
+
+                if (!force && !canReplaceAmount()) {
+                    return;
+                }
+
+                totalAmountField.value = nextAmount;
+                lastLinkedAmount = nextAmount;
+            };
+
+            roomField.addEventListener('change', () => {
+                syncTotalAmount(true);
+            });
+
+            syncTotalAmount();
+        })();
+    </script>
 <?php $this->endSection(); ?>

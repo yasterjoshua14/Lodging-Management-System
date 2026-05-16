@@ -15,6 +15,10 @@ class AdminRoomsController extends BaseController
         $sortOptions = $this->roomSortOptions();
         $requestedBy = strtolower(trim((string) $this->request->getGet('sort')));
 
+        if ($requestedBy === 'price_per_hour') {
+            $requestedBy = 'price_per_night';
+        }
+
         if (! array_key_exists($requestedBy, $sortOptions)) {
             $sortBy        = 'room_number';
             $sortDirection = 'asc';
@@ -31,7 +35,7 @@ class AdminRoomsController extends BaseController
 
         return view('admin/rooms/index', [
             'title'         => 'Rooms',
-            'rooms'         => $roomsQuery->findAll(),
+            'rooms'         => $this->presentRooms($roomsQuery->findAll()),
             'sortBy'        => $sortBy,
             'sortDirection' => $sortDirection,
             'sortOptions'   => $sortOptions,
@@ -68,7 +72,7 @@ class AdminRoomsController extends BaseController
 
     public function edit(int $id): string
     {
-        $room = $this->findRoomOrFail($id);
+        $room = $this->presentRoom($this->findRoomOrFail($id));
 
         return view('admin/rooms/form', [
             'title'   => 'Edit Room',
@@ -116,7 +120,7 @@ class AdminRoomsController extends BaseController
             'room_number'     => 'required|max_length[20]',
             'type'            => 'required|in_list[' . implode(',', array_keys(room_type_options())) . ']',
             'capacity'        => 'required|integer|greater_than[0]',
-            'price_per_night' => 'required|decimal|greater_than_equal_to[0]',
+            'price_per_hour'  => 'required|decimal|greater_than_equal_to[0]',
             'status'          => 'required|in_list[' . implode(',', array_keys(room_status_options())) . ']',
             'description'     => 'permit_empty|max_length[500]',
         ];
@@ -129,7 +133,7 @@ class AdminRoomsController extends BaseController
             'room_number'     => trim((string) $this->request->getPost('room_number')),
             'type'            => (string) $this->request->getPost('type'),
             'capacity'        => (int) $this->request->getPost('capacity'),
-            'price_per_night' => (float) $this->request->getPost('price_per_night'),
+            'price_per_night' => (float) $this->request->getPost('price_per_hour'),
             'status'          => (string) $this->request->getPost('status'),
             'description'     => trim((string) $this->request->getPost('description')),
         ];
@@ -163,8 +167,28 @@ class AdminRoomsController extends BaseController
             'room_number'     => 'Room No.',
             'type'            => 'Type',
             'capacity'        => 'Capacity',
-            'price_per_night' => 'Price / Night',
+            'price_per_night' => 'Price / Hour',
             'status'          => 'Status',
         ];
+    }
+
+    /**
+     * @param list<array<string, mixed>> $rooms
+     * @return list<array<string, mixed>>
+     */
+    private function presentRooms(array $rooms): array
+    {
+        return array_map($this->presentRoom(...), $rooms);
+    }
+
+    /**
+     * @param array<string, mixed> $room
+     * @return array<string, mixed>
+     */
+    private function presentRoom(array $room): array
+    {
+        $room['price_per_hour'] = (float) ($room['price_per_hour'] ?? $room['price_per_night'] ?? 0);
+
+        return $room;
     }
 }

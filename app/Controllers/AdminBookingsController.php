@@ -138,9 +138,18 @@ class AdminBookingsController extends BaseController
 
     private function getRoomOptions(): array
     {
-        return (new RoomModel())
+        $rooms = (new RoomModel())
             ->orderBy('room_number', 'ASC')
             ->findAll();
+
+        return array_map(
+            static function (array $room): array {
+                $room['price_per_hour'] = (float) ($room['price_per_hour'] ?? $room['price_per_night'] ?? 0);
+
+                return $room;
+            },
+            $rooms,
+        );
     }
 
     private function getTenantOptions(): array
