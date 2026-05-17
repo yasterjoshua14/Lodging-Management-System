@@ -69,7 +69,7 @@ $normalizedSearchNotes = str_replace(["\r", "\n"], ' ', $search['notes']);
                                 </th>
                                 <th>Type</th>
                                 <th>Capacity</th>
-                                <th>Price / Night</th>
+                                <th>Price</th>
                                 <th>Status</th>
                                 <th>Description</th>
                                 <th>Actions</th>
