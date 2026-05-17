@@ -17,6 +17,7 @@ class RoomModel extends Model
         'type',
         'capacity',
         'price_per_night',
+        'pricing_hours',
         'status',
         'description',
     ];
@@ -26,6 +27,7 @@ class RoomModel extends Model
 
     protected array $casts = [
         'capacity' => 'integer',
+        'pricing_hours' => 'integer',
     ];
     protected array $castHandlers = [];
 
