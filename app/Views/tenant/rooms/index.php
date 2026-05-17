@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \CodeIgniter\View\View $this
- * @var list<array<string, mixed>> $availableRooms
+ * @var list<array<string, mixed>> $rooms
  * @var bool $paymongoReady
  * @var array{check_in: string, check_out: string, guests: string, notes: string, selected_room_id: int, submitted: bool} $search
  * @var array<string, string> $searchErrors
@@ -9,7 +9,7 @@
  * @var int $stayNights
  */
 
-$availableRooms ??= [];
+$rooms ??= [];
 $paymongoReady  ??= false;
 $search         ??= [
     'check_in'         => '',
@@ -48,7 +48,7 @@ $normalizedSearchNotes = str_replace(["\r", "\n"], ' ', $search['notes']);
         <section class="card card--stacked">
             <div class="section-head">
                 <div>
-                    <h2>Available Rooms</h2>
+                    <h2>Rooms</h2>
                 </div>
 
                 <?php if ($selectedRoom !== null): ?>
@@ -56,7 +56,7 @@ $normalizedSearchNotes = str_replace(["\r", "\n"], ' ', $search['notes']);
                 <?php endif; ?>
             </div>
 
-            <?php if ($availableRooms !== []): ?>
+            <?php if ($rooms !== []): ?>
                 <div class="table-wrap">
                     <table>
                         <thead>
@@ -70,38 +70,44 @@ $normalizedSearchNotes = str_replace(["\r", "\n"], ' ', $search['notes']);
                                 <th>Type</th>
                                 <th>Capacity</th>
                                 <th>Price</th>
+                                <th>Duration</th>
                                 <th>Status</th>
                                 <th>Description</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($availableRooms as $room): ?>
+                            <?php foreach ($rooms as $room): ?>
                                 <tr>
                                     <td><strong><?= view_esc($room['room_number']) ?></strong></td>
                                     <td><?= view_esc(room_type_options()[$room['type']] ?? humanize_key($room['type'])) ?></td>
                                     <td><?= view_esc((string) $room['capacity']) ?> guests</td>
                                     <td><?= view_esc(format_money($room['price_per_night'])) ?></td>
+                                    <td><?= view_esc(hour_duration_label($room['pricing_hours'] ?? 1)) ?></td>
                                     <td>
-                                        <span class="<?= view_esc(status_badge_class($room['status'] ?? 'available')) ?>">
-                                            <?= view_esc(room_status_options()[$room['status'] ?? 'available'] ?? 'Available') ?>
+                                        <span class="<?= view_esc(status_badge_class($room['display_status'] ?? 'available')) ?>">
+                                            <?= view_esc(room_status_options()[$room['display_status'] ?? 'available'] ?? 'Available') ?>
                                         </span>
                                     </td>
                                     <td><?= view_esc($room['description'] ?: 'No description') ?></td>
                                     <td>
                                         <?php $isSelectedRoom = (int) ($room['id'] ?? 0) === (int) $search['selected_room_id']; ?>
                                         <div class="actions">
-                                            <form action="<?= view_esc(tenant_path('myRooms')) ?>" method="get" class="inline-form">
-                                                <input type="hidden" name="room_id" value="<?= view_esc((string) $room['id']) ?>">
-                                                <input type="hidden" name="selected_room" value="<?= view_esc((string) $room['id']) ?>">
-                                                <input type="hidden" name="check_in" value="<?= view_esc($search['check_in']) ?>">
-                                                <input type="hidden" name="check_out" value="<?= view_esc($search['check_out']) ?>">
-                                                <input type="hidden" name="guests" value="<?= view_esc($search['guests']) ?>">
-                                                <input type="hidden" name="notes" value="<?= view_esc($normalizedSearchNotes) ?>">
-                                                <button type="submit" class="btn <?= $isSelectedRoom ? 'btn-secondary' : 'btn-primary' ?>">
-                                                    <?= $isSelectedRoom ? 'Added' : 'Add' ?>
-                                                </button>
-                                            </form>
+                                            <?php if ($room['is_bookable'] ?? false): ?>
+                                                <form action="<?= view_esc(tenant_path('myRooms')) ?>" method="get" class="inline-form">
+                                                    <input type="hidden" name="room_id" value="<?= view_esc((string) $room['id']) ?>">
+                                                    <input type="hidden" name="selected_room" value="<?= view_esc((string) $room['id']) ?>">
+                                                    <input type="hidden" name="check_in" value="<?= view_esc($search['check_in']) ?>">
+                                                    <input type="hidden" name="check_out" value="<?= view_esc($search['check_out']) ?>">
+                                                    <input type="hidden" name="guests" value="<?= view_esc($search['guests']) ?>">
+                                                    <input type="hidden" name="notes" value="<?= view_esc($normalizedSearchNotes) ?>">
+                                                    <button type="submit" class="btn <?= $isSelectedRoom ? 'btn-secondary' : 'btn-primary' ?>">
+                                                        <?= $isSelectedRoom ? 'Added' : 'Add' ?>
+                                                    </button>
+                                                </form>
+                                            <?php else: ?>
+                                                <span class="text-muted">Unavailable</span>
+                                            <?php endif; ?>
                                         </div>
                                     </td>
                                 </tr>
@@ -111,8 +117,8 @@ $normalizedSearchNotes = str_replace(["\r", "\n"], ' ', $search['notes']);
                 </div>
             <?php else: ?>
                 <div class="empty-state">
-                    <h3>No rooms available for those dates</h3>
-                    <p class="text-muted">Try a different stay range or reduce the guest count filter to widen the available room list.</p>
+                    <h3>No rooms available yet</h3>
+                    <p class="text-muted">Add rooms first so tenants can browse room status and pricing here.</p>
                 </div>
             <?php endif; ?>
         </section>
