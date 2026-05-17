@@ -69,6 +69,7 @@ $rooms ??= [];
                             <td><?= view_esc(room_type_options()[$room['type']] ?? humanize_key($room['type'])) ?></td>
                             <td><?= view_esc((string) $room['capacity']) ?> guests</td>
                             <td><?= view_esc(format_money($room['price_per_night'])) ?></td>
+                            <td><?= view_esc(hour_duration_label($room['pricing_hours'] ?? 1)) ?></td>
                             <td><span class="<?= view_esc(status_badge_class($room['status'])) ?>"><?= view_esc(room_status_options()[$room['status']] ?? humanize_key($room['status'])) ?></span></td>
                             <td><?= view_esc($room['description'] ?: 'No description') ?></td>
                             <td>
