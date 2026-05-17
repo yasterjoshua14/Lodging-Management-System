@@ -39,32 +39,31 @@ class TenantBookingsController extends BaseController
 
     public function rooms(): string
     {
-        $search         = $this->bookingSearchStateFromRequest();
-        $searchErrors   = [];
-        $availableRooms = [];
-        $selectedRoom   = null;
+        sync_room_booking_statuses();
+
+        $search       = $this->bookingSearchStateFromRequest();
+        $searchErrors = [];
+        $rooms        = [];
+        $selectedRoom = null;
 
         if ($search['submitted']) {
             $searchErrors = $this->validateSearch($search);
 
             if ($searchErrors === []) {
-                $availableRooms = array_map(function (array $room) use ($search): array {
-                    $room['stay_nights'] = $this->availability->countNights($search['check_in'], $search['check_out']);
-                    $room['stay_total']  = $this->availability->calculateTotalAmount($room, $search['check_in'], $search['check_out']);
+                $rooms = $this->buildRoomCatalog($search);
 
-                    return $room;
-                }, $this->availability->findAvailableRooms(
-                    $search['check_in'],
-                    $search['check_out'],
-                    $search['guests'] === '' ? null : (int) $search['guests']
-                ));
-
-                $selectedRoom = $this->resolveSelectedRoom($availableRooms, $search['selected_room_id']);
+                $selectedRoom = $this->resolveSelectedRoom(
+                    array_values(array_filter(
+                        $rooms,
+                        static fn (array $room): bool => (bool) ($room['is_bookable'] ?? false)
+                    )),
+                    $search['selected_room_id']
+                );
             }
         }
 
         return view('tenant/rooms/index', [
-            'availableRooms' => $availableRooms,
+            'rooms'          => $rooms,
             'paymongoReady'  => $this->paymongo->isConfigured(),
             'search'         => $search,
             'searchErrors'   => $searchErrors,
@@ -377,6 +376,38 @@ class TenantBookingsController extends BaseController
     /**
      * @param array<string, mixed> $search
      *
+     * @return list<array<string, mixed>>
+     */
+    private function buildRoomCatalog(array $search): array
+    {
+        $guestCount = $search['guests'] === '' ? null : (int) $search['guests'];
+        $rooms = (new RoomModel())
+            ->orderBy('room_number', 'ASC')
+            ->findAll();
+
+        return array_map(function (array $room) use ($search, $guestCount): array {
+            $hasConflict = $this->availability->hasDateConflict(
+                (int) ($room['id'] ?? 0),
+                (string) $search['check_in'],
+                (string) $search['check_out']
+            );
+
+            $displayStatus = $this->resolveTenantRoomStatus($room, $hasConflict);
+            $fitsGuests = $guestCount === null || (int) ($room['capacity'] ?? 0) >= $guestCount;
+
+            $room['pricing_hours'] = max(1, (int) ($room['pricing_hours'] ?? 1));
+            $room['stay_nights']   = $this->availability->countNights($search['check_in'], $search['check_out']);
+            $room['stay_total']    = $this->availability->calculateTotalAmount($room, $search['check_in'], $search['check_out']);
+            $room['display_status'] = $displayStatus;
+            $room['is_bookable']    = $displayStatus === 'available' && $fitsGuests;
+
+            return $room;
+        }, $rooms);
+    }
+
+    /**
+     * @param array<string, mixed> $search
+     *
      * @return array<string, string>
      */
     private function validateSearch(array $search): array
@@ -458,23 +489,41 @@ class TenantBookingsController extends BaseController
     }
 
     /**
-     * @param list<array<string, mixed>> $availableRooms
+     * @param list<array<string, mixed>> $rooms
      *
      * @return array<string, mixed>|null
      */
-    private function resolveSelectedRoom(array $availableRooms, int $selectedRoomId): ?array
+    private function resolveSelectedRoom(array $rooms, int $selectedRoomId): ?array
     {
         if ($selectedRoomId <= 0) {
             return null;
         }
 
-        foreach ($availableRooms as $room) {
+        foreach ($rooms as $room) {
             if ((int) ($room['id'] ?? 0) === $selectedRoomId) {
                 return $room;
             }
         }
 
         return null;
+    }
+
+    /**
+     * @param array<string, mixed> $room
+     */
+    private function resolveTenantRoomStatus(array $room, bool $hasConflict): string
+    {
+        $status = (string) ($room['status'] ?? 'available');
+
+        if ($status !== 'available') {
+            return $status;
+        }
+
+        if ($hasConflict) {
+            return 'occupied';
+        }
+
+        return 'available';
     }
 
     private function isValidDate(string $value): bool
