@@ -61,6 +61,7 @@ CREATE TABLE `rooms` (
     `type` VARCHAR(30) NOT NULL,
     `capacity` INT(11) NOT NULL,
     `price_per_night` DECIMAL(10,2) NOT NULL,
+    `pricing_hours` INT(11) NOT NULL DEFAULT 1,
     `status` VARCHAR(20) NOT NULL DEFAULT 'available',
     `description` TEXT NULL DEFAULT NULL,
     `created_at` DATETIME NULL DEFAULT NULL,
@@ -109,10 +110,10 @@ CREATE TABLE `bookings` (
 ALTER TABLE `users`
     ADD CONSTRAINT `users_tenant_id_foreign` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-INSERT INTO `rooms` (`id`, `room_number`, `type`, `capacity`, `price_per_night`, `status`, `description`, `created_at`, `updated_at`) VALUES
-    (1, '101', 'standard', 2, 1800.00, 'available', 'Cozy room with twin beds and garden view.', '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
-    (2, '205', 'deluxe', 3, 2800.00, 'occupied', 'Deluxe room with balcony and breakfast inclusion.', '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
-    (3, '301', 'suite', 4, 4500.00, 'maintenance', 'Premium suite undergoing scheduled maintenance.', '2026-04-19 00:00:00', '2026-04-19 00:00:00');
+INSERT INTO `rooms` (`id`, `room_number`, `type`, `capacity`, `price_per_night`, `pricing_hours`, `status`, `description`, `created_at`, `updated_at`) VALUES
+    (1, '101', 'standard', 2, 1800.00, 1, 'available', 'Cozy room with twin beds and garden view.', '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
+    (2, '205', 'deluxe', 3, 2800.00, 1, 'occupied', 'Deluxe room with balcony and breakfast inclusion.', '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
+    (3, '301', 'suite', 4, 4500.00, 1, 'maintenance', 'Premium suite undergoing scheduled maintenance.', '2026-04-19 00:00:00', '2026-04-19 00:00:00');
 
 INSERT INTO `tenants` (`id`, `full_name`, `email`, `phone`, `id_type`, `id_number`, `address`, `emergency_contact_name`, `emergency_contact_phone`, `created_at`, `updated_at`) VALUES
     (1, 'Maria Santos', 'maria@example.com', '09171234567', 'Passport', 'P1234567', 'Cebu City', 'Luis Santos', '09179876543', '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
