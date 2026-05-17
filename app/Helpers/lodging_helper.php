@@ -23,6 +23,29 @@ if (! function_exists('room_type_options')) {
     }
 }
 
+if (! function_exists('hour_duration_options')) {
+    function hour_duration_options(): array
+    {
+        $options = [];
+
+        for ($hour = 1; $hour <= 24; $hour++) {
+            $options[(string) $hour] = $hour === 1 ? '1hr' : $hour . 'hrs';
+        }
+
+        return $options;
+    }
+}
+
+if (! function_exists('hour_duration_label')) {
+    function hour_duration_label(mixed $hours): string
+    {
+        $normalizedHours = max(1, (int) $hours);
+        $options = hour_duration_options();
+
+        return $options[(string) $normalizedHours] ?? ($normalizedHours === 1 ? '1hr' : $normalizedHours . 'hrs');
+    }
+}
+
 if (! function_exists('booking_status_options')) {
     function booking_status_options(): array
     {
