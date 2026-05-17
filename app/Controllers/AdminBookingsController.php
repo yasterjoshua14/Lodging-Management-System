@@ -95,13 +95,34 @@ class AdminBookingsController extends BaseController
     private function getValidatedData()
     {
         $rules = [
-            'room_id'       => 'required|integer',
-            'tenant_id'     => 'required|integer',
-            'check_in'      => 'required|valid_date[Y-m-d]',
-            'check_out'     => 'required|valid_date[Y-m-d]',
-            'total_amount'  => 'required|decimal|greater_than_equal_to[0]',
-            'status'        => 'required|in_list[' . implode(',', array_keys(booking_status_options())) . ']',
-            'notes'         => 'permit_empty|max_length[500]',
+            'room_id' => [
+                'label' => 'Room',
+                'rules' => 'required|integer',
+            ],
+            'tenant_id' => [
+                'label' => 'Tenant',
+                'rules' => 'required|integer',
+            ],
+            'check_in' => [
+                'label' => 'Check-in Date',
+                'rules' => 'required|valid_date[Y-m-d]',
+            ],
+            'check_out' => [
+                'label' => 'Check-out Date',
+                'rules' => 'required|valid_date[Y-m-d]',
+            ],
+            'total_amount' => [
+                'label' => 'Total Amount',
+                'rules' => 'required|decimal|greater_than_equal_to[0]',
+            ],
+            'status' => [
+                'label' => 'Booking Status',
+                'rules' => 'required|in_list[' . implode(',', array_keys(booking_status_options())) . ']',
+            ],
+            'notes' => [
+                'label' => 'Notes',
+                'rules' => 'permit_empty|max_length[500]',
+            ],
         ];
 
         if (! $this->validate($rules)) {
