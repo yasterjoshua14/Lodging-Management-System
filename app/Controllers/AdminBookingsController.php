@@ -12,6 +12,8 @@ class AdminBookingsController extends BaseController
 {
     public function index(): string
     {
+        sync_room_booking_statuses();
+
         $bookings = (new BookingModel())
             ->withRelations()
             ->orderBy('bookings.check_in', 'DESC')
@@ -25,6 +27,8 @@ class AdminBookingsController extends BaseController
 
     public function create(): string
     {
+        sync_room_booking_statuses();
+
         return view('admin/bookings/form', [
             'title'   => 'Add Booking',
             'booking' => null,
@@ -48,12 +52,14 @@ class AdminBookingsController extends BaseController
         }
 
         (new BookingModel())->insert($data);
+        sync_room_booking_statuses([$data['room_id']]);
 
         return redirect()->to(admin_path('bookings'))->with('success', 'Booking created successfully.');
     }
 
     public function edit(int $id): string
     {
+        sync_room_booking_statuses();
         $booking = $this->findBookingOrFail($id);
 
         return view('admin/bookings/form', [
@@ -68,7 +74,7 @@ class AdminBookingsController extends BaseController
 
     public function update(int $id): RedirectResponse
     {
-        $this->findBookingOrFail($id);
+        $existingBooking = $this->findBookingOrFail($id);
         $data = $this->getValidatedData();
 
         if ($data instanceof RedirectResponse) {
@@ -80,14 +86,19 @@ class AdminBookingsController extends BaseController
         }
 
         (new BookingModel())->update($id, $data);
+        sync_room_booking_statuses([
+            (int) ($existingBooking['room_id'] ?? 0),
+            (int) ($data['room_id'] ?? 0),
+        ]);
 
         return redirect()->to(admin_path('bookings'))->with('success', 'Booking updated successfully.');
     }
 
     public function delete(int $id): RedirectResponse
     {
-        $this->findBookingOrFail($id);
+        $booking = $this->findBookingOrFail($id);
         (new BookingModel())->delete($id);
+        sync_room_booking_statuses([(int) ($booking['room_id'] ?? 0)]);
 
         return redirect()->to(admin_path('bookings'))->with('success', 'Booking deleted successfully.');
     }

@@ -11,6 +11,8 @@ class AdminRoomsController extends BaseController
 {
     public function index(): string
     {
+        sync_room_booking_statuses();
+
         $roomModel   = new RoomModel();
         $sortOptions = $this->roomSortOptions();
         $requestedBy = strtolower(trim((string) $this->request->getGet('sort')));
