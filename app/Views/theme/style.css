@@ -1041,6 +1041,22 @@ textarea {
     resize: vertical;
 }
 
+.field-inline {
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+}
+
+.field-inline__main {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.field-inline__side {
+    flex: 0 0 112px;
+    width: 112px;
+}
+
 .btn {
     display: inline-flex;
     justify-content: center;
@@ -1562,6 +1578,15 @@ tr:last-child td {
     .header-actions {
         justify-content: flex-start;
         justify-self: stretch;
+    }
+
+    .field-inline {
+        flex-direction: column;
+    }
+
+    .field-inline__side {
+        flex-basis: auto;
+        width: 100%;
     }
 
     .navbar-search {
