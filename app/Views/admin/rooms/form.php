@@ -47,8 +47,25 @@ $heading ??= 'Room';
             </div>
 
             <div>
-                <label for="price_per_night">Price per Night</label>
-                <input type="number" id="price_per_night" name="price_per_night" min="0" step="0.01" value="<?= view_esc(old('price_per_night', $room['price_per_night'] ?? '0.00')) ?>" required>
+                <label for="price_per_hour">Price per Hour</label>
+                <div class="field-inline">
+                    <input
+                        type="number"
+                        id="price_per_hour"
+                        name="price_per_hour"
+                        min="0"
+                        step="0.01"
+                        class="field-inline__main"
+                        value="<?= view_esc(old('price_per_hour', $room['price_per_hour'] ?? $room['price_per_night'] ?? '0.00')) ?>"
+                        required
+                    >
+
+                    <select id="pricing_hours" name="pricing_hours" class="field-inline__side" aria-label="Pricing duration">
+                        <?php foreach (hour_duration_options() as $value => $label): ?>
+                            <option value="<?= view_esc($value) ?>" <?= old('pricing_hours', (string) ($room['pricing_hours'] ?? '1')) === $value ? 'selected' : '' ?>><?= view_esc($label) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
             </div>
 
             <div class="full-span">
