@@ -46,6 +46,74 @@ if (! function_exists('hour_duration_label')) {
     }
 }
 
+if (! function_exists('sync_room_booking_statuses')) {
+    /**
+     * @param list<int>|null $roomIds
+     */
+    function sync_room_booking_statuses(?array $roomIds = null): void
+    {
+        $db = db_connect();
+
+        $normalizedRoomIds = array_values(array_unique(array_filter(
+            array_map(
+                static fn (mixed $roomId): int => (int) $roomId,
+                $roomIds ?? []
+            ),
+            static fn (int $roomId): bool => $roomId > 0
+        )));
+
+        $roomsQuery = $db->table('rooms')->select('id, status');
+
+        if ($normalizedRoomIds !== []) {
+            $roomsQuery->whereIn('id', $normalizedRoomIds);
+        }
+
+        $rooms = $roomsQuery->get()->getResultArray();
+
+        if ($rooms === []) {
+            return;
+        }
+
+        $checkedInRoomsQuery = $db->table('bookings')
+            ->select('room_id')
+            ->where('status', 'checked_in')
+            ->groupBy('room_id');
+
+        if ($normalizedRoomIds !== []) {
+            $checkedInRoomsQuery->whereIn('room_id', $normalizedRoomIds);
+        }
+
+        $checkedInRoomIds = array_fill_keys(
+            array_map(
+                static fn (array $row): int => (int) ($row['room_id'] ?? 0),
+                $checkedInRoomsQuery->get()->getResultArray()
+            ),
+            true
+        );
+
+        foreach ($rooms as $room) {
+            $roomId = (int) ($room['id'] ?? 0);
+            $status = (string) ($room['status'] ?? '');
+
+            if ($roomId <= 0) {
+                continue;
+            }
+
+            if (isset($checkedInRoomIds[$roomId])) {
+                if ($status !== 'occupied') {
+                    $db->table('rooms')->where('id', $roomId)->update(['status' => 'occupied']);
+                }
+
+                continue;
+            }
+
+            if ($status === 'occupied') {
+                $db->table('rooms')->where('id', $roomId)->update(['status' => 'available']);
+            }
+        }
+    }
+}
+
 if (! function_exists('booking_status_options')) {
     function booking_status_options(): array
     {
