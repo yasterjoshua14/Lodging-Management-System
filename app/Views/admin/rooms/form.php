@@ -85,7 +85,7 @@ $heading ??= 'Room';
 
         <div class="button-row">
             <button type="submit" class="btn btn-primary">Save Room</button>
-            <a href="<?= view_esc(admin_path('rooms')) ?>" class="btn btn-secondary">Cancel</a>
+            <a href="<?= view_esc(admin_path('rooms')) ?>" class="btn btn-danger">Cancel</a>
         </div>
     </form>
 <?php $this->endSection(); ?>

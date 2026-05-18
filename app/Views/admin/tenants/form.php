@@ -116,7 +116,7 @@ $heading ??= 'Tenant';
 
         <div class="button-row">
             <button type="submit" class="btn btn-primary">Save Tenant</button>
-            <a href="<?= view_esc(admin_path('tenants')) ?>" class="btn btn-secondary">Cancel</a>
+            <a href="<?= view_esc(admin_path('tenants')) ?>" class="btn btn-danger">Cancel</a>
         </div>
     </form>
 <?php $this->endSection(); ?>
