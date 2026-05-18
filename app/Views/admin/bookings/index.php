@@ -45,7 +45,7 @@ $bookings ??= [];
                             <td><?= view_esc($booking['notes'] ?: 'No notes') ?></td>
                             <td>
                                 <div class="actions">
-                                    <a href="<?= view_esc(admin_path('bookings/' . $booking['id'] . '/edit')) ?>" class="btn btn-secondary">Edit</a>
+                                    <a href="<?= view_esc(admin_path('bookings/' . $booking['id'] . '/edit')) ?>" class="btn btn-primary">Edit</a>
                                     <form action="<?= view_esc(admin_path('bookings/' . $booking['id'] . '/delete')) ?>" method="post" class="inline-form" onsubmit="return confirm('Delete this booking?');">
                                         <?= csrf_field() ?>
                                         <button type="submit" class="btn btn-danger">Delete</button>

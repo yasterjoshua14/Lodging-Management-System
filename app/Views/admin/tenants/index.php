@@ -73,7 +73,7 @@ $tenants ??= [];
                             <td><?= view_esc($tenant['address'] ?: 'No address provided') ?></td>
                             <td>
                                 <div class="actions">
-                                    <a href="<?= view_esc(admin_path('tenants/' . $tenant['id'] . '/edit')) ?>" class="btn btn-secondary">Edit</a>
+                                    <a href="<?= view_esc(admin_path('tenants/' . $tenant['id'] . '/edit')) ?>" class="btn btn-primary">Edit</a>
                                     <form action="<?= view_esc(admin_path('tenants/' . $tenant['id'] . '/delete')) ?>" method="post" class="inline-form" onsubmit="return confirm('Delete this tenant record?');">
                                         <?= csrf_field() ?>
                                         <button type="submit" class="btn btn-danger">Delete Data</button>

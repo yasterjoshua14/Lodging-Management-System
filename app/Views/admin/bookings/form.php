@@ -20,7 +20,6 @@ $heading  ??= 'Booking';
     <div class="section-head">
         <div>
             <h2><?= view_esc($heading) ?></h2>
-            <p>Link a tenant to a room and define the stay schedule.</p>
         </div>
 
         <a href="<?= view_esc(admin_path('bookings')) ?>" class="btn btn-ghost">Back to Bookings</a>
@@ -92,7 +91,7 @@ $heading  ??= 'Booking';
 
         <div class="button-row">
             <button type="submit" class="btn btn-primary">Save Booking</button>
-            <a href="<?= view_esc(admin_path('bookings')) ?>" class="btn btn-secondary">Cancel</a>
+            <a href="<?= view_esc(admin_path('bookings')) ?>" class="btn btn-danger">Cancel</a>
         </div>
     </form>
 
