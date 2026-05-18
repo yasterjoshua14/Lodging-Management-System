@@ -52,7 +52,7 @@ $normalizedSearchNotes = str_replace(["\r", "\n"], ' ', $search['notes']);
                 </div>
 
                 <?php if ($selectedRoom !== null): ?>
-                    <a href="#selected-room" class="btn btn-secondary">View Added Room</a>
+                    <a href="#selected-room" class="btn btn-">View Added Room</a>
                 <?php endif; ?>
             </div>
 
@@ -101,7 +101,7 @@ $normalizedSearchNotes = str_replace(["\r", "\n"], ' ', $search['notes']);
                                                     <input type="hidden" name="check_out" value="<?= view_esc($search['check_out']) ?>">
                                                     <input type="hidden" name="guests" value="<?= view_esc($search['guests']) ?>">
                                                     <input type="hidden" name="notes" value="<?= view_esc($normalizedSearchNotes) ?>">
-                                                    <button type="submit" class="btn <?= $isSelectedRoom ? 'btn-secondary' : 'btn-primary' ?>">
+                                                    <button type="submit" class="btn <?= $isSelectedRoom ? 'btn-info' : 'btn-primary' ?>">
                                                         <?= $isSelectedRoom ? 'Added' : 'Add' ?>
                                                     </button>
                                                 </form>
@@ -183,7 +183,7 @@ $normalizedSearchNotes = str_replace(["\r", "\n"], ' ', $search['notes']);
                         'guests' => $search['guests'],
                         'notes' => $normalizedSearchNotes,
                     ], static fn (string $value): bool => $value !== ''))) ?>"
-                    class="btn btn-secondary"
+                    class="btn btn-danger"
                 >
                     Cancel Selection
                 </a>
