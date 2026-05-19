@@ -1057,6 +1057,16 @@ textarea {
     width: 112px;
 }
 
+.field-inline__side--value {
+    flex-basis: 88px;
+    width: 88px;
+}
+
+.field-inline__side--unit {
+    flex-basis: 98px;
+    width: 98px;
+}
+
 .btn {
     display: inline-flex;
     justify-content: center;
