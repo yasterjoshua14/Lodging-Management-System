@@ -30,6 +30,11 @@ class CreateReportingFixtures extends Migration
                 'type'       => 'DECIMAL',
                 'constraint' => '10,2',
             ],
+            'pricing_hours' => [
+                'type'       => 'INTEGER',
+                'constraint' => 11,
+                'default'    => 1,
+            ],
             'status' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 20,

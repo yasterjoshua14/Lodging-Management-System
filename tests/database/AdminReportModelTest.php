@@ -49,7 +49,7 @@ final class AdminReportModelTest extends CIUnitTestCase
 
         $this->assertSame('205', $analytics['topRooms'][0]['room_number']);
         $this->assertSame(19600.00, $analytics['topRooms'][0]['total_revenue']);
-        $this->assertSame(7, $analytics['topRooms'][0]['guest_nights']);
+        $this->assertSame(8, $analytics['topRooms'][0]['guest_nights']);
         $this->assertSame('101', $analytics['topRooms'][1]['room_number']);
     }
 }
