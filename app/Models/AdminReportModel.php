@@ -4,7 +4,6 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 use DateTimeImmutable;
-use Throwable;
 
 class AdminReportModel extends Model
 {
@@ -29,10 +28,10 @@ class AdminReportModel extends Model
      */
     private const BOOKING_STATUS_LABELS = [
         'awaiting_payment' => 'Awaiting Payment',
-        'pending'     => 'Pending',
-        'checked_in'  => 'Checked In',
-        'checked_out' => 'Checked Out',
-        'cancelled'   => 'Cancelled',
+        'pending'          => 'Pending',
+        'checked_in'       => 'Checked In',
+        'checked_out'      => 'Checked Out',
+        'cancelled'        => 'Cancelled',
     ];
 
     /**
@@ -40,10 +39,10 @@ class AdminReportModel extends Model
      */
     private const REVENUE_LABELS = [
         'awaiting_payment' => 'Awaiting Payment',
-        'pending'     => 'Pending Revenue',
-        'checked_in'  => 'In-House Revenue',
-        'checked_out' => 'Realized Earnings',
-        'cancelled'   => 'Cancelled Revenue',
+        'pending'          => 'Pending Revenue',
+        'checked_in'       => 'In-House Revenue',
+        'checked_out'      => 'Realized Earnings',
+        'cancelled'        => 'Cancelled Revenue',
     ];
 
     public function getDashboardReport(int $recentLimit = 5, int $trendMonths = 4): array
@@ -51,11 +50,11 @@ class AdminReportModel extends Model
         $report = $this->buildAnalytics($trendMonths, 3, $recentLimit);
 
         return [
-            'stats'             => $report['stats'],
-            'recentBookings'    => $report['recentBookings'],
-            'roomsByStatus'     => $report['roomStatusBreakdown'],
-            'earningsTrend'     => $report['monthlyEarnings'],
-            'revenueBreakdown'  => $report['revenueBreakdown'],
+            'stats'            => $report['stats'],
+            'recentBookings'   => $report['recentBookings'],
+            'roomsByStatus'    => $report['roomStatusBreakdown'],
+            'earningsTrend'    => $report['monthlyEarnings'],
+            'revenueBreakdown' => $report['revenueBreakdown'],
         ];
     }
 
@@ -72,13 +71,13 @@ class AdminReportModel extends Model
         $roomInventory       = $this->getRoomInventory();
 
         return [
-            'stats'                 => $this->compileStats($bookings, $roomStatusBreakdown, $bookingBreakdown),
-            'recentBookings'        => $this->getRecentBookings($recentLimit),
-            'roomStatusBreakdown'   => $roomStatusBreakdown,
-            'bookingStatusBreakdown'=> $bookingBreakdown,
-            'revenueBreakdown'      => $this->buildRevenueBreakdown($bookingBreakdown),
-            'monthlyEarnings'       => $this->buildMonthlyEarnings($bookings, $trendMonths),
-            'topRooms'              => $this->buildTopRooms($roomInventory, $bookings, $topRoomsLimit),
+            'stats'                  => $this->compileStats($bookings, $roomStatusBreakdown, $bookingBreakdown),
+            'recentBookings'         => $this->getRecentBookings($recentLimit),
+            'roomStatusBreakdown'    => $roomStatusBreakdown,
+            'bookingStatusBreakdown' => $bookingBreakdown,
+            'revenueBreakdown'       => $this->buildRevenueBreakdown($bookingBreakdown),
+            'monthlyEarnings'        => $this->buildMonthlyEarnings($bookings, $trendMonths),
+            'topRooms'               => $this->buildTopRooms($roomInventory, $bookings, $topRoomsLimit),
         ];
     }
 
@@ -88,8 +87,9 @@ class AdminReportModel extends Model
     private function getAnalyticsBookings(): array
     {
         return $this->db->table('bookings')
-            ->select('id, room_id, tenant_id, check_in, check_out, total_amount, status')
-            ->orderBy('check_in', 'DESC')
+            ->select('bookings.id, bookings.room_id, bookings.tenant_id, bookings.total_amount, bookings.status, bookings.created_at, rooms.pricing_hours')
+            ->join('rooms', 'rooms.id = bookings.room_id', 'left')
+            ->orderBy('bookings.created_at', 'DESC')
             ->get()
             ->getResultArray();
     }
@@ -100,10 +100,10 @@ class AdminReportModel extends Model
     private function getRecentBookings(int $limit): array
     {
         return $this->db->table('bookings')
-            ->select('bookings.*, rooms.room_number, rooms.type AS room_type, tenants.full_name AS tenant_name')
+            ->select('bookings.*, rooms.room_number, rooms.type AS room_type, rooms.pricing_hours, tenants.full_name AS tenant_name')
             ->join('rooms', 'rooms.id = bookings.room_id')
             ->join('tenants', 'tenants.id = bookings.tenant_id')
-            ->orderBy('bookings.check_in', 'DESC')
+            ->orderBy('bookings.created_at', 'DESC')
             ->limit($limit)
             ->get()
             ->getResultArray();
@@ -115,7 +115,7 @@ class AdminReportModel extends Model
     private function getRoomInventory(): array
     {
         return $this->db->table('rooms')
-            ->select('id, room_number, type, capacity, price_per_night, status')
+            ->select('id, room_number, type, capacity, price_per_night, pricing_hours, status')
             ->orderBy('room_number', 'ASC')
             ->get()
             ->getResultArray();
@@ -210,28 +210,10 @@ class AdminReportModel extends Model
             $bookingAmounts[$item['status']] = $this->moneyValue($item['amount']);
         }
 
-        $totalRooms          = array_sum($roomCounts);
-        $nonCancelledBookings = ($bookingCounts['pending'] ?? 0) + ($bookingCounts['checked_in'] ?? 0) + ($bookingCounts['checked_out'] ?? 0);
-        $bookedRevenue       = ($bookingAmounts['pending'] ?? 0.0) + ($bookingAmounts['checked_in'] ?? 0.0) + ($bookingAmounts['checked_out'] ?? 0.0);
-        $averageStayLength   = $this->calculateAverageStayLength($bookings);
-        $today               = date('Y-m-d');
-
-        $upcomingCheckIns = 0;
-        $stayingTonight   = 0;
-
-        foreach ($bookings as $booking) {
-            $status   = (string) ($booking['status'] ?? '');
-            $checkIn  = (string) ($booking['check_in'] ?? '');
-            $checkOut = (string) ($booking['check_out'] ?? '');
-
-            if ($status === 'pending' && $checkIn >= $today) {
-                $upcomingCheckIns++;
-            }
-
-            if ($status === 'checked_in' && $checkIn <= $today && $checkOut > $today) {
-                $stayingTonight++;
-            }
-        }
+        $totalRooms           = array_sum($roomCounts);
+        $nonCancelledBookings = ($bookingCounts['awaiting_payment'] ?? 0) + ($bookingCounts['pending'] ?? 0) + ($bookingCounts['checked_in'] ?? 0) + ($bookingCounts['checked_out'] ?? 0);
+        $bookedRevenue        = ($bookingAmounts['awaiting_payment'] ?? 0.0) + ($bookingAmounts['pending'] ?? 0.0) + ($bookingAmounts['checked_in'] ?? 0.0) + ($bookingAmounts['checked_out'] ?? 0.0);
+        $averageDurationHours = $this->calculateAverageDurationHours($bookings);
 
         return [
             'totalRooms'          => $totalRooms,
@@ -240,51 +222,46 @@ class AdminReportModel extends Model
             'maintenanceRooms'    => $roomCounts['maintenance'] ?? 0,
             'totalTenants'        => $this->db->table('tenants')->countAllResults(),
             'totalBookings'       => array_sum($bookingCounts),
-            'activeBookings'      => ($bookingCounts['pending'] ?? 0) + ($bookingCounts['checked_in'] ?? 0),
+            'activeBookings'      => ($bookingCounts['awaiting_payment'] ?? 0) + ($bookingCounts['pending'] ?? 0) + ($bookingCounts['checked_in'] ?? 0),
             'completedStays'      => $bookingCounts['checked_out'] ?? 0,
             'cancelledBookings'   => $bookingCounts['cancelled'] ?? 0,
             'bookedRevenue'       => $this->moneyValue($bookedRevenue),
             'realizedRevenue'     => $this->moneyValue($bookingAmounts['checked_out'] ?? 0.0),
             'inHouseRevenue'      => $this->moneyValue($bookingAmounts['checked_in'] ?? 0.0),
-            'pendingRevenue'      => $this->moneyValue($bookingAmounts['pending'] ?? 0.0),
+            'pendingRevenue'      => $this->moneyValue(($bookingAmounts['awaiting_payment'] ?? 0.0) + ($bookingAmounts['pending'] ?? 0.0)),
             'cancelledRevenue'    => $this->moneyValue($bookingAmounts['cancelled'] ?? 0.0),
             'occupancyRate'       => $totalRooms > 0 ? round((($roomCounts['occupied'] ?? 0) / $totalRooms) * 100, 1) : 0.0,
             'completionRate'      => $nonCancelledBookings > 0 ? round((($bookingCounts['checked_out'] ?? 0) / $nonCancelledBookings) * 100, 1) : 0.0,
             'averageBookingValue' => $nonCancelledBookings > 0 ? round($bookedRevenue / $nonCancelledBookings, 2) : 0.0,
-            'averageStayLength'   => $averageStayLength,
-            'upcomingCheckIns'    => $upcomingCheckIns,
-            'stayingTonight'      => $stayingTonight,
+            'averageStayLength'   => $averageDurationHours,
+            'upcomingCheckIns'    => ($bookingCounts['awaiting_payment'] ?? 0) + ($bookingCounts['pending'] ?? 0),
+            'stayingTonight'      => $bookingCounts['checked_in'] ?? 0,
         ];
     }
 
     /**
      * @param list<array<string, mixed>> $bookings
      */
-    private function calculateAverageStayLength(array $bookings): float
+    private function calculateAverageDurationHours(array $bookings): float
     {
-        $totalNights = 0;
-        $totalStays  = 0;
+        $totalHours = 0;
+        $bookingCount = 0;
 
         foreach ($bookings as $booking) {
-            if (in_array($booking['status'] ?? '', ['awaiting_payment', 'cancelled'], true)) {
+            if (($booking['status'] ?? '') === 'cancelled') {
                 continue;
             }
 
-            $nights = $this->countNights((string) ($booking['check_in'] ?? ''), (string) ($booking['check_out'] ?? ''));
-
-            if ($nights <= 0) {
-                continue;
-            }
-
-            $totalNights += $nights;
-            $totalStays++;
+            $durationHours = max(1, (int) ($booking['pricing_hours'] ?? 1));
+            $totalHours += $durationHours;
+            $bookingCount++;
         }
 
-        if ($totalStays === 0) {
+        if ($bookingCount === 0) {
             return 0.0;
         }
 
-        return round($totalNights / $totalStays, 1);
+        return round($totalHours / $bookingCount, 1);
     }
 
     /**
@@ -338,7 +315,7 @@ class AdminReportModel extends Model
                 continue;
             }
 
-            $key = substr((string) ($booking['check_in'] ?? ''), 0, 7);
+            $key = substr((string) ($booking['created_at'] ?? ''), 0, 7);
 
             if (! isset($trend[$key])) {
                 continue;
@@ -380,6 +357,7 @@ class AdminReportModel extends Model
                 'status'          => (string) $room['status'],
                 'capacity'        => (int) $room['capacity'],
                 'price_per_night' => $this->moneyValue($room['price_per_night'] ?? 0),
+                'pricing_hours'   => max(1, (int) ($room['pricing_hours'] ?? 1)),
                 'booking_count'   => 0,
                 'completed_stays' => 0,
                 'guest_nights'    => 0,
@@ -388,7 +366,7 @@ class AdminReportModel extends Model
         }
 
         foreach ($bookings as $booking) {
-            if (in_array($booking['status'] ?? '', ['awaiting_payment', 'cancelled'], true)) {
+            if (($booking['status'] ?? '') === 'cancelled') {
                 continue;
             }
 
@@ -399,7 +377,7 @@ class AdminReportModel extends Model
             }
 
             $performance[$roomId]['booking_count']++;
-            $performance[$roomId]['guest_nights'] += $this->countNights((string) ($booking['check_in'] ?? ''), (string) ($booking['check_out'] ?? ''));
+            $performance[$roomId]['guest_nights'] += max(1, (int) ($booking['pricing_hours'] ?? 1));
             $performance[$roomId]['total_revenue'] = $this->moneyValue($performance[$roomId]['total_revenue'] + (float) ($booking['total_amount'] ?? 0));
 
             if (($booking['status'] ?? '') === 'checked_out') {
@@ -422,26 +400,6 @@ class AdminReportModel extends Model
         });
 
         return array_slice($rankedRooms, 0, max(1, $limit));
-    }
-
-    private function countNights(string $checkIn, string $checkOut): int
-    {
-        if ($checkIn === '' || $checkOut === '') {
-            return 0;
-        }
-
-        try {
-            $start = new DateTimeImmutable($checkIn);
-            $end   = new DateTimeImmutable($checkOut);
-        } catch (Throwable) {
-            return 0;
-        }
-
-        if ($end <= $start) {
-            return 0;
-        }
-
-        return (int) $start->diff($end)->days;
     }
 
     /**

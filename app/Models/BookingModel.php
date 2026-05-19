@@ -42,7 +42,7 @@ class BookingModel extends Model
 
     public function withRelations()
     {
-        return $this->select('bookings.*, rooms.room_number, rooms.type AS room_type, tenants.full_name AS tenant_name')
+        return $this->select('bookings.*, rooms.room_number, rooms.type AS room_type, rooms.pricing_hours, rooms.price_per_night, tenants.full_name AS tenant_name')
             ->join('rooms', 'rooms.id = bookings.room_id')
             ->join('tenants', 'tenants.id = bookings.tenant_id');
     }
