@@ -132,12 +132,16 @@ class AdminRoomsController extends BaseController
                 'rules' => 'required|integer|greater_than[0]',
             ],
             'price_per_hour' => [
-                'label' => 'Price per Hour',
+                'label' => 'Price',
                 'rules' => 'required|decimal|greater_than_equal_to[0]',
             ],
-            'pricing_hours' => [
-                'label' => 'Duration',
-                'rules' => 'required|integer|greater_than[0]|less_than_equal_to[24]',
+            'pricing_days' => [
+                'label' => 'Days',
+                'rules' => 'permit_empty|integer|greater_than[0]',
+            ],
+            'pricing_hour_value' => [
+                'label' => 'Hours',
+                'rules' => 'permit_empty|integer|greater_than[0]',
             ],
             'status' => [
                 'label' => 'Status',
@@ -153,12 +157,33 @@ class AdminRoomsController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        $pricingDays      = trim((string) $this->request->getPost('pricing_days'));
+        $pricingHourValue = trim((string) $this->request->getPost('pricing_hour_value'));
+
+        if ($pricingDays === '' && $pricingHourValue === '') {
+            return redirect()->back()->withInput()->with('errors', [
+                'pricing_days' => 'Choose a day duration, an hour duration, or both.',
+            ]);
+        }
+
+        if ($pricingDays !== '' && ! array_key_exists($pricingDays, pricing_day_options())) {
+            return redirect()->back()->withInput()->with('errors', [
+                'pricing_days' => 'Choose a valid day duration.',
+            ]);
+        }
+
+        if ($pricingHourValue !== '' && ! array_key_exists($pricingHourValue, pricing_hour_options())) {
+            return redirect()->back()->withInput()->with('errors', [
+                'pricing_hour_value' => 'Choose a valid hour duration.',
+            ]);
+        }
+
         return [
             'room_number'     => trim((string) $this->request->getPost('room_number')),
             'type'            => (string) $this->request->getPost('type'),
             'capacity'        => (int) $this->request->getPost('capacity'),
             'price_per_night' => (float) $this->request->getPost('price_per_hour'),
-            'pricing_hours'   => (int) $this->request->getPost('pricing_hours'),
+            'pricing_hours'   => pricing_day_hour_to_hours($pricingDays, $pricingHourValue),
             'status'          => (string) $this->request->getPost('status'),
             'description'     => trim((string) $this->request->getPost('description')),
         ];
