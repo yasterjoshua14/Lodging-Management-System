@@ -74,19 +74,19 @@ if (! function_exists('sync_room_booking_statuses')) {
             return;
         }
 
-        $checkedInRoomsQuery = $db->table('bookings')
+        $activeBookedRoomsQuery = $db->table('bookings')
             ->select('room_id')
-            ->where('status', 'checked_in')
+            ->whereIn('status', active_booking_statuses())
             ->groupBy('room_id');
 
         if ($normalizedRoomIds !== []) {
-            $checkedInRoomsQuery->whereIn('room_id', $normalizedRoomIds);
+            $activeBookedRoomsQuery->whereIn('room_id', $normalizedRoomIds);
         }
 
-        $checkedInRoomIds = array_fill_keys(
+        $activeBookedRoomIds = array_fill_keys(
             array_map(
                 static fn (array $row): int => (int) ($row['room_id'] ?? 0),
-                $checkedInRoomsQuery->get()->getResultArray()
+                $activeBookedRoomsQuery->get()->getResultArray()
             ),
             true
         );
@@ -99,7 +99,7 @@ if (! function_exists('sync_room_booking_statuses')) {
                 continue;
             }
 
-            if (isset($checkedInRoomIds[$roomId])) {
+            if (isset($activeBookedRoomIds[$roomId])) {
                 if ($status !== 'occupied') {
                     $db->table('rooms')->where('id', $roomId)->update(['status' => 'occupied']);
                 }
@@ -111,6 +111,16 @@ if (! function_exists('sync_room_booking_statuses')) {
                 $db->table('rooms')->where('id', $roomId)->update(['status' => 'available']);
             }
         }
+    }
+}
+
+if (! function_exists('active_booking_statuses')) {
+    /**
+     * @return list<string>
+     */
+    function active_booking_statuses(): array
+    {
+        return ['awaiting_payment', 'pending', 'checked_in'];
     }
 }
 
@@ -156,6 +166,25 @@ if (! function_exists('format_money')) {
     function format_money($amount): string
     {
         return 'PHP ' . number_format((float) $amount, 2);
+    }
+}
+
+if (! function_exists('format_datetime')) {
+    function format_datetime(?string $value, string $fallback = 'N/A'): string
+    {
+        $normalizedValue = trim((string) $value);
+
+        if ($normalizedValue === '') {
+            return $fallback;
+        }
+
+        $timestamp = strtotime($normalizedValue);
+
+        if ($timestamp === false) {
+            return $normalizedValue;
+        }
+
+        return date('M j, Y g:i A', $timestamp);
     }
 }
 
