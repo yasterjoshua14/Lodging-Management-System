@@ -28,11 +28,70 @@ if (! function_exists('hour_duration_options')) {
     {
         $options = [];
 
-        for ($hour = 1; $hour <= 24; $hour++) {
+        for ($hour = 1; $hour <= 23; $hour++) {
             $options[(string) $hour] = $hour === 1 ? '1hr' : $hour . 'hrs';
         }
 
+        for ($day = 1; $day <= 31; $day++) {
+            $hours = $day * 24;
+            $options[(string) $hours] = $day === 1 ? '1day' : $day . 'days';
+        }
+
         return $options;
+    }
+}
+
+if (! function_exists('pricing_day_options')) {
+    function pricing_day_options(): array
+    {
+        $options = [];
+
+        for ($day = 1; $day <= 31; $day++) {
+            $options[(string) $day] = (string) $day;
+        }
+
+        return $options;
+    }
+}
+
+if (! function_exists('pricing_hour_options')) {
+    function pricing_hour_options(): array
+    {
+        $options = [];
+
+        for ($hour = 1; $hour <= 23; $hour++) {
+            $options[(string) $hour] = (string) $hour;
+        }
+
+        return $options;
+    }
+}
+
+if (! function_exists('pricing_duration_day_hour_parts')) {
+    /**
+     * @return array{days: string, hours: string}
+     */
+    function pricing_duration_day_hour_parts(mixed $hours): array
+    {
+        $normalizedHours = max(1, (int) $hours);
+        $days            = intdiv($normalizedHours, 24);
+        $remainingHours  = $normalizedHours % 24;
+
+        return [
+            'days'  => $days > 0 ? (string) min(31, $days) : '',
+            'hours' => $remainingHours > 0 ? (string) $remainingHours : ($days === 0 ? (string) min(23, $normalizedHours) : ''),
+        ];
+    }
+}
+
+if (! function_exists('pricing_day_hour_to_hours')) {
+    function pricing_day_hour_to_hours(mixed $days, mixed $hours): int
+    {
+        $normalizedDays  = max(0, (int) $days);
+        $normalizedHours = max(0, (int) $hours);
+        $totalHours      = ($normalizedDays * 24) + $normalizedHours;
+
+        return max(1, $totalHours);
     }
 }
 
@@ -42,7 +101,30 @@ if (! function_exists('hour_duration_label')) {
         $normalizedHours = max(1, (int) $hours);
         $options = hour_duration_options();
 
-        return $options[(string) $normalizedHours] ?? ($normalizedHours === 1 ? '1hr' : $normalizedHours . 'hrs');
+        if (isset($options[(string) $normalizedHours])) {
+            return $options[(string) $normalizedHours];
+        }
+
+        if ($normalizedHours >= 24) {
+            $parts = pricing_duration_day_hour_parts($normalizedHours);
+            $labelParts = [];
+
+            if ($parts['days'] !== '') {
+                $dayCount     = (int) $parts['days'];
+                $labelParts[] = $dayCount === 1 ? '1day' : $dayCount . 'days';
+            }
+
+            if ($parts['hours'] !== '') {
+                $hourCount    = (int) $parts['hours'];
+                $labelParts[] = $hourCount === 1 ? '1hr' : $hourCount . 'hrs';
+            }
+
+            if ($labelParts !== []) {
+                return implode(' ', $labelParts);
+            }
+        }
+
+        return $normalizedHours === 1 ? '1hr' : $normalizedHours . 'hrs';
     }
 }
 
