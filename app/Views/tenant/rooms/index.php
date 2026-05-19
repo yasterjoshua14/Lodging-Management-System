@@ -126,18 +126,16 @@ $selectedRoomNotes = old('notes', '');
                 <div class="detail-item">
                     <h3>Duration</h3>
                     <div class="detail-value"><?= view_esc(hour_duration_label($selectedRoom['pricing_hours'] ?? 1)) ?></div>
-                    <p>Single room booking</p>
                 </div>
 
                 <div class="detail-item">
                     <h3>Total Amount</h3>
                     <div class="detail-value"><?= view_esc(format_money($selectedRoom['stay_total'])) ?></div>
-                    <p><?= view_esc(format_money($selectedRoom['price_per_night'])) ?> per booking</p>
                 </div>
 
                 <div class="detail-item full-span">
                     <h3>Description</h3>
-                    <p><?= view_esc($selectedRoom['description'] ?: 'No description provided for this room.') ?></p>
+                    <h4><?= view_esc($selectedRoom['description'] ?: 'No description provided for this room.') ?></h4>
                 </div>
             </div>
 
