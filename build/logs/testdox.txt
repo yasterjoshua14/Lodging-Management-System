@@ -1,15 +1,5 @@
-Admin Report Model
- [ ] Dashboard report summarizes revenue and occupancy
- [ ] Analytics ranks rooms and breaks down booking statuses
-
-Example Database
- [ ] Model find all
- [ ] Soft delete leaves row
-
-Example Session
- [x] Session simple
-
-Health
- [x] Is defined app path
- [x] Base url has been set
+Lodging Helper
+ [x] Hour duration options mix hourly and daily ranges
+ [x] Hour duration label uses daily labels for full days
+ [x] Pricing duration helpers split and rebuild stored hours
 
