@@ -16,7 +16,7 @@ class AdminBookingsController extends BaseController
 
         $bookings = (new BookingModel())
             ->withRelations()
-            ->orderBy('bookings.check_in', 'DESC')
+            ->orderBy('bookings.created_at', 'DESC')
             ->findAll();
 
         return view('admin/bookings/index', [
@@ -47,8 +47,8 @@ class AdminBookingsController extends BaseController
             return $data;
         }
 
-        if ($this->hasDateConflict($data['room_id'], $data['check_in'], $data['check_out'])) {
-            return redirect()->back()->withInput()->with('error', 'The selected room already has an active booking for the chosen dates.');
+        if ($this->bookingStatusBlocksRoom($data['status']) && $this->hasActiveConflict($data['room_id'])) {
+            return redirect()->back()->withInput()->with('error', 'The selected room already has an active booking.');
         }
 
         (new BookingModel())->insert($data);
@@ -75,14 +75,14 @@ class AdminBookingsController extends BaseController
     public function update(int $id): RedirectResponse
     {
         $existingBooking = $this->findBookingOrFail($id);
-        $data = $this->getValidatedData();
+        $data = $this->getValidatedData($existingBooking);
 
         if ($data instanceof RedirectResponse) {
             return $data;
         }
 
-        if ($this->hasDateConflict($data['room_id'], $data['check_in'], $data['check_out'], $id)) {
-            return redirect()->back()->withInput()->with('error', 'The selected room already has an active booking for the chosen dates.');
+        if ($this->bookingStatusBlocksRoom($data['status']) && $this->hasActiveConflict($data['room_id'], $id)) {
+            return redirect()->back()->withInput()->with('error', 'The selected room already has an active booking.');
         }
 
         (new BookingModel())->update($id, $data);
@@ -103,7 +103,12 @@ class AdminBookingsController extends BaseController
         return redirect()->to(admin_path('bookings'))->with('success', 'Booking deleted successfully.');
     }
 
-    private function getValidatedData()
+    /**
+     * @param array<string, mixed>|null $existingBooking
+     *
+     * @return array<string, mixed>|RedirectResponse
+     */
+    private function getValidatedData(?array $existingBooking = null)
     {
         $rules = [
             'room_id' => [
@@ -113,14 +118,6 @@ class AdminBookingsController extends BaseController
             'tenant_id' => [
                 'label' => 'Tenant',
                 'rules' => 'required|integer',
-            ],
-            'check_in' => [
-                'label' => 'Check-in Date',
-                'rules' => 'required|valid_date[Y-m-d]',
-            ],
-            'check_out' => [
-                'label' => 'Check-out Date',
-                'rules' => 'required|valid_date[Y-m-d]',
             ],
             'total_amount' => [
                 'label' => 'Total Amount',
@@ -140,16 +137,13 @@ class AdminBookingsController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $checkIn  = (string) $this->request->getPost('check_in');
-        $checkOut = (string) $this->request->getPost('check_out');
         $roomId   = (int) $this->request->getPost('room_id');
         $tenantId = (int) $this->request->getPost('tenant_id');
+        $status   = (string) $this->request->getPost('status');
+        $bookingDate = (string) ($existingBooking['check_in'] ?? date('Y-m-d'));
 
-        if ($checkOut <= $checkIn) {
-            return redirect()->back()->withInput()->with('error', 'Check-out date must be after the check-in date.');
-        }
-
-        if ((new RoomModel())->find($roomId) === null) {
+        $room = (new RoomModel())->find($roomId);
+        if ($room === null) {
             return redirect()->back()->withInput()->with('error', 'The selected room could not be found.');
         }
 
@@ -157,13 +151,17 @@ class AdminBookingsController extends BaseController
             return redirect()->back()->withInput()->with('error', 'The selected tenant could not be found.');
         }
 
+        if ($this->bookingStatusBlocksRoom($status) && (string) ($room['status'] ?? '') === 'maintenance') {
+            return redirect()->back()->withInput()->with('error', 'Rooms under maintenance cannot receive active bookings.');
+        }
+
         return [
             'room_id'       => $roomId,
             'tenant_id'     => $tenantId,
-            'check_in'      => $checkIn,
-            'check_out'     => $checkOut,
+            'check_in'      => $bookingDate,
+            'check_out'     => (string) ($existingBooking['check_out'] ?? $bookingDate),
             'total_amount'  => (float) $this->request->getPost('total_amount'),
-            'status'        => (string) $this->request->getPost('status'),
+            'status'        => $status,
             'notes'         => trim((string) $this->request->getPost('notes')),
         ];
     }
@@ -191,21 +189,22 @@ class AdminBookingsController extends BaseController
             ->findAll();
     }
 
-    private function hasDateConflict(int $roomId, string $checkIn, string $checkOut, ?int $ignoreId = null): bool
+    private function hasActiveConflict(int $roomId, ?int $ignoreId = null): bool
     {
         $query = (new BookingModel())
             ->where('room_id', $roomId)
-            ->whereIn('status', ['pending', 'checked_in'])
-            ->groupStart()
-            ->where('check_in <', $checkOut)
-            ->where('check_out >', $checkIn)
-            ->groupEnd();
+            ->whereIn('status', active_booking_statuses());
 
         if ($ignoreId !== null) {
             $query->where('id !=', $ignoreId);
         }
 
         return $query->first() !== null;
+    }
+
+    private function bookingStatusBlocksRoom(string $status): bool
+    {
+        return in_array($status, active_booking_statuses(), true);
     }
 
     private function findBookingOrFail(int $id): array

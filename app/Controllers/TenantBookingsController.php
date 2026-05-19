@@ -8,7 +8,6 @@ use App\Models\BookingModel;
 use App\Models\RoomModel;
 use App\Models\TenantModel;
 use CodeIgniter\HTTP\RedirectResponse;
-use DateTimeImmutable;
 use Throwable;
 
 class TenantBookingsController extends BaseController
@@ -28,7 +27,7 @@ class TenantBookingsController extends BaseController
         $bookings = (new BookingModel())
             ->withRelations()
             ->where('bookings.tenant_id', auth_tenant_id())
-            ->orderBy('bookings.check_in', 'DESC')
+            ->orderBy('bookings.created_at', 'DESC')
             ->findAll();
 
         return view('tenant/bookings/index', [
@@ -41,35 +40,21 @@ class TenantBookingsController extends BaseController
     {
         sync_room_booking_statuses();
 
-        $search       = $this->bookingSearchStateFromRequest();
-        $searchErrors = [];
-        $rooms        = [];
-        $selectedRoom = null;
-
-        if ($search['submitted']) {
-            $searchErrors = $this->validateSearch($search);
-
-            if ($searchErrors === []) {
-                $rooms = $this->buildRoomCatalog($search);
-
-                $selectedRoom = $this->resolveSelectedRoom(
-                    array_values(array_filter(
-                        $rooms,
-                        static fn (array $room): bool => (bool) ($room['is_bookable'] ?? false)
-                    )),
-                    $search['selected_room_id']
-                );
-            }
-        }
+        $rooms          = $this->buildRoomCatalog();
+        $selectedRoomId = max(0, (int) $this->request->getGet('selected_room'));
+        $selectedRoom   = $this->resolveSelectedRoom(
+            array_values(array_filter(
+                $rooms,
+                static fn (array $room): bool => (bool) ($room['is_bookable'] ?? false)
+            )),
+            $selectedRoomId
+        );
 
         return view('tenant/rooms/index', [
-            'rooms'          => $rooms,
-            'paymongoReady'  => $this->paymongo->isConfigured(),
-            'search'         => $search,
-            'searchErrors'   => $searchErrors,
-            'selectedRoom'   => $selectedRoom,
-            'stayNights'     => $search['submitted'] && $searchErrors === [] ? $this->availability->countNights($search['check_in'], $search['check_out']) : 0,
-            'title'          => 'Rooms',
+            'rooms'         => $rooms,
+            'paymongoReady' => $this->paymongo->isConfigured(),
+            'selectedRoom'  => $selectedRoom,
+            'title'         => 'Rooms',
         ]);
     }
 
@@ -81,65 +66,69 @@ class TenantBookingsController extends BaseController
         }
 
         $requestData = [
-            'check_in'  => trim((string) $this->request->getPost('check_in')),
-            'check_out' => trim((string) $this->request->getPost('check_out')),
-            'guests'    => trim((string) $this->request->getPost('guests')),
-            'notes'     => trim((string) $this->request->getPost('notes')),
-            'room_id'   => (int) $this->request->getPost('room_id'),
-            'selected_room_id' => (int) $this->request->getPost('room_id'),
+            'notes'   => trim((string) $this->request->getPost('notes')),
+            'room_id' => (int) $this->request->getPost('room_id'),
         ];
 
-        $errors = $this->validateSearch($requestData);
+        $errors = [];
 
         if ($requestData['room_id'] <= 0) {
             $errors['room_id'] = 'Select a room before continuing to payment.';
         }
 
+        if (mb_strlen($requestData['notes']) > 500) {
+            $errors['notes'] = 'Booking notes can only be up to 500 characters.';
+        }
+
         if ($errors !== []) {
-            return redirect()->to($this->buildSearchUrl($requestData))
+            return redirect()->to($this->buildRoomsUrl($requestData['room_id']))
+                ->withInput()
                 ->with('error', implode(' ', array_values($errors)));
         }
 
         $room = (new RoomModel())->find($requestData['room_id']);
 
         if ($room === null || ($room['status'] ?? '') !== 'available') {
-            return redirect()->to($this->buildSearchUrl($requestData))
+            return redirect()->to($this->buildRoomsUrl($requestData['room_id']))
+                ->withInput()
                 ->with('error', 'The selected room is no longer available for online booking.');
         }
 
-        if ($requestData['guests'] !== '' && (int) ($room['capacity'] ?? 0) < (int) $requestData['guests']) {
-            return redirect()->to($this->buildSearchUrl($requestData))
-                ->with('error', 'The selected room does not fit the requested guest count.');
+        if ($this->availability->hasActiveConflict($requestData['room_id'])) {
+            return redirect()->to($this->buildRoomsUrl($requestData['room_id']))
+                ->withInput()
+                ->with('error', 'That room already has an active booking.');
         }
 
-        if ($this->availability->hasDateConflict($requestData['room_id'], $requestData['check_in'], $requestData['check_out'])) {
-            return redirect()->to($this->buildSearchUrl($requestData))
-                ->with('error', 'That room has already been reserved for the selected stay dates.');
-        }
-
-        $totalAmount = $this->availability->calculateTotalAmount($room, $requestData['check_in'], $requestData['check_out']);
+        $totalAmount = $this->availability->calculateTotalAmount($room);
 
         if ($totalAmount <= 0) {
-            return redirect()->to($this->buildSearchUrl($requestData))
-                ->with('error', 'The booking amount could not be calculated for the selected stay dates.');
+            return redirect()->to($this->buildRoomsUrl($requestData['room_id']))
+                ->withInput()
+                ->with('error', 'The booking amount could not be calculated for the selected room.');
         }
 
+        $bookingDate = date('Y-m-d');
         $bookingModel = new BookingModel();
         $bookingModel->insert([
-            'check_in'     => $requestData['check_in'],
-            'check_out'    => $requestData['check_out'],
+            'check_in'     => $bookingDate,
+            'check_out'    => $bookingDate,
             'notes'        => $requestData['notes'],
             'room_id'      => $requestData['room_id'],
             'status'       => 'awaiting_payment',
             'tenant_id'    => auth_tenant_id(),
             'total_amount' => $totalAmount,
         ]);
+        sync_room_booking_statuses([$requestData['room_id']]);
 
         $bookingId = (int) $bookingModel->getInsertID();
         $booking   = $bookingModel->find($bookingId);
 
         if ($booking === null) {
-            return redirect()->to($this->buildSearchUrl($requestData))
+            sync_room_booking_statuses([$requestData['room_id']]);
+
+            return redirect()->to($this->buildRoomsUrl($requestData['room_id']))
+                ->withInput()
                 ->with('error', 'The booking hold could not be prepared for payment.');
         }
 
@@ -151,13 +140,15 @@ class TenantBookingsController extends BaseController
             );
         } catch (Throwable $exception) {
             $bookingModel->delete($bookingId);
+            sync_room_booking_statuses([$requestData['room_id']]);
 
             log_message('error', 'PayMongo checkout creation failed for booking #{id}: {message}', [
                 'id'      => $bookingId,
                 'message' => $exception->getMessage(),
             ]);
 
-            return redirect()->to($this->buildSearchUrl($requestData))
+            return redirect()->to($this->buildRoomsUrl($requestData['room_id']))
+                ->withInput()
                 ->with('error', $exception->getMessage());
         }
 
@@ -204,6 +195,7 @@ class TenantBookingsController extends BaseController
 
         if (in_array($paymentCheck['status'], ['cancelled', 'expired'], true)) {
             (new BookingModel())->update((int) $booking['id'], ['status' => 'cancelled']);
+            sync_room_booking_statuses([(int) ($booking['room_id'] ?? 0)]);
 
             return redirect()->to(tenant_path('myBookings'))
                 ->with('warning', 'The checkout was not completed, so the room hold was released.');
@@ -256,6 +248,7 @@ class TenantBookingsController extends BaseController
         if ($paymentCheck['error'] !== null) {
             if ($paymentCheck['error'] === 'missing_configuration') {
                 (new BookingModel())->update((int) $booking['id'], ['status' => 'cancelled']);
+                sync_room_booking_statuses([(int) ($booking['room_id'] ?? 0)]);
 
                 return redirect()->to(tenant_path('myBookings'))
                     ->with('success', $successMessage);
@@ -273,6 +266,7 @@ class TenantBookingsController extends BaseController
         }
 
         (new BookingModel())->update((int) $booking['id'], ['status' => 'cancelled']);
+        sync_room_booking_statuses([(int) ($booking['room_id'] ?? 0)]);
 
         return redirect()->to(tenant_path('myBookings'))
             ->with('success', $successMessage);
@@ -374,118 +368,37 @@ class TenantBookingsController extends BaseController
     }
 
     /**
-     * @param array<string, mixed> $search
-     *
      * @return list<array<string, mixed>>
      */
-    private function buildRoomCatalog(array $search): array
+    private function buildRoomCatalog(): array
     {
-        $guestCount = $search['guests'] === '' ? null : (int) $search['guests'];
         $rooms = (new RoomModel())
             ->orderBy('room_number', 'ASC')
             ->findAll();
 
-        return array_map(function (array $room) use ($search, $guestCount): array {
-            $hasConflict = $this->availability->hasDateConflict(
-                (int) ($room['id'] ?? 0),
-                (string) $search['check_in'],
-                (string) $search['check_out']
-            );
-
+        return array_map(function (array $room): array {
+            $hasConflict = $this->availability->hasActiveConflict((int) ($room['id'] ?? 0));
             $displayStatus = $this->resolveTenantRoomStatus($room, $hasConflict);
-            $fitsGuests = $guestCount === null || (int) ($room['capacity'] ?? 0) >= $guestCount;
 
             $room['pricing_hours'] = max(1, (int) ($room['pricing_hours'] ?? 1));
-            $room['stay_nights']   = $this->availability->countNights($search['check_in'], $search['check_out']);
-            $room['stay_total']    = $this->availability->calculateTotalAmount($room, $search['check_in'], $search['check_out']);
+            $room['stay_total']    = $this->availability->calculateTotalAmount($room);
             $room['display_status'] = $displayStatus;
-            $room['is_bookable']    = $displayStatus === 'available' && $fitsGuests;
+            $room['is_bookable']    = $displayStatus === 'available';
 
             return $room;
         }, $rooms);
     }
 
     /**
-     * @param array<string, mixed> $search
-     *
-     * @return array<string, string>
+     * @param int $selectedRoomId
      */
-    private function validateSearch(array $search): array
-    {
-        $errors   = [];
-        $checkIn  = trim((string) ($search['check_in'] ?? ''));
-        $checkOut = trim((string) ($search['check_out'] ?? ''));
-        $guests   = trim((string) ($search['guests'] ?? ''));
-        $notes    = trim((string) ($search['notes'] ?? ''));
-        $today    = date('Y-m-d');
-
-        if ($checkIn === '') {
-            $errors['check_in'] = 'Choose a check-in date.';
-        } elseif (! $this->isValidDate($checkIn)) {
-            $errors['check_in'] = 'Use the YYYY-MM-DD format for check-in.';
-        } elseif ($checkIn < $today) {
-            $errors['check_in'] = 'Check-in date cannot be earlier than today.';
-        }
-
-        if ($checkOut === '') {
-            $errors['check_out'] = 'Choose a check-out date.';
-        } elseif (! $this->isValidDate($checkOut)) {
-            $errors['check_out'] = 'Use the YYYY-MM-DD format for check-out.';
-        } elseif ($checkIn !== '' && $this->isValidDate($checkIn) && $checkOut <= $checkIn) {
-            $errors['check_out'] = 'Check-out date must be after the check-in date.';
-        }
-
-        if ($guests !== '' && (! ctype_digit($guests) || (int) $guests < 1)) {
-            $errors['guests'] = 'Guest count must be at least 1.';
-        }
-
-        if (mb_strlen($notes) > 500) {
-            $errors['notes'] = 'Arrival notes can only be up to 500 characters.';
-        }
-
-        return $errors;
-    }
-
-    /**
-     * @param array<string, mixed> $search
-     */
-    private function buildSearchUrl(array $search): string
+    private function buildRoomsUrl(int $selectedRoomId = 0): string
     {
         $query = array_filter([
-            'check_in'  => trim((string) ($search['check_in'] ?? '')),
-            'check_out' => trim((string) ($search['check_out'] ?? '')),
-            'guests'    => trim((string) ($search['guests'] ?? '')),
-            'notes'     => trim((string) ($search['notes'] ?? '')),
-            'selected_room' => (int) ($search['selected_room_id'] ?? 0) > 0 ? (string) (int) $search['selected_room_id'] : '',
+            'selected_room' => $selectedRoomId > 0 ? (string) $selectedRoomId : '',
         ], static fn (string $value): bool => $value !== '');
 
         return tenant_path('myRooms') . ($query === [] ? '' : '?' . http_build_query($query));
-    }
-
-    /**
-     * @return array{check_in: string, check_out: string, guests: string, notes: string, selected_room_id: int, submitted: bool}
-     */
-    private function bookingSearchStateFromRequest(): array
-    {
-        $today = new DateTimeImmutable('today');
-        $search = [
-            'check_in'         => trim((string) $this->request->getGet('check_in')),
-            'check_out'        => trim((string) $this->request->getGet('check_out')),
-            'guests'           => trim((string) $this->request->getGet('guests')),
-            'notes'            => trim((string) $this->request->getGet('notes')),
-            'selected_room_id' => max(0, (int) $this->request->getGet('selected_room')),
-            'submitted'        => true,
-        ];
-
-        if ($search['check_in'] === '') {
-            $search['check_in'] = $today->format('Y-m-d');
-        }
-
-        if ($search['check_out'] === '') {
-            $search['check_out'] = $today->modify('+1 day')->format('Y-m-d');
-        }
-
-        return $search;
     }
 
     /**
@@ -526,10 +439,4 @@ class TenantBookingsController extends BaseController
         return 'available';
     }
 
-    private function isValidDate(string $value): bool
-    {
-        $date = DateTimeImmutable::createFromFormat('!Y-m-d', $value);
-
-        return $date instanceof DateTimeImmutable && $date->format('Y-m-d') === $value;
-    }
 }

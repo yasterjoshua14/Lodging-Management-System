@@ -10,45 +10,40 @@ class TenantDashboardController extends BaseController
     public function index(): string
     {
         $tenantId = auth_tenant_id();
-        $today    = date('Y-m-d');
 
         $stats = [
-            'totalBookings'    => (new BookingModel())->where('tenant_id', $tenantId)->countAllResults(),
-            'upcomingBookings' => (new BookingModel())
+            'totalBookings'     => (new BookingModel())->where('tenant_id', $tenantId)->countAllResults(),
+            'pendingBookings'   => (new BookingModel())
                 ->where('tenant_id', $tenantId)
-                ->where('check_in >', $today)
-                ->whereIn('status', ['pending', 'checked_in'])
+                ->whereIn('status', ['awaiting_payment', 'pending'])
                 ->countAllResults(),
-            'activeStays'      => (new BookingModel())
+            'activeBookings'    => (new BookingModel())
                 ->where('tenant_id', $tenantId)
-                ->where('check_in <=', $today)
-                ->where('check_out >', $today)
-                ->whereIn('status', ['pending', 'checked_in'])
+                ->where('status', 'checked_in')
                 ->countAllResults(),
-            'completedStays'   => (new BookingModel())
+            'completedBookings' => (new BookingModel())
                 ->where('tenant_id', $tenantId)
                 ->where('status', 'checked_out')
                 ->countAllResults(),
         ];
 
-        $nextBooking = (new BookingModel())
+        $currentBooking = (new BookingModel())
             ->withRelations()
             ->where('bookings.tenant_id', $tenantId)
-            ->where('bookings.check_out >=', $today)
-            ->where('bookings.status !=', 'cancelled')
-            ->orderBy('bookings.check_in', 'ASC')
+            ->whereIn('bookings.status', active_booking_statuses())
+            ->orderBy('bookings.created_at', 'DESC')
             ->first();
 
         $recentBookings = (new BookingModel())
             ->withRelations()
             ->where('bookings.tenant_id', $tenantId)
-            ->orderBy('bookings.check_in', 'DESC')
+            ->orderBy('bookings.created_at', 'DESC')
             ->findAll(5);
 
         return view('tenant/dashboard/index', [
             'title'          => 'My Dashboard',
             'stats'          => $stats,
-            'nextBooking'    => $nextBooking,
+            'currentBooking' => $currentBooking,
             'recentBookings' => $recentBookings,
             'tenant'         => (new TenantModel())->find($tenantId),
         ]);

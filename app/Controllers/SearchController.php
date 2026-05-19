@@ -32,7 +32,7 @@ class SearchController extends BaseController
             ),
             $this->buildSection(
                 'Bookings',
-                'Search guests, rooms, stay dates, notes, and booking statuses.',
+                'Search guests, rooms, notes, payment details, and booking statuses.',
                 $query !== '' ? $this->searchAdminBookings($query) : [],
                 'No bookings matched that search.'
             ),
@@ -58,7 +58,7 @@ class SearchController extends BaseController
             ),
             $this->buildSection(
                 'My Bookings',
-                'Search your room numbers, stay dates, notes, and booking statuses.',
+                'Search your room numbers, notes, payment details, and booking statuses.',
                 $query !== '' ? $this->searchTenantBookings($query) : [],
                 'No bookings matched that search.'
             ),
@@ -87,11 +87,11 @@ class SearchController extends BaseController
         }
 
         return [
-            'title'        => $title,
-            'searchHint'   => $hint,
-            'searchQuery'  => $query,
-            'hasQuery'     => $query !== '',
-            'resultCount'  => $resultCount,
+            'title'          => $title,
+            'searchHint'     => $hint,
+            'searchQuery'    => $query,
+            'hasQuery'       => $query !== '',
+            'resultCount'    => $resultCount,
             'searchSections' => $sections,
         ];
     }
@@ -132,7 +132,7 @@ class SearchController extends BaseController
             $this->makeItem('Dashboard', 'Open the admin analytics and performance overview.', admin_path('dashboard'), 'Admin page'),
             $this->makeItem('Rooms', 'Review room inventory, availability, rates, and statuses.', admin_path('rooms'), 'Admin page'),
             $this->makeItem('Tenants', 'Manage tenant profiles, contact details, and records.', admin_path('tenants'), 'Admin page'),
-            $this->makeItem('Bookings', 'Review active reservations, statuses, and totals.', admin_path('bookings'), 'Admin page'),
+            $this->makeItem('Bookings', 'Review active room bookings, statuses, and totals.', admin_path('bookings'), 'Admin page'),
             $this->makeItem('Add Room', 'Create a new room listing for the inventory.', admin_path('rooms/create'), 'Quick action'),
             $this->makeItem('Add Tenant', 'Create a new tenant profile.', admin_path('tenants/create'), 'Quick action'),
             $this->makeItem('Add Booking', 'Create a new booking record.', admin_path('bookings/create'), 'Quick action'),
@@ -142,9 +142,9 @@ class SearchController extends BaseController
     private function tenantQuickLinks(): array
     {
         return [
-            $this->makeItem('Dashboard', 'Review your upcoming stays and recent account activity.', tenant_path('dashboard'), 'Portal page'),
-            $this->makeItem('Rooms', 'Search room availability and start a new booking.', tenant_path('myRooms'), 'Portal page'),
-            $this->makeItem('My Bookings', 'Open your booking history, payments, and stay schedule.', tenant_path('myBookings'), 'Portal page'),
+            $this->makeItem('Dashboard', 'Review your room bookings and recent account activity.', tenant_path('dashboard'), 'Portal page'),
+            $this->makeItem('Rooms', 'Browse room availability and start a new booking.', tenant_path('myRooms'), 'Portal page'),
+            $this->makeItem('My Bookings', 'Open your booking history, payments, and room details.', tenant_path('myBookings'), 'Portal page'),
             $this->makeItem('My Account', 'Update your contact details, ID information, and profile.', tenant_path('account'), 'Portal page'),
         ];
     }
@@ -170,12 +170,12 @@ class SearchController extends BaseController
             ->findAll(8);
 
         return array_map(function (array $room): array {
-            $typeLabel = room_type_options()[$room['type']] ?? humanize_key($room['type'] ?? null);
+            $typeLabel   = room_type_options()[$room['type']] ?? humanize_key($room['type'] ?? null);
             $statusLabel = room_status_options()[$room['status']] ?? humanize_key($room['status'] ?? null);
 
             return $this->makeItem(
                 'Room ' . view_text($room['room_number']),
-                $typeLabel . ' · Capacity ' . number_format((int) ($room['capacity'] ?? 0)) . ' · ' . format_money($room['price_per_night'] ?? 0),
+                $typeLabel . ' - Capacity ' . number_format((int) ($room['capacity'] ?? 0)) . ' - ' . format_money($room['price_per_night'] ?? 0),
                 admin_path('rooms/' . $room['id'] . '/edit'),
                 $statusLabel,
                 trim((string) ($room['description'] ?? ''))
@@ -213,10 +213,10 @@ class SearchController extends BaseController
 
             return $this->makeItem(
                 view_text($tenant['full_name'], 'Tenant'),
-                implode(' · ', $summaryParts),
+                implode(' - ', $summaryParts),
                 admin_path('tenants/' . $tenant['id'] . '/edit'),
                 'Tenant #' . view_text($tenant['id']),
-                implode(' · ', $detailParts)
+                implode(' - ', $detailParts)
             );
         }, $tenants);
     }
@@ -230,8 +230,8 @@ class SearchController extends BaseController
             ->orLike('rooms.room_number', $query)
             ->orLike('rooms.type', $query)
             ->orLike('bookings.status', $query)
-            ->orLike('bookings.check_in', $query)
-            ->orLike('bookings.check_out', $query)
+            ->orLike('bookings.created_at', $query)
+            ->orLike('bookings.payment_reference', $query)
             ->orLike('bookings.notes', $query);
 
         if ($this->queryLooksNumeric($query)) {
@@ -242,19 +242,25 @@ class SearchController extends BaseController
 
         $bookings = $bookingsQuery
             ->groupEnd()
-            ->orderBy('bookings.check_in', 'DESC')
+            ->orderBy('bookings.created_at', 'DESC')
             ->findAll(8);
 
         return array_map(function (array $booking): array {
-            $statusLabel = booking_status_options()[$booking['status']] ?? humanize_key($booking['status'] ?? null);
-            $roomTypeLabel = room_type_options()[$booking['room_type']] ?? humanize_key($booking['room_type'] ?? null);
+            $statusLabel     = booking_status_options()[$booking['status']] ?? humanize_key($booking['status'] ?? null);
+            $roomTypeLabel   = room_type_options()[$booking['room_type']] ?? humanize_key($booking['room_type'] ?? null);
+            $bookingDetails  = hour_duration_label($booking['pricing_hours'] ?? 1) . ' - ' . format_money($booking['total_amount'] ?? 0);
+            $detailFragments = [
+                $roomTypeLabel,
+                'Booked ' . format_datetime($booking['created_at'] ?? null),
+                view_text($booking['notes'] ?? '', 'No notes'),
+            ];
 
             return $this->makeItem(
-                'Booking #' . view_text($booking['id']) . ' · Room ' . view_text($booking['room_number']),
-                view_text($booking['tenant_name']) . ' · ' . view_text($booking['check_in']) . ' to ' . view_text($booking['check_out']) . ' · ' . format_money($booking['total_amount'] ?? 0),
+                'Booking #' . view_text($booking['id']) . ' - Room ' . view_text($booking['room_number']),
+                view_text($booking['tenant_name']) . ' - ' . $bookingDetails,
                 admin_path('bookings/' . $booking['id'] . '/edit'),
                 $statusLabel,
-                trim($roomTypeLabel . ' · ' . view_text($booking['notes'] ?? '', 'No notes'))
+                implode(' - ', $detailFragments)
             );
         }, $bookings);
     }
@@ -268,8 +274,8 @@ class SearchController extends BaseController
             ->like('rooms.room_number', $query)
             ->orLike('rooms.type', $query)
             ->orLike('bookings.status', $query)
-            ->orLike('bookings.check_in', $query)
-            ->orLike('bookings.check_out', $query)
+            ->orLike('bookings.created_at', $query)
+            ->orLike('bookings.payment_reference', $query)
             ->orLike('bookings.notes', $query);
 
         if ($this->queryLooksNumeric($query)) {
@@ -280,19 +286,20 @@ class SearchController extends BaseController
 
         $bookings = $bookingsQuery
             ->groupEnd()
-            ->orderBy('bookings.check_in', 'DESC')
+            ->orderBy('bookings.created_at', 'DESC')
             ->findAll(8);
 
         return array_map(function (array $booking): array {
-            $statusLabel = booking_status_options()[$booking['status']] ?? humanize_key($booking['status'] ?? null);
+            $statusLabel   = booking_status_options()[$booking['status']] ?? humanize_key($booking['status'] ?? null);
             $roomTypeLabel = room_type_options()[$booking['room_type']] ?? humanize_key($booking['room_type'] ?? null);
+            $bookingDetail = hour_duration_label($booking['pricing_hours'] ?? 1) . ' - ' . format_money($booking['total_amount'] ?? 0);
 
             return $this->makeItem(
-                'Room ' . view_text($booking['room_number']) . ' · ' . $roomTypeLabel,
-                view_text($booking['check_in']) . ' to ' . view_text($booking['check_out']) . ' · ' . format_money($booking['total_amount'] ?? 0),
+                'Room ' . view_text($booking['room_number']) . ' - ' . $roomTypeLabel,
+                $bookingDetail,
                 tenant_path('myBookings'),
                 $statusLabel,
-                view_text($booking['notes'] ?? '', 'No notes')
+                'Booked ' . format_datetime($booking['created_at'] ?? null) . ' - ' . view_text($booking['notes'] ?? '', 'No notes')
             );
         }, $bookings);
     }
@@ -327,10 +334,10 @@ class SearchController extends BaseController
         return [
             $this->makeItem(
                 view_text($tenant['full_name'], 'My Account'),
-                implode(' · ', $summaryParts),
+                implode(' - ', $summaryParts),
                 tenant_path('account'),
                 'My profile',
-                implode(' · ', $detailParts)
+                implode(' - ', $detailParts)
             ),
         ];
     }
