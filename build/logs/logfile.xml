@@ -1,61 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="C:\Users\Admin\Local_Documents\Lodging-Management-System\phpunit.xml.dist" tests="7" assertions="4" errors="4" failures="0" skipped="0" time="0.053809">
-    <testsuite name="App" tests="7" assertions="4" errors="4" failures="0" skipped="0" time="0.053809">
-      <testsuite name="AdminReportModelTest" file="C:\Users\Admin\Local_Documents\Lodging-Management-System\tests\database\AdminReportModelTest.php" tests="2" assertions="0" errors="2" failures="0" skipped="0" time="0.000000">
-        <testcase name="testDashboardReportSummarizesRevenueAndOccupancy" file="C:\Users\Admin\Local_Documents\Lodging-Management-System\tests\database\AdminReportModelTest.php" line="17" class="AdminReportModelTest" classname="AdminReportModelTest" assertions="0" time="0.000000">
+  <testsuite name="C:\Users\Admin\Downloads\Lodging-Management-System\phpunit.xml.dist" tests="7" assertions="4" errors="4" failures="0" skipped="0" time="0.974499">
+    <testsuite name="App" tests="7" assertions="4" errors="4" failures="0" skipped="0" time="0.974499">
+      <testsuite name="AdminReportModelTest" file="C:\Users\Admin\Downloads\Lodging-Management-System\tests\database\AdminReportModelTest.php" tests="2" assertions="0" errors="2" failures="0" skipped="0" time="0.000000">
+        <testcase name="testDashboardReportSummarizesRevenueAndOccupancy" file="C:\Users\Admin\Downloads\Lodging-Management-System\tests\database\AdminReportModelTest.php" line="17" class="AdminReportModelTest" classname="AdminReportModelTest" assertions="0" time="0.000000">
           <error type="CodeIgniter\Exceptions\CriticalError">AdminReportModelTest::testDashboardReportSummarizesRevenueAndOccupancy&#13;
 CodeIgniter\Exceptions\CriticalError: The required PHP extension "sqlite3" is not loaded. Install and enable it to use "SQLite3" driver.
 &#13;
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:186
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:59
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Config.php:82
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:90
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:67
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\CIUnitTestCase.php:254</error>
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:186
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:59
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Config.php:82
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:90
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:67
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\CIUnitTestCase.php:254</error>
         </testcase>
-        <testcase name="testAnalyticsRanksRoomsAndBreaksDownBookingStatuses" file="C:\Users\Admin\Local_Documents\Lodging-Management-System\tests\database\AdminReportModelTest.php" line="32" class="AdminReportModelTest" classname="AdminReportModelTest" assertions="0" time="0.000000">
+        <testcase name="testAnalyticsRanksRoomsAndBreaksDownBookingStatuses" file="C:\Users\Admin\Downloads\Lodging-Management-System\tests\database\AdminReportModelTest.php" line="32" class="AdminReportModelTest" classname="AdminReportModelTest" assertions="0" time="0.000000">
           <error type="CodeIgniter\Exceptions\CriticalError">AdminReportModelTest::testAnalyticsRanksRoomsAndBreaksDownBookingStatuses&#13;
 CodeIgniter\Exceptions\CriticalError: The required PHP extension "sqlite3" is not loaded. Install and enable it to use "SQLite3" driver.
 &#13;
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:186
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:59
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Config.php:82
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:90
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:67
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\CIUnitTestCase.php:254</error>
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:186
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:59
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Config.php:82
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:90
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:67
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\CIUnitTestCase.php:254</error>
         </testcase>
       </testsuite>
-      <testsuite name="ExampleDatabaseTest" file="C:\Users\Admin\Local_Documents\Lodging-Management-System\tests\database\ExampleDatabaseTest.php" tests="2" assertions="0" errors="2" failures="0" skipped="0" time="0.000000">
-        <testcase name="testModelFindAll" file="C:\Users\Admin\Local_Documents\Lodging-Management-System\tests\database\ExampleDatabaseTest.php" line="17" class="ExampleDatabaseTest" classname="ExampleDatabaseTest" assertions="0" time="0.000000">
+      <testsuite name="ExampleDatabaseTest" file="C:\Users\Admin\Downloads\Lodging-Management-System\tests\database\ExampleDatabaseTest.php" tests="2" assertions="0" errors="2" failures="0" skipped="0" time="0.000000">
+        <testcase name="testModelFindAll" file="C:\Users\Admin\Downloads\Lodging-Management-System\tests\database\ExampleDatabaseTest.php" line="17" class="ExampleDatabaseTest" classname="ExampleDatabaseTest" assertions="0" time="0.000000">
           <error type="CodeIgniter\Exceptions\CriticalError">ExampleDatabaseTest::testModelFindAll&#13;
 CodeIgniter\Exceptions\CriticalError: The required PHP extension "sqlite3" is not loaded. Install and enable it to use "SQLite3" driver.
 &#13;
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:186
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:59
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Config.php:82
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:90
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:67
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\CIUnitTestCase.php:254</error>
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:186
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:59
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Config.php:82
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:90
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:67
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\CIUnitTestCase.php:254</error>
         </testcase>
-        <testcase name="testSoftDeleteLeavesRow" file="C:\Users\Admin\Local_Documents\Lodging-Management-System\tests\database\ExampleDatabaseTest.php" line="28" class="ExampleDatabaseTest" classname="ExampleDatabaseTest" assertions="0" time="0.000000">
+        <testcase name="testSoftDeleteLeavesRow" file="C:\Users\Admin\Downloads\Lodging-Management-System\tests\database\ExampleDatabaseTest.php" line="28" class="ExampleDatabaseTest" classname="ExampleDatabaseTest" assertions="0" time="0.000000">
           <error type="CodeIgniter\Exceptions\CriticalError">ExampleDatabaseTest::testSoftDeleteLeavesRow&#13;
 CodeIgniter\Exceptions\CriticalError: The required PHP extension "sqlite3" is not loaded. Install and enable it to use "SQLite3" driver.
 &#13;
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:186
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:59
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Config.php:82
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:90
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:67
-C:\Users\Admin\Local_Documents\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\CIUnitTestCase.php:254</error>
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:186
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Database.php:59
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Database\Config.php:82
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:90
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\DatabaseTestTrait.php:67
+C:\Users\Admin\Downloads\Lodging-Management-System\vendor\codeigniter4\framework\system\Test\CIUnitTestCase.php:254</error>
         </testcase>
       </testsuite>
-      <testsuite name="ExampleSessionTest" file="C:\Users\Admin\Local_Documents\Lodging-Management-System\tests\session\ExampleSessionTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.009466">
-        <testcase name="testSessionSimple" file="C:\Users\Admin\Local_Documents\Lodging-Management-System\tests\session\ExampleSessionTest.php" line="10" class="ExampleSessionTest" classname="ExampleSessionTest" assertions="1" time="0.009466"/>
+      <testsuite name="ExampleSessionTest" file="C:\Users\Admin\Downloads\Lodging-Management-System\tests\session\ExampleSessionTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.337711">
+        <testcase name="testSessionSimple" file="C:\Users\Admin\Downloads\Lodging-Management-System\tests\session\ExampleSessionTest.php" line="10" class="ExampleSessionTest" classname="ExampleSessionTest" assertions="1" time="0.337711"/>
       </testsuite>
-      <testsuite name="HealthTest" file="C:\Users\Admin\Local_Documents\Lodging-Management-System\tests\unit\HealthTest.php" tests="2" assertions="3" errors="0" failures="0" skipped="0" time="0.044343">
-        <testcase name="testIsDefinedAppPath" file="C:\Users\Admin\Local_Documents\Lodging-Management-System\tests\unit\HealthTest.php" line="12" class="HealthTest" classname="HealthTest" assertions="1" time="0.005313"/>
-        <testcase name="testBaseUrlHasBeenSet" file="C:\Users\Admin\Local_Documents\Lodging-Management-System\tests\unit\HealthTest.php" line="17" class="HealthTest" classname="HealthTest" assertions="2" time="0.039030"/>
+      <testsuite name="HealthTest" file="C:\Users\Admin\Downloads\Lodging-Management-System\tests\unit\HealthTest.php" tests="2" assertions="3" errors="0" failures="0" skipped="0" time="0.636788">
+        <testcase name="testIsDefinedAppPath" file="C:\Users\Admin\Downloads\Lodging-Management-System\tests\unit\HealthTest.php" line="12" class="HealthTest" classname="HealthTest" assertions="1" time="0.045312"/>
+        <testcase name="testBaseUrlHasBeenSet" file="C:\Users\Admin\Downloads\Lodging-Management-System\tests\unit\HealthTest.php" line="17" class="HealthTest" classname="HealthTest" assertions="2" time="0.591476"/>
       </testsuite>
     </testsuite>
   </testsuite>
