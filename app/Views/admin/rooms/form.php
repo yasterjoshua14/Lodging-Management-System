@@ -9,6 +9,9 @@
 $room    ??= null;
 $action  ??= admin_path('rooms');
 $heading ??= 'Room';
+$durationParts = pricing_duration_day_hour_parts(old('pricing_hours', $room['pricing_hours'] ?? 1));
+$selectedPricingDays = old('pricing_days', $durationParts['days']);
+$selectedPricingHours = old('pricing_hour_value', $durationParts['hours']);
 ?>
 <?php $this->extend('layouts/main'); ?>
 
@@ -47,7 +50,7 @@ $heading ??= 'Room';
             </div>
 
             <div>
-                <label for="price_per_hour">Price per Hour</label>
+                <label for="price_per_hour">Price for Duration</label>
                 <div class="field-inline">
                     <input
                         type="number"
@@ -60,9 +63,17 @@ $heading ??= 'Room';
                         required
                     >
 
-                    <select id="pricing_hours" name="pricing_hours" class="field-inline__side" aria-label="Pricing duration">
-                        <?php foreach (hour_duration_options() as $value => $label): ?>
-                            <option value="<?= view_esc($value) ?>" <?= old('pricing_hours', (string) ($room['pricing_hours'] ?? '1')) === $value ? 'selected' : '' ?>><?= view_esc($label) ?></option>
+                    <select id="pricing_days" name="pricing_days" class="field-inline__side field-inline__side--value" aria-label="Pricing days">
+                        <option value="">Days</option>
+                        <?php foreach (pricing_day_options() as $value => $label): ?>
+                            <option value="<?= view_esc($value) ?>" <?= (string) $selectedPricingDays === $value ? 'selected' : '' ?>><?= view_esc($label) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+
+                    <select id="pricing_hour_value" name="pricing_hour_value" class="field-inline__side field-inline__side--unit" aria-label="Pricing hours">
+                        <option value="">Hrs</option>
+                        <?php foreach (pricing_hour_options() as $value => $label): ?>
+                            <option value="<?= view_esc($value) ?>" <?= (string) $selectedPricingHours === $value ? 'selected' : '' ?>><?= view_esc($label) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -88,4 +99,10 @@ $heading ??= 'Room';
             <a href="<?= view_esc(admin_path('rooms')) ?>" class="btn btn-danger">Cancel</a>
         </div>
     </form>
+
+    <script>
+        (() => {
+            // Duration selects are intentionally independent so admins can combine days and hours.
+        })();
+    </script>
 <?php $this->endSection(); ?>
