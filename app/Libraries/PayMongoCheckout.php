@@ -33,30 +33,29 @@ class PayMongoCheckout
             throw new RuntimeException('PayMongo is not configured. Add your PayMongo secret key first.');
         }
 
-        $nights          = max(1, (new BookingAvailability())->countNights((string) $booking['check_in'], (string) $booking['check_out']));
         $roomNumber      = (string) ($room['room_number'] ?? 'Room');
         $roomType        = room_type_options()[$room['type'] ?? ''] ?? humanize_key($room['type'] ?? null);
+        $durationLabel   = hour_duration_label($room['pricing_hours'] ?? 1);
         $referenceNumber = 'BOOKING-' . (int) $booking['id'] . '-' . date('YmdHis');
         $successUrl      = site_url('myBookings/payment/success') . '?booking=' . (int) $booking['id'];
         $cancelUrl       = site_url('myBookings/payment/cancel') . '?booking=' . (int) $booking['id'];
 
         $attributes = [
             'cancel_url'           => $cancelUrl,
-            'description'          => sprintf('Booking for Room %s from %s to %s', $roomNumber, $booking['check_in'], $booking['check_out']),
+            'description'          => sprintf('Booking for Room %s (%s)', $roomNumber, $durationLabel),
             'line_items'           => [[
                 'amount'      => $this->toCentavos($room['price_per_night'] ?? 0),
                 'currency'    => 'PHP',
-                'description' => trim((string) ($room['description'] ?? '')) ?: 'Room stay booking',
-                'name'        => sprintf('Room %s (%s)', $roomNumber, $roomType),
-                'quantity'    => $nights,
+                'description' => trim((string) ($room['description'] ?? '')) ?: 'Room booking',
+                'name'        => sprintf('Room %s (%s, %s)', $roomNumber, $roomType, $durationLabel),
+                'quantity'    => 1,
             ]],
             'merchant'             => $this->config->merchantName,
             'metadata'             => [
-                'booking_id' => (string) ($booking['id'] ?? ''),
-                'check_in'   => (string) ($booking['check_in'] ?? ''),
-                'check_out'  => (string) ($booking['check_out'] ?? ''),
-                'room_id'    => (string) ($booking['room_id'] ?? ''),
-                'tenant_id'  => (string) ($booking['tenant_id'] ?? ''),
+                'booking_id'     => (string) ($booking['id'] ?? ''),
+                'pricing_hours'  => (string) ($room['pricing_hours'] ?? 1),
+                'room_id'        => (string) ($booking['room_id'] ?? ''),
+                'tenant_id'      => (string) ($booking['tenant_id'] ?? ''),
             ],
             'payment_method_types' => $this->config->paymentMethodTypes,
             'reference_number'     => $referenceNumber,
