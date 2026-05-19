@@ -2,18 +2,18 @@
 /**
  * @var \CodeIgniter\View\View $this
  * @var array<string, int> $stats
- * @var array<string, mixed>|null $nextBooking
+ * @var array<string, mixed>|null $currentBooking
  * @var list<array<string, mixed>> $recentBookings
  * @var array<string, mixed>|null $tenant
  */
 
 $stats ??= [
-    'totalBookings'    => 0,
-    'upcomingBookings' => 0,
-    'activeStays'      => 0,
-    'completedStays'   => 0,
+    'totalBookings'     => 0,
+    'pendingBookings'   => 0,
+    'activeBookings'    => 0,
+    'completedBookings' => 0,
 ];
-$nextBooking    ??= null;
+$currentBooking ??= null;
 $recentBookings ??= [];
 $tenant         ??= null;
 
@@ -38,18 +38,18 @@ $tenantPhone       = (string) (($tenant['phone'] ?? '') ?: 'No phone number on f
         </article>
 
         <article class="card">
-            <div class="stat-label">Upcoming Stays</div>
-            <p class="stat-value"><?= view_esc((string) $stats['upcomingBookings']) ?></p>
+            <div class="stat-label">Pending Bookings</div>
+            <p class="stat-value"><?= view_esc((string) $stats['pendingBookings']) ?></p>
         </article>
 
         <article class="card">
-            <div class="stat-label">Active Stays</div>
-            <p class="stat-value"><?= view_esc((string) $stats['activeStays']) ?></p>
+            <div class="stat-label">Checked-In Bookings</div>
+            <p class="stat-value"><?= view_esc((string) $stats['activeBookings']) ?></p>
         </article>
 
         <article class="card">
-            <div class="stat-label">Completed Stays</div>
-            <p class="stat-value"><?= view_esc((string) $stats['completedStays']) ?></p>
+            <div class="stat-label">Completed Bookings</div>
+            <p class="stat-value"><?= view_esc((string) $stats['completedBookings']) ?></p>
         </article>
     </section>
 
@@ -57,38 +57,43 @@ $tenantPhone       = (string) (($tenant['phone'] ?? '') ?: 'No phone number on f
         <article class="card">
             <div class="list-head">
                 <div>
-                    <h2>Next Booking</h2>
+                    <h2>Current Booking</h2>
                 </div>
             </div>
 
-            <?php if ($nextBooking !== null): ?>
+            <?php if ($currentBooking !== null): ?>
                 <div class="detail-grid">
                     <div class="detail-item">
                         <h3>Room</h3>
-                        <div class="detail-value"><?= view_esc($nextBooking['room_number']) ?></div>
-                        <p><?= view_esc(room_type_options()[$nextBooking['room_type']] ?? humanize_key($nextBooking['room_type'])) ?></p>
+                        <div class="detail-value"><?= view_esc($currentBooking['room_number']) ?></div>
+                        <p><?= view_esc(room_type_options()[$currentBooking['room_type']] ?? humanize_key($currentBooking['room_type'])) ?></p>
                     </div>
 
                     <div class="detail-item">
                         <h3>Status</h3>
                         <div class="detail-value">
-                            <span class="<?= view_esc(status_badge_class($nextBooking['status'])) ?>">
-                                <?= view_esc(booking_status_options()[$nextBooking['status']] ?? humanize_key($nextBooking['status'])) ?>
+                            <span class="<?= view_esc(status_badge_class($currentBooking['status'])) ?>">
+                                <?= view_esc(booking_status_options()[$currentBooking['status']] ?? humanize_key($currentBooking['status'])) ?>
                             </span>
                         </div>
-                        <p>Stay total: <?= view_esc(format_money($nextBooking['total_amount'])) ?></p>
+                        <p>Total: <?= view_esc(format_money($currentBooking['total_amount'])) ?></p>
+                    </div>
+
+                    <div class="detail-item">
+                        <h3>Duration</h3>
+                        <div class="detail-value"><?= view_esc(hour_duration_label($currentBooking['pricing_hours'] ?? 1)) ?></div>
+                        <p>Booked <?= view_esc(format_datetime($currentBooking['created_at'] ?? null)) ?></p>
                     </div>
 
                     <div class="detail-item full-span">
-                        <h3>Schedule</h3>
-                        <div class="detail-value"><?= view_esc($nextBooking['check_in']) ?> to <?= view_esc($nextBooking['check_out']) ?></div>
-                        <p><?= view_esc($nextBooking['notes'] ?: 'No additional notes for this booking.') ?></p>
+                        <h3>Notes</h3>
+                        <p><?= view_esc($currentBooking['notes'] ?: 'No additional notes for this booking.') ?></p>
                     </div>
                 </div>
             <?php else: ?>
                 <div class="empty-state">
-                    <h3>No upcoming booking</h3>
-                    <p class="text-muted">Your account does not have a current or future booking yet.</p>
+                    <h3>No active booking</h3>
+                    <p class="text-muted">Your account does not have a pending or checked-in booking yet.</p>
                 </div>
             <?php endif; ?>
         </article>
@@ -139,7 +144,7 @@ $tenantPhone       = (string) (($tenant['phone'] ?? '') ?: 'No phone number on f
                     <thead>
                         <tr>
                             <th>Room</th>
-                            <th>Stay Dates</th>
+                            <th>Booking Details</th>
                             <th>Status</th>
                             <th>Total Amount</th>
                         </tr>
@@ -151,7 +156,10 @@ $tenantPhone       = (string) (($tenant['phone'] ?? '') ?: 'No phone number on f
                                     <strong><?= view_esc($booking['room_number']) ?></strong><br>
                                     <span class="text-muted"><?= view_esc(room_type_options()[$booking['room_type']] ?? humanize_key($booking['room_type'])) ?></span>
                                 </td>
-                                <td><?= view_esc($booking['check_in']) ?> to <?= view_esc($booking['check_out']) ?></td>
+                                <td>
+                                    <strong><?= view_esc(hour_duration_label($booking['pricing_hours'] ?? 1)) ?></strong><br>
+                                    <span class="text-muted">Booked <?= view_esc(format_datetime($booking['created_at'] ?? null)) ?></span>
+                                </td>
                                 <td><span class="<?= view_esc(status_badge_class($booking['status'])) ?>"><?= view_esc(booking_status_options()[$booking['status']] ?? humanize_key($booking['status'])) ?></span></td>
                                 <td><?= view_esc(format_money($booking['total_amount'])) ?></td>
                             </tr>

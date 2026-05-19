@@ -60,16 +60,6 @@ $heading  ??= 'Booking';
             </div>
 
             <div>
-                <label for="check_in">Check-in Date</label>
-                <input type="date" id="check_in" name="check_in" value="<?= view_esc(old('check_in', $booking['check_in'] ?? '')) ?>" required>
-            </div>
-
-            <div>
-                <label for="check_out">Check-out Date</label>
-                <input type="date" id="check_out" name="check_out" value="<?= view_esc(old('check_out', $booking['check_out'] ?? '')) ?>" required>
-            </div>
-
-            <div>
                 <label for="total_amount">Total Amount</label>
                 <input type="number" id="total_amount" name="total_amount" min="0" step="0.01" value="<?= view_esc(old('total_amount', $booking['total_amount'] ?? '0.00')) ?>" required>
             </div>

@@ -30,7 +30,7 @@ $bookings ??= [];
                     <thead>
                         <tr>
                             <th>Room</th>
-                            <th>Stay Dates</th>
+                            <th>Booking Details</th>
                             <th>Status</th>
                             <th>Total Amount</th>
                             <th>Notes</th>
@@ -50,7 +50,10 @@ $bookings ??= [];
                                     <strong><?= view_esc($booking['room_number']) ?></strong><br>
                                     <span class="text-muted"><?= view_esc(room_type_options()[$booking['room_type']] ?? humanize_key($booking['room_type'])) ?></span>
                                 </td>
-                                <td><?= view_esc($booking['check_in']) ?> to <?= view_esc($booking['check_out']) ?></td>
+                                <td>
+                                    <strong><?= view_esc(hour_duration_label($booking['pricing_hours'] ?? 1)) ?></strong><br>
+                                    <span class="text-muted">Booked <?= view_esc(format_datetime($booking['created_at'] ?? null)) ?></span>
+                                </td>
                                 <td><span class="<?= view_esc(status_badge_class($booking['status'])) ?>"><?= view_esc(booking_status_options()[$booking['status']] ?? humanize_key($booking['status'])) ?></span></td>
                                 <td>
                                     <strong><?= view_esc(format_money($booking['total_amount'])) ?></strong>
@@ -88,7 +91,7 @@ $bookings ??= [];
         <?php else: ?>
             <div class="empty-state">
                 <h3>No bookings yet</h3>
-                <p class="text-muted">Open the Rooms page to search availability, choose a stay, and complete payment for your first booking.</p>
+                <p class="text-muted">Open the Rooms page to choose a room and complete payment for your first booking.</p>
             </div>
         <?php endif; ?>
     </section>

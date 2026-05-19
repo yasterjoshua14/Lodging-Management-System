@@ -138,7 +138,7 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                         <tr>
                             <th>Tenant</th>
                             <th>Room</th>
-                            <th>Stay</th>
+                            <th>Booking Details</th>
                             <th>Status</th>
                             <th>Total</th>
                         </tr>
@@ -151,7 +151,10 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                                     <strong><?= view_esc($booking['room_number']) ?></strong><br>
                                     <span class="text-muted"><?= view_esc(humanize_key($booking['room_type'])) ?></span>
                                 </td>
-                                <td><?= view_esc($booking['check_in']) ?> to <?= view_esc($booking['check_out']) ?></td>
+                                <td>
+                                    <strong><?= view_esc(hour_duration_label($booking['pricing_hours'] ?? 1)) ?></strong><br>
+                                    <span class="text-muted">Booked <?= view_esc(format_datetime($booking['created_at'] ?? null)) ?></span>
+                                </td>
                                 <td><span class="<?= view_esc(status_badge_class($booking['status'])) ?>"><?= view_esc(booking_status_options()[$booking['status']] ?? humanize_key($booking['status'])) ?></span></td>
                                 <td><?= view_esc(format_money($booking['total_amount'])) ?></td>
                             </tr>
