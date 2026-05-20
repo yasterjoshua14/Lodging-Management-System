@@ -2,20 +2,25 @@
 /**
  * @var \CodeIgniter\View\View $this
  * @var list<array<string, mixed>> $bookingStatusBreakdown
+ * @var array<string, list<array<string, mixed>>> $bookingStatusBreakdownByMonth
  * @var list<array<string, mixed>> $monthlyEarnings
  * @var list<array<string, mixed>> $recentBookings
  * @var list<array<string, mixed>> $revenueBreakdown
+ * @var array<string, list<array<string, mixed>>> $revenueBreakdownByMonth
  * @var list<array<string, mixed>> $roomsByStatus
  */
 
 $bookingStatusBreakdown ??= [];
+$bookingStatusBreakdownByMonth ??= [];
 $monthlyEarnings        ??= [];
 $recentBookings         ??= [];
 $revenueBreakdown       ??= [];
+$revenueBreakdownByMonth ??= [];
 $roomsByStatus          ??= [];
 
 $dashboardGraphPayload = [
     'monthlyEarnings' => array_map(static fn (array $month): array => [
+        'key'      => (string) $month['key'],
         'label'    => (string) $month['label'],
         'bookings' => (int) $month['bookings'],
         'amount'   => (float) $month['amount'],
@@ -33,11 +38,23 @@ $dashboardGraphPayload = [
         'count'  => (int) $item['count'],
         'amount' => (float) $item['amount'],
     ], $bookingStatusBreakdown),
+    'bookingStatusBreakdownByMonth' => array_map(static fn (array $items): array => array_map(static fn (array $item): array => [
+        'status' => (string) $item['status'],
+        'label'  => (string) $item['label'],
+        'count'  => (int) $item['count'],
+        'amount' => (float) $item['amount'],
+    ], $items), $bookingStatusBreakdownByMonth),
     'roomsByStatus' => array_map(static fn (array $item): array => [
         'status' => (string) $item['status'],
         'label'  => (string) $item['label'],
         'count'  => (int) $item['count'],
     ], $roomsByStatus),
+    'revenueBreakdownByMonth' => array_map(static fn (array $items): array => array_map(static fn (array $item): array => [
+        'status' => (string) $item['status'],
+        'label'  => (string) $item['label'],
+        'count'  => (int) $item['count'],
+        'amount' => (float) $item['amount'],
+    ], $items), $revenueBreakdownByMonth),
 ];
 
 $dashboardGraphJson = json_encode(
@@ -251,31 +268,42 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
 
             const statusModeConfig = {
                 revenue: {
-                    items: analytics.revenueBreakdown,
-                    totalLabel: 'Total pipeline value',
+                    getItems: () => getStatusItemsForMode('revenue'),
+                    totalLabel: (scope) => scope.isTrendLinked ? `Revenue in ${scope.label}` : 'Total pipeline value',
                     value: (item) => Number(item.amount || 0),
                     valueText: (item) => formatMoney(item.amount || 0),
                     totalText: (total) => formatMoney(total),
                     secondary: (item) => formatCount(item.count, 'booking'),
-                    selectedText: (item, share) => `${item.label} - ${formatMoney(item.amount || 0)} - ${share.toFixed(1)}%`,
+                    selectedText: (item, share, scope) => scope.isTrendLinked
+                        ? `${item.label} - ${formatMoney(item.amount || 0)} - ${share.toFixed(1)}% of ${scope.label}`
+                        : `${item.label} - ${formatMoney(item.amount || 0)} - ${share.toFixed(1)}%`,
+                    zeroState: (scope) => scope.isTrendLinked
+                        ? `No revenue recorded in ${scope.label}.`
+                        : 'Save bookings to populate this graph.',
                 },
                 bookings: {
-                    items: analytics.bookingStatusBreakdown,
-                    totalLabel: 'Total bookings',
+                    getItems: () => getStatusItemsForMode('bookings'),
+                    totalLabel: (scope) => scope.isTrendLinked ? `Bookings in ${scope.label}` : 'Total bookings',
                     value: (item) => Number(item.count || 0),
                     valueText: (item) => formatCount(item.count, 'booking'),
                     totalText: (total) => formatCount(total, 'booking'),
                     secondary: (item) => formatMoney(item.amount || 0),
-                    selectedText: (item, share) => `${item.label} - ${formatCount(item.count, 'booking')} - ${share.toFixed(1)}%`,
+                    selectedText: (item, share, scope) => scope.isTrendLinked
+                        ? `${item.label} - ${formatCount(item.count, 'booking')} - ${share.toFixed(1)}% of ${scope.label}`
+                        : `${item.label} - ${formatCount(item.count, 'booking')} - ${share.toFixed(1)}%`,
+                    zeroState: (scope) => scope.isTrendLinked
+                        ? `No bookings recorded in ${scope.label}.`
+                        : 'Save bookings to populate this graph.',
                 },
                 rooms: {
-                    items: analytics.roomsByStatus,
-                    totalLabel: 'Total Room',
+                    getItems: () => analytics.roomsByStatus,
+                    totalLabel: () => 'Total rooms',
                     value: (item) => Number(item.count || 0),
                     valueText: (item) => `${Number(item.count || 0).toLocaleString()} rooms`,
                     totalText: (total) => `${Number(total).toLocaleString()} rooms`,
                     secondary: (item, total) => total > 0 ? `${((Number(item.count || 0) / total) * 100).toFixed(1)}% of rooms` : '0.0% of rooms',
                     selectedText: (item, share) => `${item.label} - ${Number(item.count || 0).toLocaleString()} rooms - ${share.toFixed(1)}%`,
+                    zeroState: () => 'Add rooms to populate this graph.',
                 },
             };
 
@@ -347,6 +375,55 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                 return peakIndex;
             }
 
+            function getSelectedTrendItem() {
+                return analytics.monthlyEarnings[state.trendActive] ?? null;
+            }
+
+            function getStatusScope(mode) {
+                if (mode === 'rooms') {
+                    return {
+                        label: 'all rooms',
+                        isTrendLinked: false,
+                    };
+                }
+
+                const selectedTrend = getSelectedTrendItem();
+
+                if (!selectedTrend) {
+                    return {
+                        label: 'all bookings',
+                        isTrendLinked: false,
+                    };
+                }
+
+                return {
+                    label: selectedTrend.label,
+                    isTrendLinked: true,
+                };
+            }
+
+            function getStatusItemsForMode(mode) {
+                if (mode === 'rooms') {
+                    return analytics.roomsByStatus;
+                }
+
+                const selectedTrend = getSelectedTrendItem();
+
+                if (!selectedTrend) {
+                    return mode === 'revenue'
+                        ? analytics.revenueBreakdown
+                        : analytics.bookingStatusBreakdown;
+                }
+
+                const keyedBreakdown = mode === 'revenue'
+                    ? analytics.revenueBreakdownByMonth
+                    : analytics.bookingStatusBreakdownByMonth;
+
+                return Array.isArray(keyedBreakdown[selectedTrend.key])
+                    ? keyedBreakdown[selectedTrend.key]
+                    : [];
+            }
+
             function renderTrendChart() {
                 const items = analytics.monthlyEarnings;
                 const config = trendMetricConfig[state.trendMetric];
@@ -390,7 +467,13 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                 trendChart.querySelectorAll('[data-trend-index]').forEach((button) => {
                     button.addEventListener('click', () => {
                         state.trendActive = Number(button.dataset.trendIndex);
+                        state.statusMode = state.trendMetric === 'bookings' ? 'bookings' : 'revenue';
+                        state.statusActive = getPeakIndex(
+                            statusModeConfig[state.statusMode].getItems(),
+                            statusModeConfig[state.statusMode].value
+                        );
                         renderTrendChart();
+                        renderStatusExplorer();
                     });
                 });
 
@@ -406,7 +489,8 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
 
             function renderStatusExplorer() {
                 const config = statusModeConfig[state.statusMode];
-                const items = config.items;
+                const scope = getStatusScope(state.statusMode);
+                const items = config.getItems();
 
                 syncToggleButtons(statusButtons, state.statusMode, 'statusMode');
 
@@ -415,9 +499,9 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                     statusRing.style.transform = 'rotate(-90deg)';
                     statusRing.style.filter = 'none';
                     statusLegend.innerHTML = '<div class="graph-empty">No status data available yet.</div>';
-                    statusTotalLabel.textContent = config.totalLabel;
+                    statusTotalLabel.textContent = config.totalLabel(scope);
                     statusTotal.textContent = 'No data';
-                    statusSelected.textContent = 'Save bookings and rooms to populate this graph.';
+                    statusSelected.textContent = config.zeroState(scope);
                     return;
                 }
 
@@ -471,11 +555,13 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                     });
                 });
 
-                statusTotalLabel.textContent = config.totalLabel;
+                statusTotalLabel.textContent = config.totalLabel(scope);
                 statusTotal.textContent = config.totalText(total);
-                statusSelected.textContent = selected
-                    ? config.selectedText(selected, selected.share)
-                    : 'No data available.';
+                statusSelected.textContent = total === 0
+                    ? config.zeroState(scope)
+                    : selected
+                        ? config.selectedText(selected, selected.share, scope)
+                        : 'No data available.';
             }
 
             trendButtons.forEach((button) => {
@@ -489,12 +575,12 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                 button.addEventListener('click', () => {
                     state.statusMode = button.dataset.statusMode || 'revenue';
                     const nextConfig = statusModeConfig[state.statusMode];
-                    state.statusActive = getPeakIndex(nextConfig.items, nextConfig.value);
+                    state.statusActive = getPeakIndex(nextConfig.getItems(), nextConfig.value);
                     renderStatusExplorer();
                 });
             });
 
-            state.statusActive = getPeakIndex(statusModeConfig[state.statusMode].items, statusModeConfig[state.statusMode].value);
+            state.statusActive = getPeakIndex(statusModeConfig[state.statusMode].getItems(), statusModeConfig[state.statusMode].value);
             renderTrendChart();
             renderStatusExplorer();
         })();

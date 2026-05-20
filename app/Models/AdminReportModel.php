@@ -69,6 +69,7 @@ class AdminReportModel extends Model
         $roomStatusBreakdown = $this->getRoomStatusBreakdown();
         $bookingBreakdown    = $this->getBookingStatusBreakdown();
         $roomInventory       = $this->getRoomInventory();
+        $monthlyEarnings     = $this->buildMonthlyEarnings($bookings, $trendMonths);
 
         return [
             'stats'                  => $this->compileStats($bookings, $roomStatusBreakdown, $bookingBreakdown),
@@ -76,7 +77,9 @@ class AdminReportModel extends Model
             'roomStatusBreakdown'    => $roomStatusBreakdown,
             'bookingStatusBreakdown' => $bookingBreakdown,
             'revenueBreakdown'       => $this->buildRevenueBreakdown($bookingBreakdown),
-            'monthlyEarnings'        => $this->buildMonthlyEarnings($bookings, $trendMonths),
+            'monthlyEarnings'        => $monthlyEarnings,
+            'bookingStatusBreakdownByMonth' => $this->buildStatusBreakdownByMonth($bookings, $trendMonths, self::BOOKING_STATUS_LABELS),
+            'revenueBreakdownByMonth' => $this->buildStatusBreakdownByMonth($bookings, $trendMonths, self::REVENUE_LABELS),
             'topRooms'               => $this->buildTopRooms($roomInventory, $bookings, $topRoomsLimit),
         ];
     }
@@ -294,16 +297,12 @@ class AdminReportModel extends Model
      */
     private function buildMonthlyEarnings(array $bookings, int $months): array
     {
-        $months = max(1, $months);
-        $start  = new DateTimeImmutable('first day of this month');
-        $trend  = [];
+        $trend = [];
 
-        for ($offset = $months - 1; $offset >= 0; $offset--) {
-            $month       = $start->modify("-{$offset} months");
-            $key         = $month->format('Y-m');
+        foreach ($this->buildTrendMonthMap($months) as $key => $month) {
             $trend[$key] = [
-                'key'      => $key,
-                'label'    => $month->format('M Y'),
+                'key'      => $month['key'],
+                'label'    => $month['label'],
                 'bookings' => 0,
                 'amount'   => 0.0,
                 'percent'  => 0.0,
@@ -335,6 +334,72 @@ class AdminReportModel extends Model
         }
 
         return array_values($trend);
+    }
+
+    /**
+     * @param list<array<string, mixed>> $bookings
+     * @param array<string, string> $labels
+     *
+     * @return array<string, list<array{status: string, label: string, count: int, amount: float}>>
+     */
+    private function buildStatusBreakdownByMonth(array $bookings, int $months, array $labels): array
+    {
+        $breakdown = [];
+
+        foreach ($this->buildTrendMonthMap($months) as $key => $month) {
+            $breakdown[$key] = [];
+
+            foreach ($labels as $status => $label) {
+                $breakdown[$key][$status] = [
+                    'status' => $status,
+                    'label'  => $label,
+                    'count'  => 0,
+                    'amount' => 0.0,
+                ];
+            }
+        }
+
+        foreach ($bookings as $booking) {
+            $key    = substr((string) ($booking['created_at'] ?? ''), 0, 7);
+            $status = (string) ($booking['status'] ?? '');
+
+            if (! isset($breakdown[$key][$status])) {
+                continue;
+            }
+
+            $breakdown[$key][$status]['count']++;
+            $breakdown[$key][$status]['amount'] = $this->moneyValue(
+                $breakdown[$key][$status]['amount'] + (float) ($booking['total_amount'] ?? 0)
+            );
+        }
+
+        foreach ($breakdown as $key => $items) {
+            $breakdown[$key] = array_values($items);
+        }
+
+        return $breakdown;
+    }
+
+    /**
+     * @return array<string, array{key: string, label: string}>
+     */
+    private function buildTrendMonthMap(int $months): array
+    {
+        $months = max(1, $months);
+        $start  = new DateTimeImmutable('first day of this month');
+        $trend  = [];
+
+        for ($offset = $months - 1; $offset >= 0; $offset--) {
+            $month = $start->modify("-{$offset} months");
+            $key   = $month->format('Y-m');
+
+            $trend[$key] = [
+                'key'   => $key,
+                'label' => $month->format('M Y'),
+            ];
+        }
+
+        return $trend;
     }
 
     /**

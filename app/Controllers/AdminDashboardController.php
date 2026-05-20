@@ -16,7 +16,9 @@ class AdminDashboardController extends BaseController
             'roomsByStatus'          => $report['roomStatusBreakdown'],
             'monthlyEarnings'        => $report['monthlyEarnings'],
             'revenueBreakdown'       => $report['revenueBreakdown'],
+            'revenueBreakdownByMonth' => $report['revenueBreakdownByMonth'],
             'bookingStatusBreakdown' => $report['bookingStatusBreakdown'],
+            'bookingStatusBreakdownByMonth' => $report['bookingStatusBreakdownByMonth'],
         ]);
     }
 
