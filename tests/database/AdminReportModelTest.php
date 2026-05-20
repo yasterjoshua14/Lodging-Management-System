@@ -31,7 +31,7 @@ final class AdminReportModelTest extends CIUnitTestCase
 
     public function testAnalyticsRanksRoomsAndBreaksDownBookingStatuses(): void
     {
-        $analytics = (new AdminReportModel())->getAdminAnalytics();
+        $analytics = (new AdminReportModel())->getAdminAnalytics(24);
 
         $statusMetrics = [];
         foreach ($analytics['bookingStatusBreakdown'] as $item) {
@@ -51,5 +51,36 @@ final class AdminReportModelTest extends CIUnitTestCase
         $this->assertSame(19600.00, $analytics['topRooms'][0]['total_revenue']);
         $this->assertSame(8, $analytics['topRooms'][0]['guest_nights']);
         $this->assertSame('101', $analytics['topRooms'][1]['room_number']);
+
+        $monthlyRevenueBuckets = array_values(array_filter(
+            $analytics['revenueBreakdownByMonth'],
+            static fn (array $items): bool => array_sum(array_column($items, 'amount')) > 0
+        ));
+        $monthlyBookingBuckets = array_values(array_filter(
+            $analytics['bookingStatusBreakdownByMonth'],
+            static fn (array $items): bool => array_sum(array_column($items, 'count')) > 0
+        ));
+
+        $this->assertCount(1, $monthlyRevenueBuckets);
+        $this->assertCount(1, $monthlyBookingBuckets);
+
+        $aprilRevenueMetrics = [];
+        foreach ($monthlyRevenueBuckets[0] as $item) {
+            $aprilRevenueMetrics[$item['status']] = $item;
+        }
+
+        $aprilBookingMetrics = [];
+        foreach ($monthlyBookingBuckets[0] as $item) {
+            $aprilBookingMetrics[$item['status']] = $item;
+        }
+
+        $this->assertSame(5400.00, $aprilRevenueMetrics['pending']['amount']);
+        $this->assertSame(11200.00, $aprilRevenueMetrics['checked_in']['amount']);
+        $this->assertSame(8400.00, $aprilRevenueMetrics['checked_out']['amount']);
+        $this->assertSame(9000.00, $aprilRevenueMetrics['cancelled']['amount']);
+        $this->assertSame(1, $aprilBookingMetrics['pending']['count']);
+        $this->assertSame(1, $aprilBookingMetrics['checked_in']['count']);
+        $this->assertSame(1, $aprilBookingMetrics['checked_out']['count']);
+        $this->assertSame(1, $aprilBookingMetrics['cancelled']['count']);
     }
 }
