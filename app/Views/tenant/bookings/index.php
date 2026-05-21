@@ -68,15 +68,15 @@ $bookings ??= [];
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <div class="actions">
+                                    <div class="actions actions--compact">
                                         <?php if ($isAwaitingPayment && $checkoutUrl !== ''): ?>
-                                            <a href="<?= view_esc($checkoutUrl, 'attr') ?>" class="btn btn-primary">Continue Payment</a>
+                                            <a href="<?= view_esc($checkoutUrl, 'attr') ?>" class="btn btn-primary btn-compact">Continue Payment</a>
                                         <?php endif; ?>
 
                                         <?php if ($isAwaitingPayment): ?>
                                             <form action="<?= view_esc(tenant_path('myBookings/' . $booking['id'] . '/cancel')) ?>" method="post" class="inline-form" onsubmit="return confirm('Cancel this unpaid booking hold?');">
                                                 <?= csrf_field() ?>
-                                                <button type="submit" class="btn btn-secondary">Cancel Hold</button>
+                                                <button type="submit" class="btn btn-secondary btn-compact">Cancel Hold</button>
                                             </form>
                                         <?php else: ?>
                                             <span class="text-muted"><?= $paymentReference !== '' ? 'Payment verified' : 'Reservation recorded' ?></span>

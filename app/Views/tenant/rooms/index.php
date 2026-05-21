@@ -79,9 +79,9 @@ $selectedRoomNotes = old('notes', '');
                                 </td>
                                 <td><?= view_esc($room['description'] ?: 'No description') ?></td>
                                 <td>
-                                    <div class="actions">
+                                    <div class="actions actions--compact">
                                         <?php if ($room['is_bookable'] ?? false): ?>
-                                            <a href="<?= view_esc(tenant_path('myRooms') . '?selected_room=' . (int) $room['id']) ?>" class="btn <?= $isSelectedRoom ? 'btn-info' : 'btn-primary' ?>">
+                                            <a href="<?= view_esc(tenant_path('myRooms') . '?selected_room=' . (int) $room['id']) ?>" class="btn <?= $isSelectedRoom ? 'btn-info' : 'btn-primary' ?> btn-compact">
                                                 <?= $isSelectedRoom ? 'Selected' : 'Select' ?>
                                             </a>
                                         <?php else: ?>
