@@ -73,11 +73,11 @@ $rooms ??= [];
                             <td><span class="<?= view_esc(status_badge_class($room['status'])) ?>"><?= view_esc(room_status_options()[$room['status']] ?? humanize_key($room['status'])) ?></span></td>
                             <td><?= view_esc($room['description'] ?: 'No description') ?></td>
                             <td>
-                                <div class="actions">
-                                    <a href="<?= view_esc(admin_path('rooms/' . $room['id'] . '/edit')) ?>" class="btn btn-primary">Edit</a>
+                                <div class="actions actions--compact">
+                                    <a href="<?= view_esc(admin_path('rooms/' . $room['id'] . '/edit')) ?>" class="btn btn-primary btn-compact">Edit</a>
                                     <form action="<?= view_esc(admin_path('rooms/' . $room['id'] . '/delete')) ?>" method="post" class="inline-form" onsubmit="return confirm('Delete this room?');">
                                         <?= csrf_field() ?>
-                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="submit" class="btn btn-danger btn-compact">Delete</button>
                                     </form>
                                 </div>
                             </td>

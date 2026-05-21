@@ -47,11 +47,11 @@ $bookings ??= [];
                             <td><?= view_esc(format_money($booking['total_amount'])) ?></td>
                             <td><?= view_esc($booking['notes'] ?: 'No notes') ?></td>
                             <td>
-                                <div class="actions">
-                                    <a href="<?= view_esc(admin_path('bookings/' . $booking['id'] . '/edit')) ?>" class="btn btn-primary">Edit</a>
+                                <div class="actions actions--compact">
+                                    <a href="<?= view_esc(admin_path('bookings/' . $booking['id'] . '/edit')) ?>" class="btn btn-primary btn-compact">Edit</a>
                                     <form action="<?= view_esc(admin_path('bookings/' . $booking['id'] . '/delete')) ?>" method="post" class="inline-form" onsubmit="return confirm('Delete this booking?');">
                                         <?= csrf_field() ?>
-                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="submit" class="btn btn-danger btn-compact">Delete</button>
                                     </form>
                                 </div>
                             </td>
