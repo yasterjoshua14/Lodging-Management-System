@@ -166,7 +166,7 @@ class AuthController extends BaseController
             $user['role'] = $userRole;
         }
 
-        return $this->loginUserAndRedirect($user, 'Welcome back, ' . $user['full_name'] . '!');
+        return $this->loginUserAndRedirect($user, 'Welcome, ' . $user['full_name'] . '!');
     }
 
     private function loginUserAndRedirect(array $user, string $message): RedirectResponse
