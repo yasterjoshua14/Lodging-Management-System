@@ -67,125 +67,127 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
 <?php $this->extend('layouts/main'); ?>
 
 <?php $this->section('content'); ?>
-    <div class="section-head">
-        <div>
-            <h2>Operations Dashboard</h2>
+    <div class="operations-dashboard operations-dashboard--scaled">
+        <div class="section-head">
+            <div>
+                <h2>Operations Dashboard</h2>
+            </div>
         </div>
-    </div>
 
-    <section class="split-grid">
-        <article class="card interactive-card">
-            <div class="list-head interactive-head">
-                <div>
-                    <h2>Revenue Trend Explorer</h2>
-                </div>
-                <div class="toggle-group1" aria-label="Revenue trend metric">
-                    <button type="button" class="graph-toggle is-active" data-trend-metric="amount" aria-pressed="true">Revenue</button>
-                    <button type="button" class="graph-toggle" data-trend-metric="bookings" aria-pressed="false">Bookings</button>
-                </div>
-            </div>
-
-            <div class="chart-summary">
-                <div>
-                    <span class="chart-kicker" data-trend-label>Selected revenue</span>
-                    <strong class="chart-focus" data-trend-primary>Loading...</strong>
-                    <p class="text-muted" data-trend-secondary>Preparing trend data.</p>
-                </div>
-                <div class="summary-pill">
-                    <span class="chart-kicker" data-trend-peak-label>Peak revenue</span>
-                    <strong data-trend-peak>Loading...</strong>
-                    <p class="text-muted">Based on the visible metric.</p>
-                </div>
-            </div>
-
-            <div class="chart-scroll">
-                <div class="column-chart" id="trend-chart"></div>
-            </div>
-
-            <noscript>
-                <div class="graph-empty">Enable JavaScript to interact with the monthly trend chart.</div>
-            </noscript>
-        </article>
-
-        <article class="card interactive-card">
-            <div class="list-head interactive-head">
-                <div>
-                    <h2>Status Explorer</h2>
-                </div>
-                <div class="toggle-group2" aria-label="Status explorer mode">
-                    <button type="button" class="graph-toggle is-active" data-status-mode="revenue" aria-pressed="true">Revenue</button>
-                    <button type="button" class="graph-toggle" data-status-mode="bookings" aria-pressed="false">Bookings</button>
-                    <button type="button" class="graph-toggle" data-status-mode="rooms" aria-pressed="false">Rooms</button>
-                </div>
-            </div>
-
-            <div class="status-layout">
-                <div class="status-ring-panel">
-                    <div class="status-ring-shell">
-                        <div class="status-ring" id="status-ring"></div>
-                        <div class="status-ring-core">
-                            <span class="chart-kicker" data-status-total-label>Total value</span>
-                            <strong class="chart-focus" data-status-total>Loading...</strong>
-                            <p class="text-muted" data-status-selected>Preparing status data.</p>
-                        </div>
+        <section class="split-grid">
+            <article class="card interactive-card">
+                <div class="list-head interactive-head">
+                    <div>
+                        <h2>Revenue Trend Explorer</h2>
+                    </div>
+                    <div class="toggle-group1" aria-label="Revenue trend metric">
+                        <button type="button" class="graph-toggle is-active" data-trend-metric="amount" aria-pressed="true">Revenue</button>
+                        <button type="button" class="graph-toggle" data-trend-metric="bookings" aria-pressed="false">Bookings</button>
                     </div>
                 </div>
 
-                <div class="status-legend" id="status-legend"></div>
+                <div class="chart-summary">
+                    <div>
+                        <span class="chart-kicker" data-trend-label>Selected revenue</span>
+                        <strong class="chart-focus" data-trend-primary>Loading...</strong>
+                        <p class="text-muted" data-trend-secondary>Preparing trend data.</p>
+                    </div>
+                    <div class="summary-pill">
+                        <span class="chart-kicker" data-trend-peak-label>Peak revenue</span>
+                        <strong data-trend-peak>Loading...</strong>
+                        <p class="text-muted">Based on the visible metric.</p>
+                    </div>
+                </div>
+
+                <div class="chart-scroll">
+                    <div class="column-chart" id="trend-chart"></div>
+                </div>
+
+                <noscript>
+                    <div class="graph-empty">Enable JavaScript to interact with the monthly trend chart.</div>
+                </noscript>
+            </article>
+
+            <article class="card interactive-card">
+                <div class="list-head interactive-head">
+                    <div>
+                        <h2>Status Explorer</h2>
+                    </div>
+                    <div class="toggle-group2" aria-label="Status explorer mode">
+                        <button type="button" class="graph-toggle is-active" data-status-mode="revenue" aria-pressed="true">Revenue</button>
+                        <button type="button" class="graph-toggle" data-status-mode="bookings" aria-pressed="false">Bookings</button>
+                        <button type="button" class="graph-toggle" data-status-mode="rooms" aria-pressed="false">Rooms</button>
+                    </div>
+                </div>
+
+                <div class="status-layout">
+                    <div class="status-ring-panel">
+                        <div class="status-ring-shell">
+                            <div class="status-ring" id="status-ring"></div>
+                            <div class="status-ring-core">
+                                <span class="chart-kicker" data-status-total-label>Total value</span>
+                                <strong class="chart-focus" data-status-total>Loading...</strong>
+                                <p class="text-muted" data-status-selected>Preparing status data.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="status-legend" id="status-legend"></div>
+                </div>
+
+                <noscript>
+                    <div class="graph-empty">Enable JavaScript to use the status explorer.</div>
+                </noscript>
+            </article>
+        </section>
+
+        <section class="card card--stacked">
+            <div class="list-head">
+                <div>
+                    <h2>Recent Bookings</h2>
+                </div>
+                <a href="<?= view_esc(admin_path('bookings')) ?>" class="link-inline">Manage bookings</a>
             </div>
 
-            <noscript>
-                <div class="graph-empty">Enable JavaScript to use the status explorer.</div>
-            </noscript>
-        </article>
-    </section>
-
-    <section class="card card--stacked">
-        <div class="list-head">
-            <div>
-                <h2>Recent Bookings</h2>
-            </div>
-            <a href="<?= view_esc(admin_path('bookings')) ?>" class="link-inline">Manage bookings</a>
-        </div>
-
-        <?php if ($recentBookings !== []): ?>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Tenant</th>
-                            <th>Room</th>
-                            <th>Booking Details</th>
-                            <th>Status</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($recentBookings as $booking): ?>
+            <?php if ($recentBookings !== []): ?>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
                             <tr>
-                                <td><?= view_esc($booking['tenant_name']) ?></td>
-                                <td>
-                                    <strong><?= view_esc($booking['room_number']) ?></strong><br>
-                                    <span class="text-muted"><?= view_esc(humanize_key($booking['room_type'])) ?></span>
-                                </td>
-                                <td>
-                                    <strong><?= view_esc(hour_duration_label($booking['pricing_hours'] ?? 1)) ?></strong><br>
-                                    <span class="text-muted">Booked <?= view_esc(format_datetime($booking['created_at'] ?? null)) ?></span>
-                                </td>
-                                <td><span class="<?= view_esc(status_badge_class($booking['status'])) ?>"><?= view_esc(booking_status_options()[$booking['status']] ?? humanize_key($booking['status'])) ?></span></td>
-                                <td><?= view_esc(format_money($booking['total_amount'])) ?></td>
+                                <th>Tenant</th>
+                                <th>Room</th>
+                                <th>Booking Details</th>
+                                <th>Status</th>
+                                <th>Total</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php else: ?>
-            <div class="empty-state">
-                <h3>No bookings recorded</h3>
-                <p class="text-muted">Booking activity will appear here as soon as the first stay is saved.</p>
-            </div>
-        <?php endif; ?>
-    </section>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($recentBookings as $booking): ?>
+                                <tr>
+                                    <td><?= view_esc($booking['tenant_name']) ?></td>
+                                    <td>
+                                        <strong><?= view_esc($booking['room_number']) ?></strong><br>
+                                        <span class="text-muted"><?= view_esc(humanize_key($booking['room_type'])) ?></span>
+                                    </td>
+                                    <td>
+                                        <strong><?= view_esc(hour_duration_label($booking['pricing_hours'] ?? 1)) ?></strong><br>
+                                        <span class="text-muted">Booked <?= view_esc(format_datetime($booking['created_at'] ?? null)) ?></span>
+                                    </td>
+                                    <td><span class="<?= view_esc(status_badge_class($booking['status'])) ?>"><?= view_esc(booking_status_options()[$booking['status']] ?? humanize_key($booking['status'])) ?></span></td>
+                                    <td><?= view_esc(format_money($booking['total_amount'])) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php else: ?>
+                <div class="empty-state">
+                    <h3>No bookings recorded</h3>
+                    <p class="text-muted">Booking activity will appear here as soon as the first stay is saved.</p>
+                </div>
+            <?php endif; ?>
+        </section>
+    </div>
 
     <script>
         (() => {
@@ -238,6 +240,8 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
             const trendPeak = document.querySelector('[data-trend-peak]');
 
             const statusRing = document.getElementById('status-ring');
+            const statusRingPanel = document.querySelector('.status-ring-panel');
+            const statusRingShell = document.querySelector('.status-ring-shell');
             const statusLegend = document.getElementById('status-legend');
             const statusTotalLabel = document.querySelector('[data-status-total-label]');
             const statusTotal = document.querySelector('[data-status-total]');
@@ -498,6 +502,12 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                     statusRing.style.background = 'conic-gradient(var(--accent-soft) 0 100%)';
                     statusRing.style.transform = 'rotate(-90deg)';
                     statusRing.style.filter = 'none';
+                    statusRingPanel?.style.setProperty('--status-solid', '#d4a066');
+                    statusRingPanel?.style.setProperty('--status-soft', 'rgba(212, 160, 102, 0.18)');
+                    statusRingPanel?.style.setProperty('--status-glow', 'rgba(212, 160, 102, 0.26)');
+                    statusRingShell?.style.setProperty('--status-solid', '#d4a066');
+                    statusRingShell?.style.setProperty('--status-soft', 'rgba(212, 160, 102, 0.18)');
+                    statusRingShell?.style.setProperty('--status-glow', 'rgba(212, 160, 102, 0.26)');
                     statusLegend.innerHTML = '<div class="graph-empty">No status data available yet.</div>';
                     statusTotalLabel.textContent = config.totalLabel(scope);
                     statusTotal.textContent = 'No data';
@@ -536,13 +546,32 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                 statusRing.style.background = `conic-gradient(${gradient})`;
                 statusRing.style.transform = `rotate(${-90 - (midpoint * 3.6)}deg)`;
                 statusRing.style.filter = selected ? `drop-shadow(0 18px 28px ${hexToRgba(selected.colors.solid, 0.22)})` : 'none';
+                if (selected) {
+                    statusRingPanel?.style.setProperty('--status-solid', selected.colors.solid);
+                    statusRingPanel?.style.setProperty('--status-soft', selected.colors.soft);
+                    statusRingPanel?.style.setProperty('--status-glow', hexToRgba(selected.colors.solid, 0.26));
+                    statusRingShell?.style.setProperty('--status-solid', selected.colors.solid);
+                    statusRingShell?.style.setProperty('--status-soft', selected.colors.soft);
+                    statusRingShell?.style.setProperty('--status-glow', hexToRgba(selected.colors.solid, 0.26));
+                }
 
                 statusLegend.innerHTML = segments.map((segment, index) => `
-                    <button type="button" class="legend-item ${index === state.statusActive ? 'is-active' : ''}" data-status-index="${index}">
+                    <button
+                        type="button"
+                        class="legend-item ${index === state.statusActive ? 'is-active' : ''}"
+                        data-status-index="${index}"
+                        style="--status-solid: ${segment.colors.solid}; --status-soft: ${segment.colors.soft}; --status-glow: ${hexToRgba(segment.colors.solid, 0.18)}; --status-share: ${segment.share.toFixed(2)}%;"
+                    >
                         <span class="legend-swatch legend-swatch--${getStatusClassName(segment.status)}"></span>
                         <span class="legend-copy">
-                            <strong>${segment.label}</strong>
-                            <span>${config.secondary(segment, total)}</span>
+                            <span class="legend-title-row">
+                                <strong>${segment.label}</strong>
+                                <span class="legend-share">${segment.share.toFixed(1)}%</span>
+                            </span>
+                            <small class="legend-subcopy">${config.secondary(segment, total)}</small>
+                            <span class="legend-meter" aria-hidden="true">
+                                <span class="legend-meter-fill"></span>
+                            </span>
                         </span>
                         <strong class="legend-value">${config.valueText(segment)}</strong>
                     </button>
