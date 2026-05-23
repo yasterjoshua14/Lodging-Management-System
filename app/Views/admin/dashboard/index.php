@@ -108,7 +108,7 @@ $dashboardGraphJson = $dashboardGraphJson === false ? 'null' : $dashboardGraphJs
                 </noscript>
             </article>
 
-            <article class="card interactive-card">
+            <article class="card interactive-card status-explorer-card">
                 <div class="list-head interactive-head">
                     <div>
                         <h2>Status Explorer</h2>
