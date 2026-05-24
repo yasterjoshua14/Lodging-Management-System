@@ -18,9 +18,13 @@
     --danger-soft: rgba(242, 154, 154, 0.14);
     --info-soft: rgba(120, 200, 213, 0.14);
     --shadow: 0 20px 48px rgba(0, 0, 0, 0.34);
-    --radius-xl: 22px;
-    --radius-lg: 18px;
-    --radius-md: 14px;
+    --radius-shell: 16px;
+    --radius-xl: 14px;
+    --radius-lg: 12px;
+    --radius-md: 9px;
+    --radius-control: 12px;
+    --radius-chip: 14px;
+    --radius-pill: 999px;
     --accent: #d4a066;
     --accent-dark: #8b5e34;
     --accent-soft: rgba(212, 160, 102, 0.18);
@@ -161,8 +165,14 @@ body {
 }
 
 .app-body--dashboard {
+    --shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
     min-height: 100dvh;
     overflow: hidden;
+    background: var(--surface-panel);
+}
+
+html[data-theme="light"] body.app-body--dashboard {
+    --shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
 }
 
 h1,
@@ -246,7 +256,7 @@ body.sidebar-collapsed .sidebar-link::before {
     height: 24px;
     align-items: center;
     justify-content: center;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     background: rgba(255, 255, 255, 0.08);
     color: inherit;
     font-weight: 700;
@@ -265,7 +275,7 @@ body.sidebar-collapsed .sidebar-link::before {
     position: relative;
     overflow: hidden;
     border: 1px solid var(--outline);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-shell);
     background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01)),
         var(--surface-panel);
@@ -283,7 +293,7 @@ body.sidebar-collapsed .sidebar-link::before {
     align-items: center;
     padding: 8px 14px;
     border: 1px solid rgba(255, 255, 255, 0.04);
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     color: #f5fbfd;
     background: var(--tag-bg);
     font-size: 0.95rem;
@@ -363,14 +373,14 @@ body.sidebar-collapsed .sidebar-link::before {
 .brand-mark {
     width: 52px;
     height: 52px;
-    border-radius: 11px;
+    border-radius: calc(var(--radius-md) + 1px);
     overflow: hidden;
 }
 
 .sidebar-card__mark {
     width: 42px;
     height: 42px;
-    border-radius: 14px;
+    border-radius: var(--radius-lg);
 }
 
 .brand-mark--logo,
@@ -443,7 +453,7 @@ body.sidebar-collapsed .sidebar-link::before {
     width: 42px;
     height: 42px;
     margin-right: 8px;
-    border-radius: 14px;
+    border-radius: calc(var(--radius-md) + 1px);
     border: 1px solid transparent;
     background: rgba(255, 255, 255, 0.03);
     color: inherit;
@@ -476,7 +486,7 @@ body.sidebar-collapsed .sidebar-link::before {
 .navbar-search__input {
     min-width: 0;
     flex: 1 1 auto;
-    border-radius: 16px;
+    border-radius: var(--radius-chip);
     background: rgba(255, 255, 255, 0.02);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
@@ -490,7 +500,7 @@ body.sidebar-collapsed .sidebar-link::before {
     min-width: 0;
     min-height: 30px;
     flex: 1 1 auto;
-    border-radius: 16px;
+    border-radius: var(--radius-chip);
     white-space: nowrap;
     background: rgba(255, 255, 255, 0.02);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
@@ -518,7 +528,7 @@ body.sidebar-collapsed .sidebar-link::before {
     height: 100%;
     flex-shrink: 0;
     border: 2px solid var(--toggle-track-border);
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     background:
         linear-gradient(135deg, var(--accent-ghost), transparent 65%),
         var(--toggle-track-bg);
@@ -612,7 +622,7 @@ body.sidebar-collapsed .sidebar-link::before {
     gap: 12px;
     padding: 10px 14px;
     border: 1px solid var(--line-strong);
-    border-radius: 999px;
+    border-radius: var(--radius-chip);
     background: rgba(255, 255, 255, 0.03);
 }
 
@@ -1027,7 +1037,7 @@ textarea {
     width: 100%;
     padding: 13px 14px;
     border: 1px solid var(--line-strong);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-control);
     color: var(--ink);
     background: var(--surface-panel-soft);
     outline: none;
@@ -1080,7 +1090,7 @@ textarea {
     gap: 8px;
     padding: 12px 18px;
     border: 1px solid rgba(180, 151, 123, 0.84);
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     font-weight: 700;
     cursor: pointer;
     transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, opacity 0.2s ease;
@@ -2193,7 +2203,7 @@ tr:last-child td {
             position: relative;
             border: 1px solid rgba(221, 203, 185, 0.82);
             padding: 10px 12px;
-            border-radius: 16px;
+            border-radius: var(--radius-chip);
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.08));
             display: grid;
             grid-template-columns: auto minmax(0, 1fr) auto;
