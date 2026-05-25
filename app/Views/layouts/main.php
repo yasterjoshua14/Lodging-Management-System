@@ -170,7 +170,9 @@ $bodyClasses = implode(' ', [
             const root = document.documentElement;
             const themeToggle = document.querySelector('[data-theme-toggle]');
             const sidebarToggle = document.querySelector('[data-sidebar-toggle]');
+            const sidebarPanel = document.querySelector('[data-sidebar-panel]');
             const pageBody = document.body;
+            const autoHoverMedia = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 961px)');
 
             const getTheme = () => root.dataset.theme === 'light' ? 'light' : 'dark';
 
@@ -189,18 +191,55 @@ $bodyClasses = implode(' ', [
                 themeToggle.setAttribute('title', nextThemeLabel);
             };
 
-            const setSidebarState = (isCollapsed) => {
-                pageBody.classList.toggle('sidebar-collapsed', isCollapsed);
-
+            const updateSidebarToggle = () => {
                 if (!sidebarToggle) {
                     return;
                 }
 
-                sidebarToggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+                const isExpanded = !pageBody.classList.contains('sidebar-collapsed')
+                    || pageBody.classList.contains('sidebar-hover-open');
+                const toggleLabel = isExpanded ? 'Hide sidebar navigation' : 'Show sidebar navigation';
+
+                sidebarToggle.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+                sidebarToggle.setAttribute('aria-label', toggleLabel);
+                sidebarToggle.setAttribute('title', toggleLabel);
+            };
+
+            const setSidebarHoverState = (isOpen) => {
+                const canHoverOpen = autoHoverMedia.matches && pageBody.classList.contains('sidebar-collapsed');
+
+                pageBody.classList.toggle('sidebar-hover-open', canHoverOpen && isOpen);
+                updateSidebarToggle();
+            };
+
+            const refreshSidebarHoverState = () => {
+                if (!sidebarPanel) {
+                    setSidebarHoverState(false);
+                    return;
+                }
+
+                const isFocusedInside = sidebarPanel.contains(document.activeElement);
+                const isPointerInside = sidebarPanel.matches(':hover');
+
+                setSidebarHoverState(isFocusedInside || isPointerInside);
+            };
+
+            const setSidebarState = (isCollapsed) => {
+                pageBody.classList.toggle('sidebar-collapsed', isCollapsed);
+                refreshSidebarHoverState();
+                updateSidebarToggle();
+            };
+
+            const syncSidebarMode = () => {
+                if (!sidebarPanel) {
+                    return;
+                }
+
+                setSidebarState(autoHoverMedia.matches);
             };
 
             applyTheme(getTheme());
-            setSidebarState(false);
+            syncSidebarMode();
 
             if (themeToggle) {
                 themeToggle.addEventListener('click', () => {
@@ -218,9 +257,38 @@ $bodyClasses = implode(' ', [
 
             if (sidebarToggle) {
                 sidebarToggle.addEventListener('click', () => {
-                    const isCollapsed = pageBody.classList.toggle('sidebar-collapsed');
-                    sidebarToggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+                    setSidebarState(!pageBody.classList.contains('sidebar-collapsed'));
                 });
+            }
+
+            if (sidebarPanel) {
+                sidebarPanel.addEventListener('mouseenter', () => {
+                    setSidebarHoverState(true);
+                });
+
+                sidebarPanel.addEventListener('mouseleave', () => {
+                    setSidebarHoverState(false);
+                });
+
+                sidebarPanel.addEventListener('focusin', () => {
+                    setSidebarHoverState(true);
+                });
+
+                sidebarPanel.addEventListener('focusout', (event) => {
+                    const nextTarget = event.relatedTarget;
+
+                    if (nextTarget instanceof Node && sidebarPanel.contains(nextTarget)) {
+                        return;
+                    }
+
+                    setSidebarHoverState(false);
+                });
+
+                if (typeof autoHoverMedia.addEventListener === 'function') {
+                    autoHoverMedia.addEventListener('change', syncSidebarMode);
+                } else if (typeof autoHoverMedia.addListener === 'function') {
+                    autoHoverMedia.addListener(syncSidebarMode);
+                }
             }
         })();
     </script>

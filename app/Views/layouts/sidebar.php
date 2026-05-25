@@ -8,10 +8,11 @@
  * @var list<array{label:string, href:string, pattern:string}> $navItems
  */
 ?>
-<aside class="shell-panel sidebar-panel">
+<aside class="shell-panel sidebar-panel" data-sidebar-panel>
     <div class="sidebar-panel__body">
         <button
             type="button"
+            class="sidebar-toggle"
             data-sidebar-toggle
             aria-expanded="true"
             aria-label="Toggle navigation menu"
