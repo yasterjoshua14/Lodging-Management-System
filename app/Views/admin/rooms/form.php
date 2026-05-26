@@ -19,7 +19,6 @@ $selectedPricingHours = old('pricing_hour_value', $durationParts['hours']);
     <div class="section-head">
         <div>
             <h2><?= view_esc($heading) ?></h2>
-            <p>Capture room category, pricing, and availability details.</p>
         </div>
 
         <a href="<?= view_esc(admin_path('rooms')) ?>" class="btn btn-ghost">Back to Rooms</a>
@@ -71,7 +70,7 @@ $selectedPricingHours = old('pricing_hour_value', $durationParts['hours']);
                     </select>
 
                     <select id="pricing_hour_value" name="pricing_hour_value" class="field-inline__side field-inline__side--unit" aria-label="Pricing hours">
-                        <option value="">Hrs</option>
+                        <option value="">Hours</option>
                         <?php foreach (pricing_hour_options() as $value => $label): ?>
                             <option value="<?= view_esc($value) ?>" <?= (string) $selectedPricingHours === $value ? 'selected' : '' ?>><?= view_esc($label) ?></option>
                         <?php endforeach; ?>
