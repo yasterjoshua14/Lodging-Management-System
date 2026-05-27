@@ -48,6 +48,8 @@ $themeCssPath = APPPATH . 'Views/theme/style.css';
 $themeStylesheetUrl = site_url('assets/theme');
 $brandLogoPath = APPPATH . 'Views\theme\img\image.png';
 $brandLogoUrl = null;
+$faviconPath = FCPATH . 'favicon.ico';
+$faviconUrl = base_url('favicon.ico');
 $themeStorageKey = 'lms-theme';
 $alertsScript = '';
 $alertsScriptPath = APPPATH . 'Views/partials/alerts.js';
@@ -59,6 +61,10 @@ if (is_file($themeCssPath)) {
 
 if (is_file($brandLogoPath)) {
     $brandLogoUrl = site_url('assets/theme/img/image.png') . '?v=' . rawurlencode((string) filemtime($brandLogoPath));
+}
+
+if (is_file($faviconPath)) {
+    $faviconUrl .= '?v=' . rawurlencode((string) filemtime($faviconPath));
 }
 
 if (is_file($alertsScriptPath)) {
@@ -83,6 +89,8 @@ $bodyClasses = implode(' ', [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= view_esc($title ?? 'Lodging Management System') ?></title>
+    <link rel="icon" type="image/x-icon" href="<?= view_esc($faviconUrl, 'attr') ?>">
+    <link rel="shortcut icon" href="<?= view_esc($faviconUrl, 'attr') ?>">
     <script>
         (() => {
             const storageKey = <?= json_encode($themeStorageKey) ?>;
