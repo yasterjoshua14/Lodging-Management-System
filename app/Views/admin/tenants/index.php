@@ -39,9 +39,10 @@ $tenants ??= [];
                         $idDocumentUrl       = $idDocumentPath !== '' ? admin_path('tenants/' . $tenant['id'] . '/id-document') : null;
                         $idDocumentExtension = strtolower(pathinfo($idDocumentPath, PATHINFO_EXTENSION));
                         $hasImagePreview     = $idDocumentUrl !== null && in_array($idDocumentExtension, $imageExtensions, true);
+                        $tenantName          = person_name($tenant, 'Tenant');
                         ?>
                         <tr>
-                            <td><strong><?= view_esc($tenant['full_name']) ?></strong></td>
+                            <td><strong><?= view_esc($tenantName) ?></strong></td>
                             <td>
                                 <?= view_esc($tenant['phone']) ?><br>
                                 <span class="text-muted"><?= view_esc($tenant['email'] ?: 'No email provided') ?></span>
@@ -55,7 +56,7 @@ $tenants ??= [];
 
                                     <?php if ($hasImagePreview): ?>
                                         <a href="<?= view_esc($idDocumentUrl) ?>" target="_blank" rel="noopener" class="document-thumb">
-                                            <img src="<?= view_esc($idDocumentUrl) ?>" alt="<?= view_esc('Uploaded ID for ' . $tenant['full_name']) ?>">
+                                            <img src="<?= view_esc($idDocumentUrl) ?>" alt="<?= view_esc('Uploaded ID for ' . $tenantName) ?>">
                                         </a>
                                     <?php endif; ?>
 

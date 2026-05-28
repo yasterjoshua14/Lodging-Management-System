@@ -40,10 +40,13 @@ $heading ??= 'Tenant';
         <?= csrf_field() ?>
 
         <div class="form-grid">
-            <div>
-                <label for="full_name">Full Name</label>
-                <input type="text" id="full_name" name="full_name" value="<?= view_esc(old('full_name', $tenant['full_name'] ?? '')) ?>" required>
-            </div>
+            <fieldset class="name-fieldset full-span">
+                <legend>Name</legend>
+                <div class="name-fields">
+                    <input type="text" id="first_name" name="first_name" value="<?= view_esc(old('first_name', $tenant['first_name'] ?? '')) ?>" placeholder="First name" aria-label="First name" required>
+                    <input type="text" id="last_name" name="last_name" value="<?= view_esc(old('last_name', $tenant['last_name'] ?? '')) ?>" placeholder="Last name" aria-label="Last name" required>
+                </div>
+            </fieldset>
 
             <div>
                 <label for="phone">Phone Number</label>
@@ -103,7 +106,7 @@ $heading ??= 'Tenant';
 
                     <?php if ($hasImagePreview): ?>
                         <a href="<?= view_esc($idDocumentUrl) ?>" target="_blank" rel="noopener" class="document-preview-link">
-                            <img src="<?= view_esc($idDocumentUrl) ?>" alt="<?= view_esc('Uploaded ID for ' . ($tenant['full_name'] ?? 'tenant')) ?>" class="document-preview-image">
+                            <img src="<?= view_esc($idDocumentUrl) ?>" alt="<?= view_esc('Uploaded ID for ' . person_name($tenant ?? [], 'tenant')) ?>" class="document-preview-image">
                         </a>
                     <?php else: ?>
                         <div class="document-file-chip">
