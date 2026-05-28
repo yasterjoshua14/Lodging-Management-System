@@ -185,7 +185,8 @@ class AdminBookingsController extends BaseController
     private function getTenantOptions(): array
     {
         return (new TenantModel())
-            ->orderBy('full_name', 'ASC')
+            ->orderBy('first_name', 'ASC')
+            ->orderBy('last_name', 'ASC')
             ->findAll();
     }
 

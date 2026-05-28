@@ -45,9 +45,8 @@ class AuthController extends BaseController
     public function register(): RedirectResponse
     {
         $rules = [
-            'first_name'       => 'permit_empty|max_length[60]',
-            'last_name'        => 'permit_empty|max_length[60]',
-            'full_name'        => 'permit_empty|min_length[3]|max_length[120]',
+            'first_name'       => 'required|max_length[60]',
+            'last_name'        => 'required|max_length[60]',
             'email'            => 'required|valid_email|is_unique[users.email]',
             'phone'            => 'permit_empty|max_length[30]',
             'password'         => 'required|min_length[8]',
@@ -60,13 +59,20 @@ class AuthController extends BaseController
             $errors = $this->validator->getErrors();
         }
 
-        $firstName      = trim((string) $this->request->getPost('first_name'));
-        $lastName       = trim((string) $this->request->getPost('last_name'));
-        $legacyFullName = trim((string) $this->request->getPost('full_name'));
-        $fullName       = trim($legacyFullName !== '' ? $legacyFullName : $firstName . ' ' . $lastName);
+        $firstName = $this->normalizeNamePart((string) $this->request->getPost('first_name'));
+        $lastName  = $this->normalizeNamePart((string) $this->request->getPost('last_name'));
+        $fullName  = $this->normalizeFullName($firstName, $lastName);
 
-        if ($fullName === '') {
-            $errors['full_name'] = 'Please enter your first and last name.';
+        if ($firstName === '') {
+            $errors['first_name'] = 'Please enter your first name.';
+        }
+
+        if ($lastName === '') {
+            $errors['last_name'] = 'Please enter your last name.';
+        }
+
+        if ($fullName !== '' && strlen($fullName) > 120) {
+            $errors['last_name'] = 'First and last name can only be up to 120 characters combined.';
         }
 
         if ($errors !== []) {
@@ -87,8 +93,9 @@ class AuthController extends BaseController
             }
 
             $tenantPayload = [
-                'full_name' => $fullName,
-                'email'     => $email,
+                'first_name' => $firstName,
+                'last_name'  => $lastName,
+                'email'      => $email,
             ];
 
             if ($phone !== '') {
@@ -100,16 +107,18 @@ class AuthController extends BaseController
             $tenantId = (int) $tenant['id'];
         } else {
             $tenantModel->insert([
-                'full_name' => $fullName,
-                'email'     => $email,
-                'phone'     => $phone !== '' ? $phone : '',
+                'first_name' => $firstName,
+                'last_name'  => $lastName,
+                'email'      => $email,
+                'phone'      => $phone !== '' ? $phone : '',
             ]);
 
             $tenantId = (int) $tenantModel->getInsertID();
         }
 
         $userModel->insert([
-            'full_name'     => $fullName,
+            'first_name'    => $firstName,
+            'last_name'     => $lastName,
             'email'         => $email,
             'role'          => 'tenant',
             'tenant_id'     => $tenantId,
@@ -166,7 +175,7 @@ class AuthController extends BaseController
             $user['role'] = $userRole;
         }
 
-        return $this->loginUserAndRedirect($user, 'Welcome, ' . $user['full_name'] . '!');
+        return $this->loginUserAndRedirect($user, 'Welcome, ' . person_name($user, 'User') . '!');
     }
 
     private function loginUserAndRedirect(array $user, string $message): RedirectResponse
@@ -177,7 +186,7 @@ class AuthController extends BaseController
         $this->session->regenerate(true);
         $this->session->set([
             'user_id'      => $user['id'],
-            'user_name'    => $user['full_name'],
+            'user_name'    => person_name($user, 'User'),
             'user_email'   => $user['email'],
             'user_role'    => $normalizedRole,
             'tenant_id'    => $user['tenant_id'] ?? null,
@@ -185,6 +194,16 @@ class AuthController extends BaseController
         ]);
 
         return redirect()->to(dashboard_path_for_role($normalizedRole))->with('success', $message);
+    }
+
+    private function normalizeFullName(string $firstName, string $lastName): string
+    {
+        return trim($firstName . ' ' . $lastName);
+    }
+
+    private function normalizeNamePart(string $name): string
+    {
+        return trim((string) preg_replace('/\s+/', ' ', $name));
     }
 
     private function getPortalMismatchMessage(string $expectedRole): string

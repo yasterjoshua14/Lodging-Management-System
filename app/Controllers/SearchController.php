@@ -187,7 +187,8 @@ class SearchController extends BaseController
     {
         $tenants = (new TenantModel())
             ->groupStart()
-            ->like('full_name', $query)
+            ->like('first_name', $query)
+            ->orLike('last_name', $query)
             ->orLike('email', $query)
             ->orLike('phone', $query)
             ->orLike('id_type', $query)
@@ -196,7 +197,8 @@ class SearchController extends BaseController
             ->orLike('emergency_contact_name', $query)
             ->orLike('emergency_contact_phone', $query)
             ->groupEnd()
-            ->orderBy('full_name', 'ASC')
+            ->orderBy('first_name', 'ASC')
+            ->orderBy('last_name', 'ASC')
             ->findAll(8);
 
         return array_map(function (array $tenant): array {
@@ -212,7 +214,7 @@ class SearchController extends BaseController
             ]);
 
             return $this->makeItem(
-                view_text($tenant['full_name'], 'Tenant'),
+                person_name($tenant, 'Tenant'),
                 implode(' - ', $summaryParts),
                 admin_path('tenants/' . $tenant['id'] . '/edit'),
                 'Tenant #' . view_text($tenant['id']),
@@ -226,7 +228,8 @@ class SearchController extends BaseController
         $bookingsQuery = (new BookingModel())
             ->withRelations()
             ->groupStart()
-            ->like('tenants.full_name', $query)
+            ->like('tenants.first_name', $query)
+            ->orLike('tenants.last_name', $query)
             ->orLike('rooms.room_number', $query)
             ->orLike('rooms.type', $query)
             ->orLike('bookings.status', $query)
@@ -333,7 +336,7 @@ class SearchController extends BaseController
 
         return [
             $this->makeItem(
-                view_text($tenant['full_name'], 'My Account'),
+                person_name($tenant, 'My Account'),
                 implode(' - ', $summaryParts),
                 tenant_path('account'),
                 'My profile',

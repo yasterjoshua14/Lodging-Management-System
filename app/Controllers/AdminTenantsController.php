@@ -17,7 +17,7 @@ class AdminTenantsController extends BaseController
 
         return view('admin/tenants/index', [
             'title'   => 'Tenants',
-            'tenants' => $tenantModel->orderBy('full_name', 'ASC')->findAll(),
+            'tenants' => $tenantModel->orderBy('first_name', 'ASC')->orderBy('last_name', 'ASC')->findAll(),
         ]);
     }
 
@@ -143,7 +143,8 @@ class AdminTenantsController extends BaseController
     private function getValidatedData()
     {
         $rules = [
-            'full_name'               => 'required|min_length[3]|max_length[120]',
+            'first_name'              => 'required|max_length[60]',
+            'last_name'               => 'required|max_length[60]',
             'email'                   => 'permit_empty|valid_email|max_length[120]',
             'phone'                   => 'required|max_length[30]',
             'id_type'                 => 'permit_empty|max_length[50]',
@@ -157,8 +158,12 @@ class AdminTenantsController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        $firstName = name_part($this->request->getPost('first_name'));
+        $lastName  = name_part($this->request->getPost('last_name'));
+
         return [
-            'full_name'               => trim((string) $this->request->getPost('full_name')),
+            'first_name'              => $firstName,
+            'last_name'               => $lastName,
             'email'                   => strtolower(trim((string) $this->request->getPost('email'))),
             'phone'                   => trim((string) $this->request->getPost('phone')),
             'id_type'                 => trim((string) $this->request->getPost('id_type')),

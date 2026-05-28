@@ -44,8 +44,9 @@ class TenantAccountController extends BaseController
 
         (new TenantModel())->update($tenant['id'], $tenantData);
         (new UserModel())->update($user['id'], [
-            'full_name' => $tenantData['full_name'],
-            'email'     => $tenantData['email'],
+            'first_name' => $tenantData['first_name'],
+            'last_name'  => $tenantData['last_name'],
+            'email'      => $tenantData['email'],
         ]);
 
         $database->transComplete();
@@ -63,7 +64,7 @@ class TenantAccountController extends BaseController
         }
 
         $this->session->set([
-            'user_name'  => $tenantData['full_name'],
+            'user_name'  => person_name($tenantData, 'Tenant'),
             'user_email' => $tenantData['email'],
         ]);
 
@@ -105,7 +106,8 @@ class TenantAccountController extends BaseController
     private function getValidatedData(array $user)
     {
         $rules = [
-            'full_name'               => 'required|min_length[3]|max_length[120]',
+            'first_name'              => 'required|max_length[60]',
+            'last_name'               => 'required|max_length[60]',
             'email'                   => 'required|valid_email|max_length[120]',
             'phone'                   => 'required|max_length[30]',
             'id_type'                 => 'permit_empty|max_length[50]',
@@ -120,6 +122,8 @@ class TenantAccountController extends BaseController
         }
 
         $email = strtolower(trim((string) $this->request->getPost('email')));
+        $firstName = name_part($this->request->getPost('first_name'));
+        $lastName  = name_part($this->request->getPost('last_name'));
 
         $existingUser = (new UserModel())
             ->where('email', $email)
@@ -131,7 +135,8 @@ class TenantAccountController extends BaseController
         }
 
         return [
-            'full_name'               => trim((string) $this->request->getPost('full_name')),
+            'first_name'              => $firstName,
+            'last_name'               => $lastName,
             'email'                   => $email,
             'phone'                   => trim((string) $this->request->getPost('phone')),
             'id_type'                 => trim((string) $this->request->getPost('id_type')),

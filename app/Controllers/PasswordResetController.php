@@ -433,7 +433,7 @@ class PasswordResetController extends BaseController
 
     private function deliverOtp(string $role, array $account, string $channel, string $destination, string $otp): bool
     {
-        $name = (string) ($account['user']['full_name'] ?? 'there');
+        $name = person_name($account['user'], 'there');
 
         if ($channel === 'email') {
             return $this->sendEmailOtp($destination, $name, $otp);
