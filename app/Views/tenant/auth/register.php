@@ -15,10 +15,13 @@
     <form action="<?= view_esc(tenant_path('register')) ?>" method="post" class="grid">
         <?= csrf_field() ?>
 
-        <div>
-            <label for="full_name">Full Name</label>
-            <input type="text" id="full_name" name="full_name" value="<?= view_esc(old('full_name')) ?>" placeholder="John Doe" required>
-        </div>
+        <fieldset class="name-fieldset">
+            <legend>Name</legend>
+            <div class="name-fields">
+                <input type="text" id="first_name" name="first_name" value="<?= view_esc(old('first_name')) ?>" placeholder="First name" aria-label="First name" required>
+                <input type="text" id="last_name" name="last_name" value="<?= view_esc(old('last_name')) ?>" placeholder="Last name" aria-label="Last name" required>
+            </div>
+        </fieldset>
 
         <div>
             <label for="email">Email Address</label>

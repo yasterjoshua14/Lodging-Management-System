@@ -6,7 +6,8 @@
 
 $tenant            ??= [];
 $currentTenantUser = auth_user() ?? [];
-$tenantName        = (string) ($tenant['full_name'] ?? '');
+$tenantFirstName   = (string) ($tenant['first_name'] ?? '');
+$tenantLastName    = (string) ($tenant['last_name'] ?? '');
 $tenantEmail       = (string) (($tenant['email'] ?? '') ?: ($currentTenantUser['email'] ?? ''));
 $tenantPhone       = (string) ($tenant['phone'] ?? '');
 $tenantId          = (string) ($tenant['id'] ?? '');
@@ -24,9 +25,12 @@ $tenantId          = (string) ($tenant['id'] ?? '');
         <?= csrf_field() ?>
 
         <section class="detail-grid">
-            <div class="detail-item">
-                <label for="full_name">Full Name</label>
-                <input type="text" id="full_name" name="full_name" value="<?= view_esc(old('full_name', $tenantName)) ?>" required>
+            <div class="detail-item full-span">
+                <label>Name</label>
+                <div class="name-fields">
+                    <input type="text" id="first_name" name="first_name" value="<?= view_esc(old('first_name', $tenantFirstName)) ?>" placeholder="First name" aria-label="First name" required>
+                    <input type="text" id="last_name" name="last_name" value="<?= view_esc(old('last_name', $tenantLastName)) ?>" placeholder="Last name" aria-label="Last name" required>
+                </div>
             </div>
 
             <div class="detail-item">
