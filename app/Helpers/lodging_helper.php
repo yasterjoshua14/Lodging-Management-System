@@ -285,6 +285,30 @@ if (! function_exists('view_text')) {
     }
 }
 
+if (! function_exists('name_part')) {
+    function name_part(mixed $value): string
+    {
+        if (! is_scalar($value) && ! $value instanceof Stringable) {
+            return '';
+        }
+
+        return trim((string) preg_replace('/\s+/', ' ', (string) $value));
+    }
+}
+
+if (! function_exists('person_name')) {
+    function person_name(array $person, string $fallback = ''): string
+    {
+        $name = trim(name_part($person['first_name'] ?? '') . ' ' . name_part($person['last_name'] ?? ''));
+
+        if ($name !== '') {
+            return $name;
+        }
+
+        return view_text($person['full_name'] ?? null, $fallback);
+    }
+}
+
 if (! function_exists('view_esc')) {
     function view_esc(mixed $value, string $context = 'html', ?string $encoding = null, string $fallback = ''): string
     {
