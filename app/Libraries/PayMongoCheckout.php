@@ -67,7 +67,7 @@ class PayMongoCheckout
 
         $billing = array_filter([
             'email' => trim((string) ($tenant['email'] ?? '')),
-            'name'  => trim((string) ($tenant['full_name'] ?? '')),
+            'name'  => $this->personName($tenant ?? []),
             'phone' => trim((string) ($tenant['phone'] ?? '')),
         ], static fn (string $value): bool => $value !== '');
 
@@ -288,5 +288,13 @@ class PayMongoCheckout
     private function toCentavos($amount): int
     {
         return (int) round(((float) $amount) * 100);
+    }
+
+    /**
+     * @param array<string, mixed> $person
+     */
+    private function personName(array $person): string
+    {
+        return trim((string) ($person['first_name'] ?? '') . ' ' . (string) ($person['last_name'] ?? ''));
     }
 }
