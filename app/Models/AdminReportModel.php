@@ -102,14 +102,16 @@ class AdminReportModel extends Model
      */
     private function getRecentBookings(int $limit): array
     {
-        return $this->db->table('bookings')
-            ->select('bookings.*, rooms.room_number, rooms.type AS room_type, rooms.pricing_hours, tenants.full_name AS tenant_name')
+        $bookings = $this->db->table('bookings')
+            ->select('bookings.*, rooms.room_number, rooms.type AS room_type, rooms.pricing_hours, tenants.first_name AS tenant_first_name, tenants.last_name AS tenant_last_name')
             ->join('rooms', 'rooms.id = bookings.room_id')
             ->join('tenants', 'tenants.id = bookings.tenant_id')
             ->orderBy('bookings.created_at', 'DESC')
             ->limit($limit)
             ->get()
             ->getResultArray();
+
+        return array_map([$this, 'withTenantName'], $bookings);
     }
 
     /**
@@ -473,5 +475,19 @@ class AdminReportModel extends Model
     private function moneyValue($value): float
     {
         return round((float) $value, 2);
+    }
+
+    /**
+     * @param array<string, mixed> $booking
+     *
+     * @return array<string, mixed>
+     */
+    private function withTenantName(array $booking): array
+    {
+        $booking['tenant_name'] = trim(
+            (string) ($booking['tenant_first_name'] ?? '') . ' ' . (string) ($booking['tenant_last_name'] ?? '')
+        );
+
+        return $booking;
     }
 }

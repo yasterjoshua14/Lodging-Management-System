@@ -13,7 +13,8 @@ class TenantModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'full_name',
+        'first_name',
+        'last_name',
         'email',
         'phone',
         'id_type',
