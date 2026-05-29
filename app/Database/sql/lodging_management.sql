@@ -18,7 +18,8 @@ DROP TABLE IF EXISTS `rooms`;
 
 CREATE TABLE `users` (
     `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `full_name` VARCHAR(120) NOT NULL,
+    `first_name` VARCHAR(60) NOT NULL DEFAULT '',
+    `last_name` VARCHAR(60) NOT NULL DEFAULT '',
     `email` VARCHAR(120) NOT NULL,
     `recovery_phone` VARCHAR(30) NULL DEFAULT NULL,
     `role` VARCHAR(20) NOT NULL DEFAULT 'tenant',
@@ -72,7 +73,8 @@ CREATE TABLE `rooms` (
 
 CREATE TABLE `tenants` (
     `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `full_name` VARCHAR(120) NOT NULL,
+    `first_name` VARCHAR(60) NOT NULL DEFAULT '',
+    `last_name` VARCHAR(60) NOT NULL DEFAULT '',
     `email` VARCHAR(120) NULL DEFAULT NULL,
     `phone` VARCHAR(30) NOT NULL,
     `id_type` VARCHAR(50) NULL DEFAULT NULL,
@@ -115,13 +117,13 @@ INSERT INTO `rooms` (`id`, `room_number`, `type`, `capacity`, `price_per_night`,
     (2, '205', 'deluxe', 3, 2800.00, 1, 'occupied', 'Deluxe room with balcony and breakfast inclusion.', '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
     (3, '301', 'suite', 4, 4500.00, 1, 'maintenance', 'Premium suite undergoing scheduled maintenance.', '2026-04-19 00:00:00', '2026-04-19 00:00:00');
 
-INSERT INTO `tenants` (`id`, `full_name`, `email`, `phone`, `id_type`, `id_number`, `address`, `emergency_contact_name`, `emergency_contact_phone`, `created_at`, `updated_at`) VALUES
-    (1, 'Maria Santos', 'maria@example.com', '09171234567', 'Passport', 'P1234567', 'Cebu City', 'Luis Santos', '09179876543', '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
-    (2, 'John Dela Cruz', 'john@example.com', '09170001111', 'National ID', 'NID-567890', 'Davao City', 'Anna Dela Cruz', '09175550000', '2026-04-19 00:00:00', '2026-04-19 00:00:00');
+INSERT INTO `tenants` (`id`, `first_name`, `last_name`, `email`, `phone`, `id_type`, `id_number`, `id_document_path`, `address`, `emergency_contact_name`, `emergency_contact_phone`, `created_at`, `updated_at`) VALUES
+    (1, 'Maria', 'Santos', 'maria@example.com', '09171234567', 'Passport', 'P1234567', NULL, 'Cebu City', 'Luis Santos', '09179876543', '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
+    (2, 'John', 'Dela Cruz', 'john@example.com', '09170001111', 'National ID', 'NID-567890', NULL, 'Davao City', 'Anna Dela Cruz', '09175550000', '2026-04-19 00:00:00', '2026-04-19 00:00:00');
 
-INSERT INTO `users` (`id`, `full_name`, `email`, `recovery_phone`, `role`, `tenant_id`, `password_hash`, `created_at`, `updated_at`) VALUES
-    (1, 'Demo Manager', 'admin@lodging.test', '09170000000', 'admin', NULL, '$2y$10$DFPFFGmAi6jxCh5jY67k/enp1iLyVCx4cnvj6zxQ5fnD/8end9sLC', '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
-    (2, 'Maria Santos', 'maria@example.com', NULL, 'tenant', 1, '$2y$10$DFPFFGmAi6jxCh5jY67k/enp1iLyVCx4cnvj6zxQ5fnD/8end9sLC', '2026-04-19 00:00:00', '2026-04-19 00:00:00');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `recovery_phone`, `role`, `tenant_id`, `password_hash`, `created_at`, `updated_at`) VALUES
+    (1, 'Demo', 'Manager', 'admin@lodging.test', '09170000000', 'admin', NULL, '$2y$10$DFPFFGmAi6jxCh5jY67k/enp1iLyVCx4cnvj6zxQ5fnD/8end9sLC', '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
+    (2, 'Maria', 'Santos', 'maria@example.com', NULL, 'tenant', 1, '$2y$10$DFPFFGmAi6jxCh5jY67k/enp1iLyVCx4cnvj6zxQ5fnD/8end9sLC', '2026-04-19 00:00:00', '2026-04-19 00:00:00');
 
 INSERT INTO `bookings` (`id`, `room_id`, `tenant_id`, `check_in`, `check_out`, `total_amount`, `status`, `notes`, `checkout_session_id`, `checkout_url`, `payment_reference`, `payment_paid_at`, `created_at`, `updated_at`) VALUES
     (1, 1, 1, '2026-04-21', '2026-04-24', 5400.00, 'pending', 'Arrival expected in the afternoon.', NULL, NULL, NULL, NULL, '2026-04-19 00:00:00', '2026-04-19 00:00:00'),
