@@ -20,16 +20,16 @@ $brandMark = 'LMS';
 
 $navItems = $isAdminApp
     ? [
-        ['label' => 'Dashboard', 'href' => admin_path('dashboard'), 'pattern' => 'dashboard'],
-        ['label' => 'Rooms', 'href' => admin_path('rooms'), 'pattern' => 'rooms*'],
-        ['label' => 'Tenants', 'href' => admin_path('tenants'), 'pattern' => 'tenants*'],
-        ['label' => 'Bookings', 'href' => admin_path('bookings'), 'pattern' => 'bookings*'],
+        ['label' => 'Dashboard', 'href' => admin_path('dashboard'), 'pattern' => 'dashboard', 'icon' => 'dashboard'],
+        ['label' => 'Rooms', 'href' => admin_path('rooms'), 'pattern' => 'rooms*', 'icon' => 'rooms'],
+        ['label' => 'Tenants', 'href' => admin_path('tenants'), 'pattern' => 'tenants*', 'icon' => 'tenants'],
+        ['label' => 'Bookings', 'href' => admin_path('bookings'), 'pattern' => 'bookings*', 'icon' => 'bookings'],
     ]
     : [
-        ['label' => 'Dashboard', 'href' => tenant_path('dashboard'), 'pattern' => 'dashboard'],
-        ['label' => 'Rooms', 'href' => tenant_path('myRooms'), 'pattern' => 'myRooms*'],
-        ['label' => 'My Bookings', 'href' => tenant_path('myBookings'), 'pattern' => 'myBookings'],
-        ['label' => 'My Account', 'href' => tenant_path('myAccount'), 'pattern' => 'myAccount'],
+        ['label' => 'Dashboard', 'href' => tenant_path('dashboard'), 'pattern' => 'dashboard', 'icon' => 'dashboard'],
+        ['label' => 'Rooms', 'href' => tenant_path('myRooms'), 'pattern' => 'myRooms*', 'icon' => 'rooms'],
+        ['label' => 'My Bookings', 'href' => tenant_path('myBookings'), 'pattern' => 'myBookings', 'icon' => 'bookings'],
+        ['label' => 'My Account', 'href' => tenant_path('myAccount'), 'pattern' => 'myAccount', 'icon' => 'account'],
     ];
 
 $activeNavItem = null;
