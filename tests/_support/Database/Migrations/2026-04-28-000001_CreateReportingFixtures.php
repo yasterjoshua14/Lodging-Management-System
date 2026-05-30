@@ -58,9 +58,15 @@ class CreateReportingFixtures extends Migration
                 'auto_increment' => true,
                 'unsigned'       => true,
             ],
-            'full_name' => [
+            'first_name' => [
                 'type'       => 'VARCHAR',
-                'constraint' => 120,
+                'constraint' => 60,
+                'default'    => '',
+            ],
+            'last_name' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 60,
+                'default'    => '',
             ],
             'phone' => [
                 'type'       => 'VARCHAR',

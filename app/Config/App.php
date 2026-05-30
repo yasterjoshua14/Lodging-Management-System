@@ -199,4 +199,51 @@ class App extends BaseConfig
      * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $baseURL = $this->firstEnvironmentValue('APP_BASE_URL', 'app.baseURL');
+        if ($baseURL === '') {
+            $vercelURL = $this->firstEnvironmentValue('VERCEL_PROJECT_PRODUCTION_URL', 'VERCEL_URL');
+            if ($vercelURL !== '') {
+                $baseURL = 'https://' . preg_replace('#^https?://#', '', $vercelURL);
+            }
+        }
+
+        if ($baseURL !== '') {
+            $this->baseURL = rtrim($baseURL, '/') . '/';
+        }
+
+        $forceHTTPS = $this->firstEnvironmentValue('APP_FORCE_HTTPS', 'app.forceGlobalSecureRequests');
+        if ($forceHTTPS !== '') {
+            $this->forceGlobalSecureRequests = filter_var($forceHTTPS, FILTER_VALIDATE_BOOL);
+        }
+
+        $allowedHostnames = $this->firstEnvironmentValue('APP_ALLOWED_HOSTNAMES', 'app.allowedHostnames');
+        if ($allowedHostnames !== '') {
+            $this->allowedHostnames = array_values(array_filter(
+                array_map('trim', explode(',', $allowedHostnames)),
+                static fn (string $hostname): bool => $hostname !== ''
+            ));
+        }
+    }
+
+    private function firstEnvironmentValue(string ...$names): string
+    {
+        foreach ($names as $name) {
+            $value = getenv($name);
+            if (is_string($value) && trim($value) !== '') {
+                return trim($value);
+            }
+
+            $value = env($name);
+            if (is_string($value) && trim($value) !== '') {
+                return trim($value);
+            }
+        }
+
+        return '';
+    }
 }

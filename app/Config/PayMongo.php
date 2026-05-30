@@ -23,27 +23,27 @@ class PayMongo extends BaseConfig
     {
         parent::__construct();
 
-        $secretKey = env('paymongo.secretKey');
+        $secretKey = $this->firstEnvironmentValue('PAYMONGO_SECRET_KEY', 'paymongo.secretKey');
         if (is_string($secretKey)) {
             $this->secretKey = trim($secretKey);
         }
 
-        $baseUri = env('paymongo.baseUri');
+        $baseUri = $this->firstEnvironmentValue('PAYMONGO_BASE_URI', 'paymongo.baseUri');
         if (is_string($baseUri) && trim($baseUri) !== '') {
             $this->baseUri = trim($baseUri);
         }
 
-        $merchantName = env('paymongo.merchantName');
+        $merchantName = $this->firstEnvironmentValue('PAYMONGO_MERCHANT_NAME', 'paymongo.merchantName');
         if (is_string($merchantName) && trim($merchantName) !== '') {
             $this->merchantName = trim($merchantName);
         }
 
-        $paymentMethodTypes = env('paymongo.paymentMethodTypes');
+        $paymentMethodTypes = $this->firstEnvironmentValue('PAYMONGO_PAYMENT_METHOD_TYPES', 'paymongo.paymentMethodTypes');
         if (is_string($paymentMethodTypes) && trim($paymentMethodTypes) !== '') {
             $this->paymentMethodTypes = $this->parsePaymentMethodTypes($paymentMethodTypes);
         }
 
-        $sendEmailReceipt = env('paymongo.sendEmailReceipt');
+        $sendEmailReceipt = $this->firstEnvironmentValue('PAYMONGO_SEND_EMAIL_RECEIPT', 'paymongo.sendEmailReceipt');
         if ($sendEmailReceipt !== null) {
             $this->sendEmailReceipt = filter_var($sendEmailReceipt, FILTER_VALIDATE_BOOL);
         }
@@ -63,5 +63,22 @@ class PayMongo extends BaseConfig
         ));
 
         return $methods !== [] ? $methods : $this->paymentMethodTypes;
+    }
+
+    private function firstEnvironmentValue(string ...$names): ?string
+    {
+        foreach ($names as $name) {
+            $value = getenv($name);
+            if (is_string($value) && trim($value) !== '') {
+                return trim($value);
+            }
+
+            $value = env($name);
+            if (is_string($value) && trim($value) !== '') {
+                return trim($value);
+            }
+        }
+
+        return null;
     }
 }

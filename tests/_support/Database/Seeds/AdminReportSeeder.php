@@ -49,21 +49,24 @@ class AdminReportSeeder extends Seeder
         $this->db->table('tenants')->insertBatch([
             [
                 'id'         => 1,
-                'full_name'  => 'Maria Santos',
+                'first_name' => 'Maria',
+                'last_name'  => 'Santos',
                 'phone'      => '09171234567',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
                 'id'         => 2,
-                'full_name'  => 'John Dela Cruz',
+                'first_name' => 'John',
+                'last_name'  => 'Dela Cruz',
                 'phone'      => '09170001111',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
                 'id'         => 3,
-                'full_name'  => 'Ana Reyes',
+                'first_name' => 'Ana',
+                'last_name'  => 'Reyes',
                 'phone'      => '09175557777',
                 'created_at' => $now,
                 'updated_at' => $now,

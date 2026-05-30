@@ -4,6 +4,7 @@ namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Session\Handlers\BaseHandler;
+use CodeIgniter\Session\Handlers\DatabaseHandler;
 use CodeIgniter\Session\Handlers\FileHandler;
 
 class Session extends BaseConfig
@@ -130,12 +131,52 @@ class Session extends BaseConfig
     {
         parent::__construct();
 
+        $driver = $this->firstEnvironmentValue('SESSION_DRIVER', 'session.driver');
+        if ($driver !== '') {
+            $this->driver = match (strtolower($driver)) {
+                'database', 'db' => DatabaseHandler::class,
+                'file', 'files'  => FileHandler::class,
+                default          => $driver,
+            };
+        }
+
+        $savePath = $this->firstEnvironmentValue('SESSION_SAVE_PATH', 'session.savePath');
+        if ($savePath !== '') {
+            $this->savePath = $savePath;
+        } elseif ($this->driver === DatabaseHandler::class) {
+            $this->savePath = 'ci_sessions';
+        }
+
+        $databaseGroup = $this->firstEnvironmentValue('SESSION_DATABASE_GROUP', 'session.DBGroup');
+        if ($databaseGroup !== '') {
+            $this->DBGroup = $databaseGroup;
+        }
+
         $defaultSavePath = WRITEPATH . 'session';
 
         // OneDrive or restricted Windows workspaces can block writes to writable/session.
         // Fall back to the system temp directory so session-backed auth can still start.
-        $this->savePath = is_dir($defaultSavePath) && is_writable($defaultSavePath)
-            ? $defaultSavePath
-            : sys_get_temp_dir();
+        if ($this->driver !== DatabaseHandler::class && $savePath === '') {
+            $this->savePath = is_dir($defaultSavePath) && is_writable($defaultSavePath)
+                ? $defaultSavePath
+                : sys_get_temp_dir();
+        }
+    }
+
+    private function firstEnvironmentValue(string ...$names): string
+    {
+        foreach ($names as $name) {
+            $value = getenv($name);
+            if (is_string($value) && trim($value) !== '') {
+                return trim($value);
+            }
+
+            $value = env($name);
+            if (is_string($value) && trim($value) !== '') {
+                return trim($value);
+            }
+        }
+
+        return '';
     }
 }

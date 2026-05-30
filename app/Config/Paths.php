@@ -75,4 +75,29 @@ class Paths
      * is used when no value is provided to `Services::renderer()`.
      */
     public string $viewDirectory = __DIR__ . '/../Views';
+
+    public function __construct()
+    {
+        $writableDirectory = getenv('CI_WRITABLE_PATH');
+
+        if (! is_string($writableDirectory) || trim($writableDirectory) === '') {
+            $writableDirectory = getenv('VERCEL') === '1'
+                ? sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'ci4-writable'
+                : $this->writableDirectory;
+        }
+
+        $this->writableDirectory = rtrim($writableDirectory, '/\\');
+        $this->ensureWritableDirectories();
+    }
+
+    private function ensureWritableDirectories(): void
+    {
+        foreach (['', 'cache', 'debugbar', 'logs', 'session', 'uploads'] as $directory) {
+            $path = $this->writableDirectory . ($directory === '' ? '' : DIRECTORY_SEPARATOR . $directory);
+
+            if (! is_dir($path)) {
+                @mkdir($path, 0777, true);
+            }
+        }
+    }
 }
