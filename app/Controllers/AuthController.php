@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\TenantModel;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\RedirectResponse;
+use Throwable;
 
 class AuthController extends BaseController
 {
@@ -44,6 +45,11 @@ class AuthController extends BaseController
 
     public function register(): RedirectResponse
     {
+        $databaseUnavailable = $this->databaseUnavailableRedirect();
+        if ($databaseUnavailable instanceof RedirectResponse) {
+            return $databaseUnavailable;
+        }
+
         $rules = [
             'first_name'       => 'required|max_length[60]',
             'last_name'        => 'required|max_length[60]',
@@ -151,6 +157,11 @@ class AuthController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        $databaseUnavailable = $this->databaseUnavailableRedirect();
+        if ($databaseUnavailable instanceof RedirectResponse) {
+            return $databaseUnavailable;
+        }
+
         $userModel = new UserModel();
         $email     = strtolower(trim((string) $this->request->getPost('email')));
         $password  = (string) $this->request->getPost('password');
@@ -222,5 +233,49 @@ class AuthController extends BaseController
         }
 
         return $role === 'admin' ? 'admin' : 'tenant';
+    }
+
+    private function databaseUnavailableRedirect(): ?RedirectResponse
+    {
+        if (! $this->hasUsableDatabaseConfig()) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'The production database is not configured yet. Add the DATABASE_* environment variables in Vercel, then run the database migrations.');
+        }
+
+        try {
+            $database = \Config\Database::connect();
+            $database->initialize();
+        } catch (Throwable $exception) {
+            log_message('error', 'Authentication database connection failed: ' . $exception->getMessage());
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'The app cannot connect to the production database yet. Please check the DATABASE_* environment variables in Vercel.');
+        }
+
+        return null;
+    }
+
+    private function hasUsableDatabaseConfig(): bool
+    {
+        $database = config(\Config\Database::class)->default;
+
+        $hostname = trim((string) ($database['hostname'] ?? ''));
+        $databaseName = trim((string) ($database['database'] ?? ''));
+        $username = trim((string) ($database['username'] ?? ''));
+        $driver = trim((string) ($database['DBDriver'] ?? ''));
+
+        if ($hostname === '' || $databaseName === '' || $username === '' || $driver === '') {
+            return false;
+        }
+
+        if (getenv('VERCEL') === '1' && in_array(strtolower($hostname), ['localhost', '127.0.0.1'], true)) {
+            return false;
+        }
+
+        return true;
     }
 }
