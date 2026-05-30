@@ -51,6 +51,7 @@ $brandLogoUrl = null;
 $faviconPath = FCPATH . 'favicon.ico';
 $faviconUrl = base_url('favicon.ico');
 $themeStorageKey = 'lms-theme';
+$sidebarStorageKey = 'lms-sidebar';
 $alertsScript = '';
 $alertsScriptPath = APPPATH . 'Views/partials/alerts.js';
 $usePopupAlerts = $currentUser !== null;
@@ -175,6 +176,7 @@ $bodyClasses = implode(' ', [
     <script>
         (() => {
             const storageKey = <?= json_encode($themeStorageKey) ?>;
+            const sidebarStorageKey = <?= json_encode($sidebarStorageKey) ?>;
             const root = document.documentElement;
             const themeToggle = document.querySelector('[data-theme-toggle]');
             const sidebarToggle = document.querySelector('[data-sidebar-toggle]');
@@ -213,6 +215,28 @@ $bodyClasses = implode(' ', [
                 sidebarToggle.setAttribute('title', toggleLabel);
             };
 
+            const getSavedSidebarState = () => {
+                try {
+                    const savedState = window.localStorage.getItem(sidebarStorageKey);
+
+                    if (savedState === 'collapsed' || savedState === 'expanded') {
+                        return savedState;
+                    }
+                } catch (error) {
+                    // Keep the default sidebar state when storage is unavailable.
+                }
+
+                return 'expanded';
+            };
+
+            const saveSidebarState = (isCollapsed) => {
+                try {
+                    window.localStorage.setItem(sidebarStorageKey, isCollapsed ? 'collapsed' : 'expanded');
+                } catch (error) {
+                    // Ignore storage failures after the UI updates.
+                }
+            };
+
             const setSidebarHoverState = (isOpen) => {
                 const canHoverOpen = autoHoverMedia.matches && pageBody.classList.contains('sidebar-collapsed');
 
@@ -232,10 +256,16 @@ $bodyClasses = implode(' ', [
                 setSidebarHoverState(isFocusedInside || isPointerInside);
             };
 
-            const setSidebarState = (isCollapsed) => {
-                pageBody.classList.toggle('sidebar-collapsed', isCollapsed);
+            const setSidebarState = (isCollapsed, shouldPersist = false) => {
+                const nextIsCollapsed = autoHoverMedia.matches && isCollapsed;
+
+                pageBody.classList.toggle('sidebar-collapsed', nextIsCollapsed);
                 refreshSidebarHoverState();
                 updateSidebarToggle();
+
+                if (shouldPersist) {
+                    saveSidebarState(nextIsCollapsed);
+                }
             };
 
             const syncSidebarMode = () => {
@@ -243,7 +273,7 @@ $bodyClasses = implode(' ', [
                     return;
                 }
 
-                setSidebarState(autoHoverMedia.matches);
+                setSidebarState(getSavedSidebarState() === 'collapsed');
             };
 
             applyTheme(getTheme());
@@ -265,7 +295,7 @@ $bodyClasses = implode(' ', [
 
             if (sidebarToggle) {
                 sidebarToggle.addEventListener('click', () => {
-                    setSidebarState(!pageBody.classList.contains('sidebar-collapsed'));
+                    setSidebarState(!pageBody.classList.contains('sidebar-collapsed'), true);
                 });
             }
 
