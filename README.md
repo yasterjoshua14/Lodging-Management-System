@@ -11,17 +11,6 @@ Lodging Management System built with CodeIgniter 4 using the MVC pattern. The pr
 - Booking management with room assignment, stay dates, status, and total amount
 - Booking overlap validation to prevent duplicate active stays for one room
 
-## Project Structure
-
-- `app/Controllers` contains MVC controllers for authentication and modules
-- `app/Models` contains the database models
-- `app/Views` contains the shared layout and module pages
-- `app/Filters` contains route protection for guest-only and authenticated pages
-- `app/Database/Migrations` contains the database schema
-- `app/Database/Seeds/LodgingSeeder.php` contains demo data
-- `docs/system-proposal.md` contains the project proposal
-- `docs/erd.md` contains the ERD in Mermaid format
-
 ## Setup
 
 1. Create the database (lodging_management) in MySQL or MariaDB.
