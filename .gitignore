@@ -45,3 +45,4 @@ php_errors.log
 .vercel/
 
 .vercel
+.env*

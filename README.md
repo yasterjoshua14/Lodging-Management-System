@@ -4,12 +4,20 @@ Lodging Management System built with CodeIgniter 4 using the MVC pattern. The pr
 
 ## Features
 
-- User registration, login, and logout
-- Dashboard with room, tenant, and booking summaries
-- Room management with type, capacity, nightly price, and status
-- Tenant management with identity and emergency contact details
-- Booking management with room assignment, stay dates, status, and total amount
-- Booking overlap validation to prevent duplicate active stays for one room
+Role-based access control (RBAC)
+User registration, login, and logout
+Dashboard with room, tenant, booking, and payment summaries
+Room management with type, capacity, price, and status
+Tenant management with identity and emergency contact details
+Booking management with room assignment, stay dates, status, and total amount
+Booking overlap validation to prevent duplicate active stays for one room
+PayMongo integration for GCash, Maya, and card payments
+Payment processing with secure checkout and payment link generation
+Automatic payment status updates via PayMongo webhooks
+Payment management with transaction reference, amount, method, and status tracking
+Automatic booking confirmation upon successful payment
+Payment history and receipt records for each booking
+Revenue tracking and payment reporting on the admin dashboard
 
 ## Setup
 
