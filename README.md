@@ -53,7 +53,7 @@ To run the tenant portal go to http://localhost:8080, use the following email an
 
 ## Admin Account
 
-To ran admin account type http://localhost:8080/admin, use the default admin Email and Password:
+To run admin account type http://localhost:8080/admin, use the default admin Email and Password:
 
 - Email: `admin@lodging.test`
 - Password: `password123`
