@@ -53,7 +53,7 @@ $heading  ??= 'Booking';
                     <?php foreach ($tenants as $tenant): ?>
                         <?php $tenantId = (string) $tenant['id']; ?>
                         <option value="<?= view_esc($tenantId) ?>" <?= old('tenant_id', isset($booking['tenant_id']) ? (string) $booking['tenant_id'] : '') === $tenantId ? 'selected' : '' ?>>
-                            <?= view_esc($tenant['full_name']) ?> - <?= view_esc($tenant['phone']) ?>
+                            <?= view_esc($tenant['first_name']) ?> <?= view_esc($tenant['last_name']) ?> - <?= view_esc($tenant['phone']) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
